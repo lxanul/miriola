@@ -30,15 +30,19 @@ class CafeMenuItemResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nazwa Napoju / Ciasta / Dania')
+                    ->maxLength(255)
                     ->required(),
                 Forms\Components\Select::make('category')
                     ->label('Kategoria Menu')
-                    ->options([
-                        'kawy' => '☕ Kawy i Napoje Gorące',
-                        'desery' => '🍰 Serniki i Domowe Ciasta',
-                        'przekaski' => '🥨 Przekąski i Rzemiosło',
-                    ])
-                    ->default('kawy')
+                    ->options(\App\Enums\CafeCategory::options())
+                    ->default(\App\Enums\CafeCategory::Kawy->value)
+                    ->required(),
+                // Cena była w bazie, ale nie dało się jej zmienić z panelu. H-18.
+                Forms\Components\TextInput::make('price')
+                    ->label('Cena')
+                    ->numeric()
+                    ->minValue(0)
+                    ->prefix('zł')
                     ->required(),
                 Forms\Components\Textarea::make('description')
                     ->label('Opis Pozycji')

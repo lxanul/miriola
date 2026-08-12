@@ -46,7 +46,12 @@ class CmsContentResource extends Resource
                         Forms\Components\TextInput::make('key')
                             ->label('Klucz identyfikacyjny (systemowy)')
                             ->disabled(fn ($record) => $record !== null)
-                            ->required(),
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Taki klucz już istnieje.',
+                            ]),
 
                         Forms\Components\Select::make('type')
                             ->label('Typ zawartości')

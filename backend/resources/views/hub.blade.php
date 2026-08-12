@@ -384,7 +384,7 @@
             offset: 50
         });
 
-        const hubNewsData = @json($latestNews ?? []);
+        const hubNewsData = @json($latestNews ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 
         function openNewsModal(newsId) {
             const item = hubNewsData.find(n => n.id === newsId);

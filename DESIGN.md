@@ -140,6 +140,15 @@ Cards and interactive elements should use a "Large/Soft" shadow profile: a 20px 
 ## Shapes
 The shape language is **Soft** and restrained. A 0.25rem (4px) base radius is applied to buttons, input fields, and small UI components. 
 
+> **Uwaga o zgodności z kodem (2026-08-12).** Kilka reguł poniżej opisuje stan
+> zamierzony, nie wdrożony. Rozjazdy: (1) kolor `secondary` nie jest używany
+> nigdzie w widokach; (2) zasada „accent wyłącznie dla CTA" nie jest
+> przestrzegana; (3) karty używają `rounded-2xl`, nie `rounded-lg`; (4) profil
+> cieni nie odpowiada opisowi; (5) nazewnictwo palety („Deep Sea Blue", „Sandy
+> Beige") i opisy zakładają ośrodek nadmorski, podczas gdy obiekt leży
+> w **dolinie Skawy**. Przed kolejną iteracją UI trzeba zdecydować: dociągnąć
+> kod do dokumentu albo dokument do kodu.
+
 Large image containers and "Room Cards" use the `rounded-lg` (8px) setting. This subtle rounding removes the "sharpness" of a purely corporate site, making the resort feel more welcoming and approachable while maintaining a crisp, professional structure.
 
 ## Components

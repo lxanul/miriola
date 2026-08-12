@@ -13,7 +13,6 @@ class Room extends Model
         'capacity',
         'price_per_night',
         'price_unit',
-        'is_available',
         'description',
         'image',
         'images',
@@ -22,7 +21,6 @@ class Room extends Model
     ];
 
     protected $casts = [
-        'is_available' => 'boolean',
         'price_per_night' => 'decimal:2',
         'capacity' => 'integer',
         'sort_order' => 'integer',
@@ -36,35 +34,52 @@ class Room extends Model
         'booked_ranges',
     ];
 
+    /**
+     * Widok /osrodek serializuje kolekcję pokoi przez @json($rooms). Bez tego
+     * dołączona relacja wysłałaby na publiczną stronę nazwiska, telefony
+     * i adresy e-mail gości.
+     */
+    protected $hidden = ['reservations'];
+
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
     }
 
+    /**
+     * Akcesory czytają z ZAŁADOWANEJ relacji, nie odpalają własnych zapytań.
+     * Przy `Room::with('reservations')` cała lista pokoi kosztuje 2 zapytania
+     * zamiast ~30. Patrz REVIEW.md H-14.
+     *
+     * @return \Illuminate\Support\Collection<int, Reservation>
+     */
+    protected function confirmedReservations()
+    {
+        return $this->reservations->where('status', 'confirmed');
+    }
+
     public function getIsCurrentlyOccupiedAttribute(): bool
     {
-        $today = now()->format('Y-m-d');
-        return $this->reservations()
-            ->where('status', 'confirmed')
-            ->whereDate('check_in_date', '<=', $today)
-            ->whereDate('check_out_date', '>=', $today)
-            ->exists();
+        $today = now()->startOfDay();
+
+        return $this->confirmedReservations()->contains(
+            fn (Reservation $r) => $r->check_in_date <= $today && $r->check_out_date >= $today
+        );
     }
 
     public function getIsAvailableNowAttribute(): bool
     {
-        return !$this->is_currently_occupied;
+        return ! $this->is_currently_occupied;
     }
 
     public function getBookedRangesAttribute(): array
     {
-        return $this->reservations()
-            ->where('status', 'confirmed')
-            ->get(['check_in_date', 'check_out_date'])
-            ->map(fn ($r) => [
+        return $this->confirmedReservations()
+            ->map(fn (Reservation $r) => [
                 'from' => $r->check_in_date->format('Y-m-d'),
                 'to' => $r->check_out_date->format('Y-m-d'),
             ])
+            ->values()
             ->toArray();
     }
 }

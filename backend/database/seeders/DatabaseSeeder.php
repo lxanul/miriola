@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
 use App\Models\News;
 use App\Models\RestaurantHall;
 use App\Models\CafeMenuItem;
@@ -12,29 +13,55 @@ use App\Models\CmsContent;
 
 class DatabaseSeeder extends Seeder
 {
+    /** Kolumny z multimediami, których seeder nie może nadpisać. */
+    private const MEDIA_COLUMNS = ['image', 'images', 'main_image'];
+
+    /**
+     * Jak updateOrCreate, ale dla ISTNIEJĄCEGO rekordu pomija kolumny ze
+     * zdjęciami. Bez tego każde `db:seed` podmieniało zdjęcia wgrane przez
+     * właściciela z powrotem na linki z Unsplash.
+     *
+     * @param  class-string<\Illuminate\Database\Eloquent\Model>  $model
+     */
+    private function upsert(string $model, array $key, array $attributes): \Illuminate\Database\Eloquent\Model
+    {
+        $existing = $model::where($key)->first();
+
+        if ($existing) {
+            return tap($existing)->update(Arr::except($attributes, self::MEDIA_COLUMNS));
+        }
+
+        return $model::create($key + $attributes);
+    }
+
     public function run(): void
     {
-        // 0. Admin account — /admin was previously unreachable because no user
-        //    was ever seeded and is_admin gates the panel. See REVIEW.md M-16.
-        throw_if(
-            blank(config('app.admin_password')),
-            \RuntimeException::class,
-            'ADMIN_PASSWORD is not set — refusing to seed an admin account.'
-        );
+        // 0. Konto administratora — wyłącznie bootstrap pierwszego konta.
+        //    Poświadczenia są źródłem prawdy w bazie: hasło zmienia się w panelu
+        //    (/admin/profile), a konta zakłada się w „Ustawienia → Konta
+        //    administratorów". Dlatego seeder nigdy nie nadpisuje istniejącego
+        //    konta — ponowne `db:seed` nie cofnie zmienionego hasła.
+        if (! \App\Models\User::where('is_admin', true)->exists()) {
+            throw_if(
+                blank(config('app.admin_password')),
+                \RuntimeException::class,
+                'Brak konta administratora, a ADMIN_PASSWORD nie jest ustawione — ustaw je w .env, żeby utworzyć pierwsze konto.'
+            );
 
-        $admin = \App\Models\User::updateOrCreate(
-            ['email' => config('app.admin_email')],
-            [
-                'name' => 'Administrator',
-                'password' => config('app.admin_password'), // 'hashed' cast handles it
-            ]
-        );
-        // Set outside the fillable payload so the privilege flag is never
-        // mass-assignable if a registration route is added later.
-        $admin->forceFill(['is_admin' => true])->save();
+            $admin = \App\Models\User::updateOrCreate(
+                ['email' => config('app.admin_email')],
+                [
+                    'name' => 'Administrator',
+                    'password' => config('app.admin_password'), // cast 'hashed' zajmuje się skrótem
+                ]
+            );
+            // Ustawiane poza $fillable, żeby flaga uprawnień nigdy nie dała się
+            // ustawić przez mass assignment.
+            $admin->forceFill(['is_admin' => true])->save();
+        }
 
         // 1. Restaurant Halls
-        RestaurantHall::updateOrCreate(
+        $this->upsert(RestaurantHall::class, 
             ['slug' => 'sala-glowna-biesiadna'],
             [
                 'name' => 'Sala Główna Biesiadna',
@@ -47,7 +74,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        RestaurantHall::updateOrCreate(
+        $this->upsert(RestaurantHall::class, 
             ['slug' => 'sala-kameralna-tarasowa'],
             [
                 'name' => 'Sala Kameralna Tarasowa',
@@ -61,7 +88,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 2. News / Aktualności
-        News::updateOrCreate(
+        $this->upsert(News::class, 
             ['slug' => 'otwarcie-sezonu-letniego-2026'],
             [
                 'title' => 'Otwarcie Sezonu Letniego w Ośrodku MIRiOLA',
@@ -74,7 +101,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        News::updateOrCreate(
+        $this->upsert(News::class, 
             ['slug' => 'warsztaty-rekodziela-i-kawiarnia-jarmark'],
             [
                 'title' => 'Nowe Menu Kawiarni & Rzemieślnicze Warsztaty w Jarmarku',
@@ -87,7 +114,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        News::updateOrCreate(
+        $this->upsert(News::class, 
             ['slug' => 'zbiory-ogorkow-gruntowych-gospodarstwo'],
             [
                 'title' => 'Ruszyły Zbiory Świeżych Ogórków Gruntowych!',
@@ -101,7 +128,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 3. Cafe Menu Items
-        CafeMenuItem::updateOrCreate(
+        $this->upsert(CafeMenuItem::class, 
             ['name' => 'Espresso Rzemieślnicze'],
             [
                 'category' => 'kawy',
@@ -113,7 +140,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        CafeMenuItem::updateOrCreate(
+        $this->upsert(CafeMenuItem::class, 
             ['name' => 'Cappuccino z Pianką'],
             [
                 'category' => 'kawy',
@@ -125,7 +152,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        CafeMenuItem::updateOrCreate(
+        $this->upsert(CafeMenuItem::class, 
             ['name' => 'Domowy Sernik z Malinami'],
             [
                 'category' => 'ciasta',
@@ -138,7 +165,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        CafeMenuItem::updateOrCreate(
+        $this->upsert(CafeMenuItem::class, 
             ['name' => 'Szarlotka na Ciepło z Lodami'],
             [
                 'category' => 'ciasta',
@@ -151,7 +178,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 4. Attractions for Jarmark & Resort
-        Attraction::updateOrCreate(
+        $this->upsert(Attraction::class, 
             ['title' => 'Dmuchany Plac Zabaw dla Dzieci'],
             [
                 'branch' => 'jarmark',
@@ -162,7 +189,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Attraction::updateOrCreate(
+        $this->upsert(Attraction::class, 
             ['title' => 'Sferyczny Namiot Plenerowy MIRiOLA'],
             [
                 'branch' => 'jarmark',
@@ -173,7 +200,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        Attraction::updateOrCreate(
+        $this->upsert(Attraction::class, 
             ['title' => 'Strefa Kawiarniana & Leżaki na Trawie'],
             [
                 'branch' => 'jarmark',
@@ -224,7 +251,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 4b. Seed FAQs
-        \App\Models\Faq::updateOrCreate(
+        $this->upsert(\App\Models\Faq::class, 
             ['question' => 'Jak daleko jest do jeziora?'],
             [
                 'answer' => 'Nasz ośrodek znajduje się zaledwie 1 km od zapory wodnej w Świnnej Porębie (Jezioro Mucharskie), w malowniczej dolinie Skawy.',
@@ -237,7 +264,7 @@ class DatabaseSeeder extends Seeder
         // Delete old pets question if exists
         \App\Models\Faq::where('question', 'LIKE', '%zwierzęta%')->delete();
 
-        \App\Models\Faq::updateOrCreate(
+        $this->upsert(\App\Models\Faq::class, 
             ['question' => 'Czy w ośrodku oferowane są śniadania?'],
             [
                 'answer' => 'Tak! Ośrodek prowadzi wyśmienite śniadania w naszej klimatycznej Sali Rycerskiej. Serwujemy obfity bufet oraz świeże lokalne produkty.',
@@ -247,7 +274,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        \App\Models\Faq::updateOrCreate(
+        $this->upsert(\App\Models\Faq::class, 
             ['question' => 'Jakie są godziny zameldowania?'],
             [
                 'answer' => 'Doba hotelowa rozpoczyna się o godzinie 14:00 w dniu przyjazdu, a kończy o godzinie 11:00 w dniu wyjazdu.',
@@ -257,7 +284,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        \App\Models\Faq::updateOrCreate(
+        $this->upsert(\App\Models\Faq::class, 
             ['question' => 'Czy na terenie obiektu jest parking?'],
             [
                 'answer' => 'Tak, zapewniamy bezpłatny, ogrodzony i monitorowany parking dla wszystkich naszych gości.',
@@ -316,7 +343,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 5. Farm Products
-        FarmProduct::updateOrCreate(
+        $this->upsert(FarmProduct::class, 
             ['name' => 'Ogórki Gruntowe Ekologiczne'],
             [
                 'description' => 'Świeżo rwane ogórki idealne do małosolnych lub kwaszenia w słoikach.',
@@ -329,7 +356,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        FarmProduct::updateOrCreate(
+        $this->upsert(FarmProduct::class, 
             ['name' => 'Domowe Ogórki Kiszone (Słoik 900ml)'],
             [
                 'description' => 'Tradycyjne polskie ogórki kiszone z dodatkiem czosnku, chrzanu i kopru według naszej receptury.',
@@ -342,7 +369,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        FarmProduct::updateOrCreate(
+        $this->upsert(FarmProduct::class, 
             ['name' => 'Miód Spadziowy z Pasieki MIRiOLA'],
             [
                 'description' => 'Naturalny, głęboki w smaku miód z czystych lasów doliny Skawy.',
@@ -355,7 +382,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        FarmProduct::updateOrCreate(
+        $this->upsert(FarmProduct::class, 
             ['name' => 'Jajka Wiejskie z Wolnego Wybiegu'],
             [
                 'description' => 'Świeże jajka od kur żywionych naturalnym ziarnem w naszym gospodarstwie.',
@@ -404,7 +431,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($cmsFields as $field) {
-            CmsContent::updateOrCreate(
+            $this->upsert(CmsContent::class, 
                 ['key' => $field['key']],
                 $field
             );
@@ -552,7 +579,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($roomsData as $room) {
-            \App\Models\Room::updateOrCreate(['name' => $room['name']], $room);
+            $this->upsert(\App\Models\Room::class, ['name' => $room['name']], $room);
         }
 
         // 8. Seed Sample Reservations
@@ -563,7 +590,7 @@ class DatabaseSeeder extends Seeder
         $domek2 = \App\Models\Room::where('name', 'Domek nr 2')->first();
 
         if ($room103) {
-            \App\Models\Reservation::updateOrCreate(
+            $this->upsert(\App\Models\Reservation::class, 
                 // Match key must equal the stored value or updateOrCreate never
                 // matches its own row and duplicates on every reseed.
                 ['guest_phone' => '601 222 333', 'room_id' => $room103->id],
@@ -581,7 +608,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if ($room202) {
-            \App\Models\Reservation::updateOrCreate(
+            $this->upsert(\App\Models\Reservation::class, 
                 ['guest_phone' => '699 444 555', 'room_id' => $room202->id],
                 [
                     'guest_name' => 'Anna i Marek Nowak',
@@ -597,7 +624,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if ($domek2) {
-            \App\Models\Reservation::updateOrCreate(
+            $this->upsert(\App\Models\Reservation::class, 
                 ['guest_phone' => '505 111 888', 'room_id' => $domek2->id],
                 [
                     'guest_name' => 'Piotr Wiśniewski',

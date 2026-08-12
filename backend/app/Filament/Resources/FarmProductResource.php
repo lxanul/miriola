@@ -36,7 +36,14 @@ class FarmProductResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('unit_name')
                     ->label('Jednostka / Opakowanie (np. słoik 900ml, kg, skrzynka)')
+                    ->maxLength(255)
                     ->default('słoik 900ml'),
+                // Cena była w bazie, ale nie dało się jej zmienić z panelu. H-18.
+                Forms\Components\TextInput::make('unit_price')
+                    ->label('Cena za jednostkę')
+                    ->numeric()
+                    ->minValue(0)
+                    ->prefix('zł'),
                 Forms\Components\FileUpload::make('image')
                     ->label('Zdjęcie Produktu')
                     ->image()

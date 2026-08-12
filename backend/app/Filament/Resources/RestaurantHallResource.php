@@ -32,14 +32,21 @@ class RestaurantHallResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nazwa Sali (np. Sala Myśliwska, Kominkowa)')
+                    ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
                 Forms\Components\TextInput::make('slug')
                     ->label('Adres URL (Slug)')
-                    ->required(),
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Sala o takim adresie już istnieje — zmień nazwę.',
+                    ]),
                 Forms\Components\TextInput::make('subtitle')
-                    ->label('Podtytuł / Hasło (np. Przyjęcia okolicznościowe)'),
+                    ->label('Podtytuł / Hasło (np. Przyjęcia okolicznościowe)')
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('capacity')
                     ->label('Liczba Miejsc (Pojemność)')
                     ->numeric()

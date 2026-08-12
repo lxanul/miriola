@@ -45,11 +45,21 @@ class GalleryImageResource extends Resource
                     ->maxSize(2048)
                     ->directory('gallery'),
                 Forms\Components\TextInput::make('video_url')
-                    ->label('Link do Wideo (YouTube / MP4 / Vimeo)')
-                    ->placeholder('https://www.youtube.com/watch?v=... lub bezpośredni plik mp4')
+                    ->label('Link do Wideo (YouTube / Vimeo / plik MP4)')
+                    ->placeholder('https://www.youtube.com/watch?v=... lub https://.../film.mp4')
+                    ->url()
+                    ->maxLength(255)
+                    // Pole trafia do atrybutu src odtwarzacza, więc dopuszczamy
+                    // wyłącznie https i znane hostingi wideo albo bezpośredni
+                    // plik. Bez tego przechodziły schematy javascript: i data:.
+                    ->rule('regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i')
+                    ->validationMessages([
+                        'regex' => 'Dozwolone są tylko adresy https z YouTube, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    ])
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('title')
-                    ->label('Tytuł / Opis (opcjonalnie)'),
+                    ->label('Tytuł / Opis (opcjonalnie)')
+                    ->maxLength(255),
                 Forms\Components\Select::make('branch')
                     ->label('Sekcja Obiektu')
                     ->options([

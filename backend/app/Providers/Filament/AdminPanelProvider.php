@@ -27,6 +27,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            // Poświadczenia administratora żyją w bazie, nie w .env. To wbudowana
+            // strona profilu Filamenta (/admin/profile): zmiana nazwy, e-maila
+            // i hasła zalogowanego konta. ADMIN_PASSWORD z .env służy już tylko
+            // do utworzenia pierwszego konta przez seeder.
+            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])

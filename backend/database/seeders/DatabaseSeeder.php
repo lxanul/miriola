@@ -14,6 +14,17 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 0. Admin account — /admin was previously unreachable because no user
+        //    was ever seeded and is_admin gates the panel. See REVIEW.md M-16.
+        \App\Models\User::updateOrCreate(
+            ['email' => config('app.admin_email')],
+            [
+                'name' => 'Administrator',
+                'password' => config('app.admin_password'), // 'hashed' cast handles it
+                'is_admin' => true,
+            ]
+        );
+
         // 1. Restaurant Halls
         RestaurantHall::updateOrCreate(
             ['slug' => 'sala-glowna-biesiadna'],
@@ -166,8 +177,11 @@ class DatabaseSeeder extends Seeder
         );
 
         // Resort Attractions
-        // Clear old resort attractions to ensure clean update
-        Attraction::where('branch', 'resort')->delete();
+        // Only clear the rows this seeder owns — a blanket delete also wiped
+        // attractions created by admins in the panel. See REVIEW.md CR-2.
+        Attraction::where('branch', 'resort')
+            ->whereIn('title', ['Jacuzzi w Ogrodzie', 'Duża Wiata Biesiadna', 'Bezpłatny Parking', 'Plac Zabaw dla Dzieci'])
+            ->delete();
 
         Attraction::create([
             'title' => 'Jacuzzi w Ogrodzie',
@@ -244,7 +258,14 @@ class DatabaseSeeder extends Seeder
                 'is_published' => true,
             ]
         );
-        \App\Models\GalleryImage::truncate();
+        // truncate() also destroyed admin-uploaded gallery items. See REVIEW.md CR-2.
+        \App\Models\GalleryImage::whereIn('title', [
+            'Ośrodek MIRiOLA i otaczający ogród',
+            'Strefa Relaksu i Jacuzzi',
+            'Stylowe pokoje i domki',
+            'Duża Wiata Biesiadna',
+            'Krajobraz Doliny Skawy',
+        ])->delete();
         
         \App\Models\GalleryImage::create([
             'title' => 'Ośrodek MIRiOLA i otaczający ogród',
@@ -382,7 +403,8 @@ class DatabaseSeeder extends Seeder
         }
 
         // 7. Seed 10 Rooms and Cottages
-        \App\Models\Room::query()->delete();
+        // NB: reservations.room_id is cascadeOnDelete, so deleting rooms here
+        // wiped every guest reservation. Upsert by name instead. REVIEW.md CR-2.
 
         $roomsData = [
             [
@@ -522,13 +544,15 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($roomsData as $room) {
-            \App\Models\Room::create($room);
+            \App\Models\Room::updateOrCreate(['name' => $room['name']], $room);
         }
 
         // 8. Seed Sample Reservations
-        $room103 = \App\Models\Room::where('name', 'like', '%103%')->first();
-        $room202 = \App\Models\Room::where('name', 'like', '%202%')->first();
-        $domek2 = \App\Models\Room::where('name', 'like', '%Domek Letniskowy 2%')->first();
+        // These matched no seeded room ('103'/'202'/'Domek Letniskowy 2' do not
+        // exist), so no reservation was ever seeded. See REVIEW.md M-13.
+        $room103 = \App\Models\Room::where('name', 'Pokój Pomarańczowy')->first();
+        $room202 = \App\Models\Room::where('name', 'Apartament Oliwkowy')->first();
+        $domek2 = \App\Models\Room::where('name', 'Domek nr 2')->first();
 
         if ($room103) {
             \App\Models\Reservation::updateOrCreate(

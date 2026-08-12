@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    // Credentials for the account DatabaseSeeder provisions for /admin.
+    'admin_email' => env('ADMIN_EMAIL', 'admin@miriola.pl'),
+    'admin_password' => env('ADMIN_PASSWORD', 'password'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

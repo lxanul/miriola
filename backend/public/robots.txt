@@ -5,13 +5,16 @@ Allow: /osrodek
 Allow: /jarmark
 Allow: /gospodarstwo
 Allow: /polityka-prywatnosci
-Allow: /regulamin
+Allow: /aktualnosci
 
 # Block admin panel and private storage from crawlers
 Disallow: /admin
 Disallow: /admin/
-Disallow: /storage/cms/private/
-Disallow: /*?*
+
+# Was "Disallow: /*?*", which blocked every ?branch= filter and every ?page=N
+# of the paginated news list. See REVIEW.md H-24.
 
 # XML Sitemap Location
-Sitemap: http://127.0.0.1:8002/sitemap.xml
+# TODO: replace with the production origin at deploy time. The sitemap itself
+# still hardcodes 127.0.0.1:8002 in every <loc>. See REVIEW.md CR-8.
+Sitemap: https://miriola.pl/sitemap.xml

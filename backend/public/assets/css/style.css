@@ -16,7 +16,9 @@ html {
 }
 .room-card:hover {
     transform: translateY(-8px);
-    border-color: theme('colors.primary');
+    /* theme() is a build-time PostCSS function and this file is served raw,
+       so the declaration was invalid and dropped. See REVIEW.md CR-6. */
+    border-color: #001e40;
     box-shadow: 0 24px 38px -10px rgba(0, 30, 64, 0.12), 0 8px 16px -6px rgba(0, 30, 64, 0.04);
 }
 
@@ -39,7 +41,7 @@ html {
     height: 2px;
     bottom: -4px;
     left: 0;
-    background-color: theme('colors.primary');
+    background-color: #001e40;
     transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .nav-underline:hover::after {
@@ -65,4 +67,14 @@ html {
 /* Map frame rendering */
 .map-placeholder iframe {
     transition: filter 0.6s ease, opacity 0.6s ease;
+}
+
+/* Used on 4 horizontal scroll strips but never defined anywhere, so scrollbars
+   stayed visible. See REVIEW.md M-33. */
+.scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
 }

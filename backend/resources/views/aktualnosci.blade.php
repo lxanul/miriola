@@ -148,7 +148,10 @@
         
         const contentEl = document.getElementById('modal-content');
         if (content && content.trim() !== '') {
-            contentEl.innerHTML = content.replace(/\n/g, '<br>');
+            // textContent + pre-line, not innerHTML: content is unsanitized admin
+            // input and executed as markup here. See REVIEW.md H-1.
+            contentEl.textContent = content;
+            contentEl.style.whiteSpace = 'pre-line';
             contentEl.classList.remove('hidden');
         } else {
             contentEl.innerHTML = '';

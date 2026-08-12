@@ -477,7 +477,7 @@
                 <span class="material-symbols-outlined text-[24px]">close</span>
             </button>
             <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room1_image']) ? (str_starts_with($cms['room1_image'], 'http') ? $cms['room1_image'] : asset('storage/' . $cms['room1_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyeAe1sO13zdMuZrr5MlVfTxLpNMBqJ7GamF0Pp8htxZLlm_LVtBhG9OooLDa2cvDbsRlH-LU5T4dB1WBe5OzM-pBTZ-cObgLqiJd5VQs7eBxtCw3LWbKiF3kkJS4NRUSRUGnVGm_vBkWbFrh8wLXGwOy5M0HhdGJCl_vjSVoaUKu150aEpxuRMaA1fa1xBIQuTAzQmz4oL4jMWtoinDlB3_aftMfy50o3kVcTDz8ePoYNXAfdnmO1xA' }}' }}')"></div>
+            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room1_image']) ? (str_starts_with($cms['room1_image'], 'http') ? $cms['room1_image'] : asset('storage/' . $cms['room1_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyeAe1sO13zdMuZrr5MlVfTxLpNMBqJ7GamF0Pp8htxZLlm_LVtBhG9OooLDa2cvDbsRlH-LU5T4dB1WBe5OzM-pBTZ-cObgLqiJd5VQs7eBxtCw3LWbKiF3kkJS4NRUSRUGnVGm_vBkWbFrh8wLXGwOy5M0HhdGJCl_vjSVoaUKu150aEpxuRMaA1fa1xBIQuTAzQmz4oL4jMWtoinDlB3_aftMfy50o3kVcTDz8ePoYNXAfdnmO1xA' }}')"></div>
             <!-- Body -->
             <div class="p-6 md:p-8 space-y-6">
                 <div>
@@ -537,7 +537,7 @@
                 <span class="material-symbols-outlined text-[24px]">close</span>
             </button>
             <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room2_image']) ? (str_starts_with($cms['room2_image'], 'http') ? $cms['room2_image'] : asset('storage/' . $cms['room2_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuClJ3zbwQ6RLsJ4C0gaW2bcxT_G5gU0sI3PNLnHkjRaCrJeEPnRiiMGG79OcgLWGdGJxO5yl3Uv5rwdIcXw7mzKWVsqrq9uOrQAUtLpGSmWB62bJnHP11ZtYeYqQaQift8j1eKuVURvpIvc6GQE22wzxs7RYO3PKbyUUFje3z9fSEjzibrzS1SetJ_VC5bPwcrnR2vhy3uuqySVfl3b8n0hFtxCwHsnCceWy_tC2jjeMk1QIFhkuqly6g' }}' }}')"></div>
+            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room2_image']) ? (str_starts_with($cms['room2_image'], 'http') ? $cms['room2_image'] : asset('storage/' . $cms['room2_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuClJ3zbwQ6RLsJ4C0gaW2bcxT_G5gU0sI3PNLnHkjRaCrJeEPnRiiMGG79OcgLWGdGJxO5yl3Uv5rwdIcXw7mzKWVsqrq9uOrQAUtLpGSmWB62bJnHP11ZtYeYqQaQift8j1eKuVURvpIvc6GQE22wzxs7RYO3PKbyUUFje3z9fSEjzibrzS1SetJ_VC5bPwcrnR2vhy3uuqySVfl3b8n0hFtxCwHsnCceWy_tC2jjeMk1QIFhkuqly6g' }}')"></div>
             <!-- Body -->
             <div class="p-6 md:p-8 space-y-6">
                 <div>
@@ -597,7 +597,7 @@
                 <span class="material-symbols-outlined text-[24px]">close</span>
             </button>
             <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room3_image']) ? (str_starts_with($cms['room3_image'], 'http') ? $cms['room3_image'] : asset('storage/' . $cms['room3_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLQPteaUeO3E7rA091CCEedXhbYPcluGTG1vQgZvWuWxaUoD-K2VeQCuhX7eLXv0iEJPzdnNUt7o4b2ySczh34JBhegHeugWyaqzPVsS2WarKuckuNOiq5RM7U-d1w9PEFmR1owI9YfYugD8hPWFD1jw9U_LYgFsHp6Dbe7WAvcni-u8UupEjr9YO-tI6-lZQOpxGL8dlLB5JSFKn17qL8vZ-I_vOSAJ5Nw0IztPWGZEF4AtPhl1hIxw' }}' }}')"></div>
+            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room3_image']) ? (str_starts_with($cms['room3_image'], 'http') ? $cms['room3_image'] : asset('storage/' . $cms['room3_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLQPteaUeO3E7rA091CCEedXhbYPcluGTG1vQgZvWuWxaUoD-K2VeQCuhX7eLXv0iEJPzdnNUt7o4b2ySczh34JBhegHeugWyaqzPVsS2WarKuckuNOiq5RM7U-d1w9PEFmR1owI9YfYugD8hPWFD1jw9U_LYgFsHp6Dbe7WAvcni-u8UupEjr9YO-tI6-lZQOpxGL8dlLB5JSFKn17qL8vZ-I_vOSAJ5Nw0IztPWGZEF4AtPhl1hIxw' }}')"></div>
             <!-- Body -->
             <div class="p-6 md:p-8 space-y-6">
                 <div>
@@ -872,8 +872,11 @@
 <script>
     const allRoomsData = @json($rooms ?? []);
     let calActiveRoomId = allRoomsData[0]?.id || 1;
-    let calYear = 2026;
-    let calMonth = 7; // August (0-indexed: 7 = August)
+    // Was hardcoded to August 2026, so the calendar opened on the same month
+    // forever. See REVIEW.md M-25.
+    const calToday = new Date();
+    let calYear = calToday.getFullYear();
+    let calMonth = calToday.getMonth();
 
     const monthNamesPl = [
         'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
@@ -928,24 +931,8 @@
         }
     }
 
-    function toggleMoreRooms() {
-        const container = document.getElementById('more-rooms-container');
-        const text = document.getElementById('more-rooms-text');
-        const icon = document.getElementById('more-rooms-icon');
-        
-        if (container && text && icon) {
-            if (container.classList.contains('hidden')) {
-                container.classList.remove('hidden');
-                text.innerText = 'Zwiń pozostałe pokoje i domki';
-                icon.innerText = 'expand_less';
-                container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                container.classList.add('hidden');
-                text.innerText = 'Pokaż pozostałe pokoje i domki (Pozostałe 7 Obiektów)';
-                icon.innerText = 'expand_more';
-            }
-        }
-    }
+    {{-- A second toggleMoreRooms() further down shadowed this one, so it never
+         ran. Removed as dead code; behaviour is unchanged. REVIEW.md H-13. --}}
 
     function selectRoomAndOpenCalendar(roomId) {
         calActiveRoomId = roomId;

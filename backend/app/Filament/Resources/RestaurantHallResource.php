@@ -50,6 +50,9 @@ class RestaurantHallResource extends Resource
                 Forms\Components\FileUpload::make('main_image')
                     ->label('Zdjęcie Główne')
                     ->image()
+                    ->disk('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(4096)
                     ->directory('halls'),
                 Forms\Components\TextInput::make('sort_order')
                     ->label('Kolejność Wyświetlania')

@@ -40,6 +40,9 @@ class FarmProductResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('Zdjęcie Produktu')
                     ->image()
+                    ->disk('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(4096)
                     ->directory('farm-products'),
                 Forms\Components\Toggle::make('is_available')
                     ->label('Dostępny do zakupu')

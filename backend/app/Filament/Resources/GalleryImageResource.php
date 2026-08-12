@@ -40,6 +40,9 @@ class GalleryImageResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->label('Zdjęcie lub Okładka Wideo')
                     ->image()
+                    ->disk('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(4096)
                     ->directory('gallery'),
                 Forms\Components\TextInput::make('video_url')
                     ->label('Link do Wideo (YouTube / MP4 / Vimeo)')

@@ -70,7 +70,7 @@ class CmsContentResource extends Resource
                             ->image()
                             ->disk('public')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                            ->maxSize(4096)
+                            ->maxSize(2048)
                             ->directory('cms-graphics')
                             ->columnSpanFull()
                             ->visible(fn (Forms\Get $get) => $get('type') === 'image')

@@ -94,7 +94,11 @@
 
                         <!-- Read Full Article Trigger -->
                         <div class="p-6 pt-0">
-                            <button onclick="openNewsModal('{{ addslashes($article->title) }}', '{{ $article->published_at ? $article->published_at->format('d.m.Y') : now()->format('d.m.Y') }}', '{{ addslashes($article->content ?? $article->excerpt ?? '') }}', '{{ $article->image ? (str_starts_with($article->image, 'http') ? $article->image : asset('storage/' . $article->image)) : '' }}')"
+                            {{-- @js, not addslashes: addslashes leaves newlines intact, and a
+                                 literal newline inside a JS string literal is a SyntaxError —
+                                 so this button did nothing for any multi-paragraph article.
+                                 See REVIEW.md H-3 / L-11. --}}
+                            <button onclick="openNewsModal(@js($article->title), @js($article->published_at ? $article->published_at->format('d.m.Y') : now()->format('d.m.Y')), @js($article->content ?? $article->excerpt ?? ''), @js($article->image ? (str_starts_with($article->image, 'http') ? $article->image : asset('storage/' . $article->image)) : ''))"
                                     class="w-full bg-primary/5 hover:bg-primary hover:text-white text-primary font-bold text-xs py-3 rounded-xl transition-all btn-animate flex items-center justify-center gap-2">
                                 <span>Przeczytaj pełny wpis</span>
                                 <span class="material-symbols-outlined text-base">arrow_forward</span>

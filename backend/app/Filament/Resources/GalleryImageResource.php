@@ -42,7 +42,7 @@ class GalleryImageResource extends Resource
                     ->image()
                     ->disk('public')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->maxSize(4096)
+                    ->maxSize(2048)
                     ->directory('gallery'),
                 Forms\Components\TextInput::make('video_url')
                     ->label('Link do Wideo (YouTube / MP4 / Vimeo)')

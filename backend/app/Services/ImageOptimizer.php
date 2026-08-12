@@ -29,7 +29,20 @@ class ImageOptimizer
             return $fullPath;
         }
 
-        [$width, $height] = @getimagesize($fullPath) ?: [0, 0];
+        // Already-optimized .webp files short-circuit BEFORE the TinyPNG call —
+        // otherwise every unrelated array touch re-uploaded and lossily
+        // re-compressed the whole gallery.
+        if (strtolower(pathinfo($fullPath, PATHINFO_EXTENSION)) === 'webp') {
+            return $fullPath;
+        }
+
+        $size = @getimagesize($fullPath);
+        if ($size === false) {
+            Log::warning("Unreadable image, skipping: {$fullPath}");
+
+            return $fullPath;
+        }
+        [$width, $height] = $size;
         if ($width * $height > self::MAX_PIXELS) {
             Log::warning("Image exceeds pixel budget, skipping: {$fullPath}");
 
@@ -44,7 +57,7 @@ class ImageOptimizer
             self::compressWithTinyPng($fullPath, $apiKey);
         }
 
-        if ($extension === 'webp' || ! function_exists('imagewebp')) {
+        if (! function_exists('imagewebp')) {
             return $fullPath;
         }
 
@@ -82,8 +95,12 @@ class ImageOptimizer
 
             $tmp = $fullPath.'.tmp';
             if (file_put_contents($tmp, $compressed->body()) !== false && @getimagesize($tmp)) {
-                rename($tmp, $fullPath);
-                Log::info("TinyPNG optimized image successfully: {$fullPath}");
+                if (rename($tmp, $fullPath)) {
+                    Log::info("TinyPNG optimized image successfully: {$fullPath}");
+                } else {
+                    Log::error("Could not replace original with TinyPNG result: {$fullPath}");
+                    @unlink($tmp);
+                }
             } else {
                 @unlink($tmp);
             }
@@ -117,8 +134,8 @@ class ImageOptimizer
             }
 
             if ($extension === 'png') {
-                imagealphablending($image, true);
-                imagesavealpha($image, true);
+                imagealphablending($image, false); // false + savealpha(true) is the
+                imagesavealpha($image, true);       // correct GD alpha-preserving pair
             }
 
             // imagewebp's return value was never checked, so a failed write was

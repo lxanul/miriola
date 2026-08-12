@@ -52,7 +52,7 @@ class RestaurantHallResource extends Resource
                     ->image()
                     ->disk('public')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->maxSize(4096)
+                    ->maxSize(2048)
                     ->directory('halls'),
                 Forms\Components\TextInput::make('sort_order')
                     ->label('Kolejność Wyświetlania')

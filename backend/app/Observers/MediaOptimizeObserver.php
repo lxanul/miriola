@@ -37,9 +37,11 @@ class MediaOptimizeObserver
                 continue;
             }
 
+            // Guard non-strings: a null inside Room::images would otherwise be a
+            // TypeError that 500s the whole save.
             $optimized = is_array($value)
-                ? array_map(fn (string $p): string => $this->optimizePath($p), $value)
-                : $this->optimizePath($value);
+                ? array_map(fn ($p) => is_string($p) ? $this->optimizePath($p) : $p, $value)
+                : (is_string($value) ? $this->optimizePath($value) : $value);
 
             // The old code discarded the return value, so the DB kept pointing at
             // the original and the .webp was dead weight. See REVIEW.md H-8.
@@ -73,8 +75,13 @@ class MediaOptimizeObserver
             return $path;
         }
 
-        @unlink($fullPath); // the original is no longer referenced
+        // Deliberately NOT unlinking the original: Filament's edit form still
+        // holds the pre-optimization path after save, and a second save would
+        // write it back — leaving the DB pointing at a file we had deleted.
+        // Orphan cleanup belongs in a scheduled command, not here.
 
-        return ltrim(str_replace($root, '', $new), DIRECTORY_SEPARATOR);
+        // substr, not str_replace: containment is already proven above, and
+        // str_replace would strip every occurrence rather than the prefix.
+        return substr($new, strlen($root) + 1);
     }
 }

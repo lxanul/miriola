@@ -16,14 +16,22 @@ class DatabaseSeeder extends Seeder
     {
         // 0. Admin account — /admin was previously unreachable because no user
         //    was ever seeded and is_admin gates the panel. See REVIEW.md M-16.
-        \App\Models\User::updateOrCreate(
+        throw_if(
+            blank(config('app.admin_password')),
+            \RuntimeException::class,
+            'ADMIN_PASSWORD is not set — refusing to seed an admin account.'
+        );
+
+        $admin = \App\Models\User::updateOrCreate(
             ['email' => config('app.admin_email')],
             [
                 'name' => 'Administrator',
                 'password' => config('app.admin_password'), // 'hashed' cast handles it
-                'is_admin' => true,
             ]
         );
+        // Set outside the fillable payload so the privilege flag is never
+        // mass-assignable if a registration route is added later.
+        $admin->forceFill(['is_admin' => true])->save();
 
         // 1. Restaurant Halls
         RestaurantHall::updateOrCreate(
@@ -556,7 +564,9 @@ class DatabaseSeeder extends Seeder
 
         if ($room103) {
             \App\Models\Reservation::updateOrCreate(
-                ['guest_phone' => '601222333', 'room_id' => $room103->id],
+                // Match key must equal the stored value or updateOrCreate never
+                // matches its own row and duplicates on every reseed.
+                ['guest_phone' => '601 222 333', 'room_id' => $room103->id],
                 [
                     'guest_name' => 'Jan Kowalski',
                     'guest_phone' => '601 222 333',
@@ -572,7 +582,7 @@ class DatabaseSeeder extends Seeder
 
         if ($room202) {
             \App\Models\Reservation::updateOrCreate(
-                ['guest_phone' => '699444555', 'room_id' => $room202->id],
+                ['guest_phone' => '699 444 555', 'room_id' => $room202->id],
                 [
                     'guest_name' => 'Anna i Marek Nowak',
                     'guest_phone' => '699 444 555',
@@ -588,7 +598,7 @@ class DatabaseSeeder extends Seeder
 
         if ($domek2) {
             \App\Models\Reservation::updateOrCreate(
-                ['guest_phone' => '505111888', 'room_id' => $domek2->id],
+                ['guest_phone' => '505 111 888', 'room_id' => $domek2->id],
                 [
                     'guest_name' => 'Piotr Wiśniewski',
                     'guest_phone' => '505 111 888',

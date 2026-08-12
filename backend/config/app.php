@@ -17,7 +17,9 @@ return [
 
     // Credentials for the account DatabaseSeeder provisions for /admin.
     'admin_email' => env('ADMIN_EMAIL', 'admin@miriola.pl'),
-    'admin_password' => env('ADMIN_PASSWORD', 'password'),
+    // No default: a fallback password would silently re-open the panel this
+    // is meant to gate. The seeder fails loudly if it is unset.
+    'admin_password' => env('ADMIN_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

@@ -7,10 +7,10 @@ Allow: /gospodarstwo
 Allow: /polityka-prywatnosci
 Allow: /aktualnosci
 
-# Block admin panel and private storage from crawlers
+# Block admin panel from crawlers. (The old /storage/cms/private/ rule is gone:
+# the private disk roots outside public/ and was never web-served.)
 Disallow: /admin
 Disallow: /admin/
-Disallow: /storage/cms/private/
 
 # "Disallow: /*?*" removed: it blocked every ?branch= filter and every ?page=N
 # of the paginated news list. See REVIEW.md H-24.

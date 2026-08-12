@@ -70,6 +70,19 @@ class MediaOptimizeObserver
             return $path;
         }
 
+        // If we already produced a .webp for this source, reuse it. Filament's
+        // edit form writes the pre-optimization path back on the next save, and
+        // without this guard every such save re-hit the TinyPNG API and emitted
+        // another orphan .webp.
+        $existing = glob(sprintf(
+            '%s/%s-*.webp',
+            pathinfo($fullPath, PATHINFO_DIRNAME),
+            pathinfo($fullPath, PATHINFO_FILENAME)
+        ));
+        if (! empty($existing)) {
+            return substr($existing[0], strlen($root) + 1);
+        }
+
         $new = ImageOptimizer::optimizeAndConvertToWebp($fullPath);
         if ($new === $fullPath) {
             return $path;

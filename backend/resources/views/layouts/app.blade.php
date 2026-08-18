@@ -14,7 +14,8 @@
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Open Graph / Social Media SEO -->
     <meta property="og:type" content="website">
@@ -37,9 +38,9 @@
       "@@context": "https://schema.org",
       "@@type": "Resort",
       "name": "Ośrodek Wypoczynkowy MIRiOLA",
-      "image": "http://127.0.0.1:8002/assets/img/hero.jpg",
-      "@@id": "http://127.0.0.1:8002/",
-      "url": "http://127.0.0.1:8002/",
+      "image": "{{ asset('assets/img/hero.jpg') }}",
+      "@@id": "{{ url('/') }}",
+      "url": "{{ url('/') }}",
       "telephone": "+48608103119",
       "email": "miroslawzadora@wp.pl",
       "priceRange": "250 zł - 450 zł",
@@ -76,16 +77,12 @@
     <!-- AOS Animations CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Tailwind CSS (Play CDN for preview/development with config) -->
-    <script>
-        (function() {
-            const origWarn = console.warn;
-            console.warn = function(...args) {
-                if (args[0] && typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
-                origWarn.apply(console, args);
-            };
-        })();
-    </script>
+    {{-- TODO (REVIEW.md CR-7): the Play CDN compiles CSS in the browser on every
+         page load and is not for production. The Vite + Tailwind v4 pipeline is
+         already configured but unused; migrating needs a v3->v4 config port, so
+         it is left as a follow-up rather than a drive-by change.
+         The console.warn monkey-patch that hid Tailwind's own production warning
+         has been removed — the warning is accurate. --}}
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="{{ asset('assets/js/tailwind-config.js') }}"></script>
     

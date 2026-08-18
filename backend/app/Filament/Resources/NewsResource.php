@@ -31,22 +31,29 @@ class NewsResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->label('Tytuł Artykułu')
+                    ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', \Illuminate\Support\Str::slug($state ?? ''))),
                 Forms\Components\TextInput::make('slug')
                     ->label('Adres URL (Slug)')
                     ->required()
+                    ->maxLength(255)
+                    // Slug powstaje z tytułu, więc dwa artykuły o tej samej
+                    // nazwie kończyły się błędem 500 na kolizji UNIQUE. H-21.
+                    ->unique(ignoreRecord: true)
+                    ->validationMessages([
+                        'unique' => 'Artykuł o takim adresie już istnieje — zmień tytuł.',
+                    ])
                     ->readOnly()
                     ->dehydrated()
                     ->helperText('Identyfikator przyjazny dla wyszukiwarek (generuje się automatycznie z tytułu). Nie musisz go edytować.'),
                 Forms\Components\Select::make('branch')
                     ->label('Dział / Kategoria')
-                    ->options([
-                        'resort' => 'Ośrodek Wypoczynkowy',
-                        'jarmark' => 'Jarmark & Kawiarnia',
-                    ])
-                    ->default('resort')
+                    // Lista pochodzi z enuma — wcześniej brakowało działu „farm",
+                    // choć baza zawiera aktualności gospodarstwa. H-11.
+                    ->options(\App\Enums\Branch::options())
+                    ->default(\App\Enums\Branch::Resort->value)
                     ->required(),
                 Forms\Components\Textarea::make('excerpt')
                     ->label('Krótki Wstęp / Streszczenie')

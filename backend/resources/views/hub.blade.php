@@ -384,7 +384,7 @@
             offset: 50
         });
 
-        const hubNewsData = @json($latestNews ?? []);
+        const hubNewsData = @json($latestNews ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 
         function openNewsModal(newsId) {
             const item = hubNewsData.find(n => n.id === newsId);
@@ -392,7 +392,11 @@
 
             document.getElementById('hub-modal-news-title').innerText = item.title;
             document.getElementById('hub-modal-news-date').innerText = item.published_at ? new Date(item.published_at).toLocaleDateString('pl-PL') : '';
-            document.getElementById('hub-modal-news-content').innerHTML = item.content || item.excerpt || '';
+            // textContent, not innerHTML: News.content is a plain textarea with no
+            // sanitizer, so markup pasted by an admin executed here. REVIEW.md H-1.
+            const hubContentEl = document.getElementById('hub-modal-news-content');
+            hubContentEl.textContent = item.content || item.excerpt || '';
+            hubContentEl.style.whiteSpace = 'pre-line';
             
             const badge = document.getElementById('hub-modal-news-badge');
             if (item.branch === 'resort') {

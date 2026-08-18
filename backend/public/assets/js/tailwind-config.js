@@ -33,6 +33,19 @@ tailwind.config = {
             fontFamily: {
                 display: ["Noto Serif", "serif"],
                 body: ["Work Sans", "sans-serif"]
+            },
+            // Restored from the original prototype. Without these, all 19 uses of
+            // text-display-lg / text-headline-* / text-body-* across the views
+            // rendered at browser default size. See REVIEW.md CR-5.
+            fontSize: {
+                "display-lg": ["48px", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700" }],
+                "display-lg-mobile": ["32px", { lineHeight: "1.2", fontWeight: "700" }],
+                "headline-lg": ["40px", { lineHeight: "1.25", fontWeight: "600" }],
+                "headline-md": ["32px", { lineHeight: "1.3", fontWeight: "600" }],
+                "headline-sm": ["24px", { lineHeight: "1.4", fontWeight: "600" }],
+                "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                "label-caps": ["12px", { lineHeight: "1.0", letterSpacing: "0.1em", fontWeight: "600" }]
             }
         }
     }

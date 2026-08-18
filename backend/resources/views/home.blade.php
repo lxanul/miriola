@@ -468,186 +468,6 @@
         </div>
     </section>
 
-    <!-- Room Modals -->
-    <!-- Room 1 Modal -->
-    <div id="room1-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
-        <div class="modal-content bg-surface border border-primary/10 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative transform scale-95 transition-all duration-300">
-            <!-- Close Button -->
-            <button onclick="closeRoomModal('room1')" class="absolute top-4 right-4 text-white bg-slate-950/40 hover:bg-slate-950/60 w-10 h-10 flex items-center justify-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent z-10" aria-label="Zamknij">
-                <span class="material-symbols-outlined text-[24px]">close</span>
-            </button>
-            <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room1_image']) ? (str_starts_with($cms['room1_image'], 'http') ? $cms['room1_image'] : asset('storage/' . $cms['room1_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuDyeAe1sO13zdMuZrr5MlVfTxLpNMBqJ7GamF0Pp8htxZLlm_LVtBhG9OooLDa2cvDbsRlH-LU5T4dB1WBe5OzM-pBTZ-cObgLqiJd5VQs7eBxtCw3LWbKiF3kkJS4NRUSRUGnVGm_vBkWbFrh8wLXGwOy5M0HhdGJCl_vjSVoaUKu150aEpxuRMaA1fa1xBIQuTAzQmz4oL4jMWtoinDlB3_aftMfy50o3kVcTDz8ePoYNXAfdnmO1xA' }}' }}')"></div>
-            <!-- Body -->
-            <div class="p-6 md:p-8 space-y-6">
-                <div>
-                    <span class="text-xs uppercase tracking-widest text-primary/60 font-bold">Standard Double Room</span>
-                    <h3 class="font-display text-2xl md:text-3xl text-primary font-bold mt-1">{{ $cms['room1_title'] ?? 'Pokój 2-osobowy' }}</h3>
-                </div>
-                <!-- Price and details bar -->
-                <div class="grid grid-cols-2 gap-4 border-y border-primary/10 py-4">
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Cena pobytu</p>
-                        <p class="font-bold text-primary text-base md:text-lg">{{ $cms['room1_price'] ?? 'od 250 zł / noc' }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Liczba gości</p>
-                        <p class="font-bold text-primary text-base md:text-lg">Max. 2 osoby dorosłe</p>
-                    </div>
-                </div>
-                <!-- Description -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Opis Pokoju</h4>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">
-                        {{ $cms['room1_long_description'] ?? 'Nasze pokoje dwuosobowe zostały zaprojektowane z myślą o parach poszukujących spokoju i intymności. Ciepłe barwy wnętrza nawiązujące do barw natury tworzą wyjątkowy nastrój. Każdy pokój wyposażony jest w bardzo wygodne łóżko małżeńskie z luksusowym materacem, przestronną łazienkę oraz biurko do pracy. Z okien roztacza się malowniczy widok na zalesione wzgórza doliny Skawy, gwarantujący pełny relaks i odpoczynek od miejskiego zgiełku.' }}
-                    </p>
-                </div>
-                <!-- Amenities list -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Udogodnienia w pokoju</h4>
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-on-surface-variant">
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Łazienka z prysznicem</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Darmowe WiFi (światłowód)</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Telewizor z TV-SAT</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Czajnik bezprzewodowy, filiżanki</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Ręczniki i kosmetyki hotelowe</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Piękny widok na dolinę</li>
-                    </ul>
-                </div>
-                <!-- Action -->
-                <div class="pt-4 flex flex-col sm:flex-row justify-end gap-3">
-                    <button onclick="checkAvailability('room1')" class="border border-primary text-primary font-bold py-3 px-6 rounded hover:bg-primary hover:text-white btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <span class="material-symbols-outlined text-[20px]">calendar_today</span>
-                        Sprawdź dostępność
-                    </button>
-                    <a href="tel:+48608103119" class="bg-accent text-white font-bold py-3 px-8 rounded hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
-                        <span class="material-symbols-outlined text-[20px]">call</span>
-                        Zarezerwuj pokój
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Room 2 Modal -->
-    <div id="room2-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
-        <div class="modal-content bg-surface border border-primary/10 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative transform scale-95 transition-all duration-300">
-            <!-- Close Button -->
-            <button onclick="closeRoomModal('room2')" class="absolute top-4 right-4 text-white bg-slate-950/40 hover:bg-slate-950/60 w-10 h-10 flex items-center justify-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent z-10" aria-label="Zamknij">
-                <span class="material-symbols-outlined text-[24px]">close</span>
-            </button>
-            <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room2_image']) ? (str_starts_with($cms['room2_image'], 'http') ? $cms['room2_image'] : asset('storage/' . $cms['room2_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuClJ3zbwQ6RLsJ4C0gaW2bcxT_G5gU0sI3PNLnHkjRaCrJeEPnRiiMGG79OcgLWGdGJxO5yl3Uv5rwdIcXw7mzKWVsqrq9uOrQAUtLpGSmWB62bJnHP11ZtYeYqQaQift8j1eKuVURvpIvc6GQE22wzxs7RYO3PKbyUUFje3z9fSEjzibrzS1SetJ_VC5bPwcrnR2vhy3uuqySVfl3b8n0hFtxCwHsnCceWy_tC2jjeMk1QIFhkuqly6g' }}' }}')"></div>
-            <!-- Body -->
-            <div class="p-6 md:p-8 space-y-6">
-                <div>
-                    <span class="text-xs uppercase tracking-widest text-primary/60 font-bold">Family Premium Apartment</span>
-                    <h3 class="font-display text-2xl md:text-3xl text-primary font-bold mt-1">{{ $cms['room2_title'] ?? 'Apartament Rodzinny' }}</h3>
-                </div>
-                <!-- Price and details bar -->
-                <div class="grid grid-cols-2 gap-4 border-y border-primary/10 py-4">
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Cena pobytu</p>
-                        <p class="font-bold text-primary text-base md:text-lg">{{ $cms['room2_price'] ?? 'od 450 zł / noc' }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Liczba gości</p>
-                        <p class="font-bold text-primary text-base md:text-lg">Max. 4-5 osób</p>
-                    </div>
-                </div>
-                <!-- Description -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Opis Apartamentu</h4>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">
-                        {{ $cms['room2_long_description'] ?? 'Apartament rodzinny to idealny wybór dla osób podróżujących z dziećmi lub grupy przyjaciół. Składa się z przestronnego salonu połączonego z aneksem kuchennym, w którym bez trudu przygotują Państwo posiłki, oraz oddzielnej przytulnej sypialni. Największym atutem apartamentu jest rozległy taras z widokiem na panoramę okolicy, idealny na poranną kawę. Nowoczesne, jasne wykończenie wnętrz w zestawieniu z drewnianymi detalami zapewnia ciepłą, rodzinną atmosferę.' }}
-                    </p>
-                </div>
-                <!-- Amenities list -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Udogodnienia w apartamencie</h4>
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-on-surface-variant">
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Wyposażony aneks kuchenny (lodówka, płyta)</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Łazienka z wanną lub prysznicem</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Dwie osobne strefy sypialne</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Prywatny duży taras wypoczynkowy</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Klimatyzacja i WiFi</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Telewizor Smart TV</li>
-                    </ul>
-                </div>
-                <!-- Action -->
-                <div class="pt-4 flex flex-col sm:flex-row justify-end gap-3">
-                    <button onclick="checkAvailability('room2')" class="border border-primary text-primary font-bold py-3 px-6 rounded hover:bg-primary hover:text-white btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <span class="material-symbols-outlined text-[20px]">calendar_today</span>
-                        Sprawdź dostępność
-                    </button>
-                    <a href="tel:+48608103119" class="bg-accent text-white font-bold py-3 px-8 rounded hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
-                        <span class="material-symbols-outlined text-[20px]">call</span>
-                        Zarezerwuj apartament
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Room 3 Modal -->
-    <div id="room3-modal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true">
-        <div class="modal-content bg-surface border border-primary/10 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative transform scale-95 transition-all duration-300">
-            <!-- Close Button -->
-            <button onclick="closeRoomModal('room3')" class="absolute top-4 right-4 text-white bg-slate-950/40 hover:bg-slate-950/60 w-10 h-10 flex items-center justify-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent z-10" aria-label="Zamknij">
-                <span class="material-symbols-outlined text-[24px]">close</span>
-            </button>
-            <!-- Image Banner -->
-            <div class="w-full h-64 bg-cover bg-center" style="background-image: url('{{ isset($cms['room3_image']) ? (str_starts_with($cms['room3_image'], 'http') ? $cms['room3_image'] : asset('storage/' . $cms['room3_image'])) : 'https://lh3.googleusercontent.com/aida-public/AB6AXuCLQPteaUeO3E7rA091CCEedXhbYPcluGTG1vQgZvWuWxaUoD-K2VeQCuhX7eLXv0iEJPzdnNUt7o4b2ySczh34JBhegHeugWyaqzPVsS2WarKuckuNOiq5RM7U-d1w9PEFmR1owI9YfYugD8hPWFD1jw9U_LYgFsHp6Dbe7WAvcni-u8UupEjr9YO-tI6-lZQOpxGL8dlLB5JSFKn17qL8vZ-I_vOSAJ5Nw0IztPWGZEF4AtPhl1hIxw' }}' }}')"></div>
-            <!-- Body -->
-            <div class="p-6 md:p-8 space-y-6">
-                <div>
-                    <span class="text-xs uppercase tracking-widest text-primary/60 font-bold">Independent Summer Cottage</span>
-                    <h3 class="font-display text-2xl md:text-3xl text-primary font-bold mt-1">{{ $cms['room3_title'] ?? 'Domek Letniskowy' }}</h3>
-                </div>
-                <!-- Price and details bar -->
-                <div class="grid grid-cols-2 gap-4 border-y border-primary/10 py-4">
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Cena pobytu</p>
-                        <p class="font-bold text-primary text-base md:text-lg">{{ $cms['room3_price'] ?? 'od 350 zł / noc' }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Liczba gości</p>
-                        <p class="font-bold text-primary text-base md:text-lg">Max. 4 osoby</p>
-                    </div>
-                </div>
-                <!-- Description -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Opis Domku</h4>
-                    <p class="text-sm text-on-surface-variant leading-relaxed">
-                        {{ $cms['room3_long_description'] ?? 'Domek letniskowy zapewnia pełną swobodę i poczucie prywatności. Położony w zacisznej części naszego zielonego ogrodu, oferuje ucieczkę od codzienności. W domku znajduje się przytulny salonik z kominkiem, w pełni wyposażony aneks oraz funkcjonalna łazienka. Na piętrze zlokalizowane są komfortowe sypialnie. Zadaszony ganek jest wspaniałym miejscem na wieczorny odpoczynek na świeżym powietrzu przy dźwiękach natury doliny Skawy.' }}
-                    </p>
-                </div>
-                <!-- Amenities list -->
-                <div class="space-y-3">
-                    <h4 class="font-display font-semibold text-primary text-sm uppercase tracking-wider">Udogodnienia w domku</h4>
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-on-surface-variant">
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Niezależny domek całoroczny</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Prywatny ogródek wypoczynkowy</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Salon z klimatycznym kominkiem</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Wyposażony aneks i łazienka</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Zadaszony taras (ganek)</li>
-                        <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-accent/90">check_circle</span> Parking samochodowy przy domku</li>
-                    </ul>
-                </div>
-                <!-- Action -->
-                <div class="pt-4 flex flex-col sm:flex-row justify-end gap-3">
-                    <button onclick="checkAvailability('room3')" class="border border-primary text-primary font-bold py-3 px-6 rounded hover:bg-primary hover:text-white btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary">
-                        <span class="material-symbols-outlined text-[20px]">calendar_today</span>
-                        Sprawdź dostępność
-                    </button>
-                    <a href="tel:+48608103119" class="bg-accent text-white font-bold py-3 px-8 rounded hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
-                        <span class="material-symbols-outlined text-[20px]">call</span>
-                        Zarezerwuj domek
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
             </div>
         </div>
     </section>
@@ -870,10 +690,13 @@
 
 @section('scripts')
 <script>
-    const allRoomsData = @json($rooms ?? []);
+    const allRoomsData = @json($rooms ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
     let calActiveRoomId = allRoomsData[0]?.id || 1;
-    let calYear = 2026;
-    let calMonth = 7; // August (0-indexed: 7 = August)
+    // Was hardcoded to August 2026, so the calendar opened on the same month
+    // forever. See REVIEW.md M-25.
+    const calToday = new Date();
+    let calYear = calToday.getFullYear();
+    let calMonth = calToday.getMonth();
 
     const monthNamesPl = [
         'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec',
@@ -928,24 +751,8 @@
         }
     }
 
-    function toggleMoreRooms() {
-        const container = document.getElementById('more-rooms-container');
-        const text = document.getElementById('more-rooms-text');
-        const icon = document.getElementById('more-rooms-icon');
-        
-        if (container && text && icon) {
-            if (container.classList.contains('hidden')) {
-                container.classList.remove('hidden');
-                text.innerText = 'Zwiń pozostałe pokoje i domki';
-                icon.innerText = 'expand_less';
-                container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } else {
-                container.classList.add('hidden');
-                text.innerText = 'Pokaż pozostałe pokoje i domki (Pozostałe 7 Obiektów)';
-                icon.innerText = 'expand_more';
-            }
-        }
-    }
+    {{-- A second toggleMoreRooms() further down shadowed this one, so it never
+         ran. Removed as dead code; behaviour is unchanged. REVIEW.md H-13. --}}
 
     function selectRoomAndOpenCalendar(roomId) {
         calActiveRoomId = roomId;
@@ -1051,55 +858,14 @@
         });
     });
 
-    // Room Modal Logic
-    function openRoomModal(id) {
-        const modal = document.getElementById(id + '-modal');
-        if (modal) {
-            modal.classList.remove('hidden');
-            void modal.offsetWidth; // Force layout recalculation
-            modal.classList.remove('opacity-0');
-            modal.querySelector('.modal-content').classList.remove('scale-95');
-            document.body.style.overflow = 'hidden'; // Lock page scrolling
-        }
-    }
-
-    function closeRoomModal(id) {
-        const modal = document.getElementById(id + '-modal');
-        if (modal) {
-            modal.classList.add('opacity-0');
-            modal.querySelector('.modal-content').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = ''; // Unlock page scrolling
-            }, 300);
-        }
-    }
-
+    {{-- Modale pokoi (room1/2/3) usunięte: nic nie wywoływało openRoomModal(),
+         więc nie dało się ich otworzyć, a zawierały ceny zakodowane na sztywno,
+         sprzeczne z rooms.price_per_night. Zostaje tylko obsługa Escape dla
+         działającego kalendarza dostępności. --}}
     document.addEventListener('DOMContentLoaded', () => {
-        const roomModals = ['room1-modal', 'room2-modal', 'room3-modal'];
-        
-        roomModals.forEach(modalId => {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        const id = modalId.replace('-modal', '');
-                        closeRoomModal(id);
-                    }
-                });
-            }
-        });
-
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeAvailabilityModal();
-                roomModals.forEach(modalId => {
-                    const modal = document.getElementById(modalId);
-                    if (modal && !modal.classList.contains('hidden')) {
-                        const id = modalId.replace('-modal', '');
-                        closeRoomModal(id);
-                    }
-                });
             }
         });
     });
@@ -1202,7 +968,27 @@
         }
     }
 
-    const allGalleryItemsData = @json($galleryImages ?? []);
+    const allGalleryItemsData = @json($galleryImages ?? [], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+
+    {{-- Wszystkie miniatury budujemy w DOM zamiast wstrzykiwać HTML: adres
+         zdjęcia pochodzi z panelu i cudzysłów w nazwie pliku wyrwałby się
+         z atrybutu src. REVIEW.md H-4. --}}
+    function buildThumbImage(url, idx) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'w-full h-full object-cover';
+        img.alt = `Miniatura ${idx + 1}`;
+        return img;
+    }
+
+    {{-- Zwraca 11-znakowe ID filmu albo null. Dzięki temu adres iframe'a
+         powstaje z samego ID, a nie z niezaufanego pola video_url. --}}
+    function extractYouTubeId(url) {
+        const match = String(url).match(
+            /(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
+        );
+        return match ? match[1] : null;
+    }
     let lightboxMode = 'room'; // 'room' or 'gallery'
     let currentLightboxRoom = null;
     let currentLightboxImgIndex = 0;
@@ -1379,7 +1165,7 @@
                         currentLightboxImgIndex = idx;
                         renderLightboxStage();
                     };
-                    btn.innerHTML = `<img src="${fullUrl}" class="w-full h-full object-cover" alt="Miniatura ${idx + 1}">`;
+                    btn.replaceChildren(buildThumbImage(fullUrl, idx));
                     thumbsContainer.appendChild(btn);
                 });
             }
@@ -1400,18 +1186,30 @@
                 if (mainImg) mainImg.classList.add('hidden');
                 if (videoStage) {
                     videoStage.classList.remove('hidden');
-                    let vUrl = item.video_url;
-                    if (vUrl.includes('youtube.com') || vUrl.includes('youtu.be')) {
-                        let embedUrl = vUrl;
-                        if (vUrl.includes('watch?v=')) {
-                            embedUrl = 'https://www.youtube.com/embed/' + vUrl.split('v=')[1].split('&')[0];
-                        } else if (vUrl.includes('youtu.be/')) {
-                            embedUrl = 'https://www.youtube.com/embed/' + vUrl.split('youtu.be/')[1];
-                        }
-                        videoStage.innerHTML = `<iframe class="w-full h-full max-h-[60vh] aspect-video rounded-lg shadow-2xl" src="${embedUrl}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                    const vUrl = String(item.video_url);
+                    const ytId = extractYouTubeId(vUrl);
+                    if (ytId) {
+                        // Adres budowany z samego ID, nigdy z surowego pola —
+                        // inaczej "https://zly.pl/#youtube.com" trafiłby do src.
+                        const frame = document.createElement('iframe');
+                        frame.className = 'w-full h-full max-h-[60vh] aspect-video rounded-lg shadow-2xl';
+                        frame.src = 'https://www.youtube.com/embed/' + encodeURIComponent(ytId) + '?autoplay=1';
+                        frame.setAttribute('frameborder', '0');
+                        frame.setAttribute('allow', 'autoplay; encrypted-media');
+                        frame.setAttribute('allowfullscreen', '');
+                        videoStage.replaceChildren(frame);
                     } else {
-                        let fullVUrl = vUrl.startsWith('http') ? vUrl : '/storage/' + vUrl;
-                        videoStage.innerHTML = `<video controls autoplay class="max-h-[60vh] max-w-full rounded-lg shadow-2xl"><source src="${fullVUrl}">Twój przeglądarka nie obsługuje tagu video.</video>`;
+                        const video = document.createElement('video');
+                        video.controls = true;
+                        video.autoplay = true;
+                        video.className = 'max-h-[60vh] max-w-full rounded-lg shadow-2xl';
+                        const source = document.createElement('source');
+                        // Wszystko, co nie jest http(s), ląduje pod /storage/,
+                        // więc schematy javascript: i data: nigdy nie ożyją.
+                        source.src = /^https?:\/\//i.test(vUrl) ? vUrl : '/storage/' + vUrl;
+                        video.appendChild(source);
+                        video.appendChild(document.createTextNode('Twoja przeglądarka nie obsługuje tagu video.'));
+                        videoStage.replaceChildren(video);
                     }
                 }
             } else {
@@ -1437,9 +1235,24 @@
                         renderLightboxStage();
                     };
                     if (fullUrl) {
-                        btn.innerHTML = `<img src="${fullUrl}" class="w-full h-full object-cover" alt="Miniatura ${idx + 1}">` + (isV ? '<span class="absolute inset-0 bg-black/40 flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">play_arrow</span></span>' : '');
+                        btn.replaceChildren(buildThumbImage(fullUrl, idx));
+                        if (isV) {
+                            const overlay = document.createElement('span');
+                            overlay.className = 'absolute inset-0 bg-black/40 flex items-center justify-center text-white';
+                            const playIcon = document.createElement('span');
+                            playIcon.className = 'material-symbols-outlined text-sm';
+                            playIcon.textContent = 'play_arrow';
+                            overlay.appendChild(playIcon);
+                            btn.appendChild(overlay);
+                        }
                     } else {
-                        btn.innerHTML = `<div class="w-full h-full bg-slate-800 flex items-center justify-center text-white"><span class="material-symbols-outlined text-sm">movie</span></div>`;
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'w-full h-full bg-slate-800 flex items-center justify-center text-white';
+                        const movieIcon = document.createElement('span');
+                        movieIcon.className = 'material-symbols-outlined text-sm';
+                        movieIcon.textContent = 'movie';
+                        placeholder.appendChild(movieIcon);
+                        btn.replaceChildren(placeholder);
                     }
                     thumbsContainer.appendChild(btn);
                 });

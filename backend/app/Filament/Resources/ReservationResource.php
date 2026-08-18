@@ -67,12 +67,19 @@ class ReservationResource extends Resource
                             ->label('Data przyjazdu (Check-in)')
                             ->native(false)
                             ->displayFormat('d.m.Y')
+                            // live(), żeby reguła after() na dacie wyjazdu
+                            // przeliczyła się od razu po zmianie przyjazdu.
+                            ->live()
                             ->required(),
 
                         Forms\Components\DatePicker::make('check_out_date')
                             ->label('Data wyjazdu (Check-out)')
                             ->native(false)
                             ->displayFormat('d.m.Y')
+                            ->after('check_in_date')
+                            ->validationMessages([
+                                'after' => 'Data wyjazdu musi być późniejsza niż data przyjazdu.',
+                            ])
                             ->required(),
 
                         Forms\Components\Textarea::make('notes')

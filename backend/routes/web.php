@@ -10,13 +10,18 @@ use App\Models\CmsContent;
 
 use Illuminate\Support\Facades\Cache;
 
-// Helper to fetch database CMS values
-function getCmsData(): array
-{
-    try {
-        return CmsContent::pluck('value', 'key')->toArray();
-    } catch (\Throwable $e) {
-        return [];
+// Helper to fetch database CMS values.
+// Strażnik function_exists jest konieczny: pakiet testowy ładuje plik tras przy
+// każdym starcie aplikacji, więc bez niego drugi test kończył się fatalnym
+// błędem „Cannot redeclare getCmsData()" i cały pakiet nigdy nie przechodził.
+if (! function_exists('getCmsData')) {
+    function getCmsData(): array
+    {
+        try {
+            return CmsContent::pluck('value', 'key')->toArray();
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 }
 
@@ -40,9 +45,15 @@ Route::get('/osrodek', function () {
     ], $dbCms);
 
     $news = News::where('branch', 'resort')->where('is_published', true)->latest()->get();
-    $rooms = \App\Models\Room::orderBy('sort_order')->get();
+    // with('reservations'): akcesory is_available_now i booked_ranges liczą
+    // z załadowanej relacji, więc lista pokoi to 2 zapytania zamiast ~30.
+    $rooms = \App\Models\Room::with('reservations')->orderBy('sort_order')->get();
     $attractions = Attraction::where('branch', 'resort')->orderBy('sort_order')->get();
-    $faqs = \App\Models\Faq::where('is_published', true)->orderBy('sort_order')->get();
+    // Bez filtra po dziale /osrodek pokazywał też pytania Jarmarku. REVIEW.md H-17.
+    $faqs = \App\Models\Faq::where('is_published', true)
+        ->whereIn('branch', ['resort', 'general'])
+        ->orderBy('sort_order')
+        ->get();
     $galleryImages = \App\Models\GalleryImage::where('branch', 'resort')->where('is_published', true)->orderBy('sort_order')->get();
 
     return view('home', compact('cms', 'news', 'rooms', 'attractions', 'faqs', 'galleryImages'));

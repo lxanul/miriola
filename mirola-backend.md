@@ -1,88 +1,133 @@
-# Specyfikacja Backend (PHP/Laravel) dla Ośrodka Wypoczynkowego MIRiOLA
+# Specyfikacja backendu MIRiOLA (stan faktyczny)
+
+> Poprzednia wersja tego pliku opisywała architekturę, która nie powstała:
+> Laravel 11, MySQL, JWT (`tymon/jwt-auth` nie jest zależnością projektu), role
+> użytkowników, tabele `bookings`, `services`, `audit_logs` oraz kontrolery
+> i API. Poniżej jest to, co faktycznie znajduje się w repozytorium.
 
 ## Overview
-Projekt polega na stworzeniu backendu opartego na PHP (Laravel 11) dla Ośrodka MIRiOLA. Backend będzie oparty o bazę danych **MySQL**, autoryzację opartą o role z wykorzystaniem tokenów **JWT** (`tymon/jwt-auth`) dla API, oraz integrację obecnego szablonu z **szablonami Blade** (Server-Side Rendering) sprzężonymi z panelem administracyjnym **Filament** do łatwego zarządzania rezerwacjami, pokojami i CMS.
 
-## Project Type
-**WEB/BACKEND** (Laravel z widokami Blade, panel admina Filament, API pod integracje)
+Serwer renderujący trzy strony działów firmy z treścią pobieraną z bazy oraz
+panel Filament, w którym właściciel edytuje treści i prowadzi grafik rezerwacji.
+Brak warstwy API — wszystkie trasy publiczne to domknięcia w `routes/web.php`.
 
-## Success Criteria
-- [ ] Laravel 11 poprawnie zainstalowany w katalogu `/backend`.
-- [ ] Baza danych MySQL skonfigurowana, a migracje wykonane pomyślnie.
-- [ ] Konfiguracja panelu Filament do obsługi pokoi i rezerwacji.
-- [ ] Autoryzacja klientów/pracowników za pomocą JWT działająca poprawnie.
-- [ ] CMS (zarządzanie tekstami i galerią) pozwala na edycję zawartości strony głównej.
-- [ ] Logowanie operacji administracyjnych w tabeli `audit_logs`.
+## Typ projektu
 
-## Tech Stack
-- **Framework:** PHP 8.2+ / Laravel 11
-- **Admin Panel:** Filament PHP v3
-- **Database:** MySQL 8.0+
-- **Authentication:** JWT (`tymon/jwt-auth`)
-- **Frontend Engine:** Laravel Blade
-- **File Storage:** Local Laravel Storage (`storage/app/public/cms`)
+**WEB** — Laravel + Blade (SSR) + panel administracyjny Filament.
 
-## Database Schema
+## Stos technologiczny
 
-### Tabela `users`
-- `id` (bigint, PK)
-- `name` (string)
-- `email` (string, unique)
-- `password` (string)
-- `role` (enum: ['client', 'employee', 'admin'], default: 'client')
-- `phone` (string, nullable)
-- `created_at`, `updated_at`
+- **Framework:** PHP ^8.3 / Laravel 13.8
+- **Panel administracyjny:** Filament 3.3
+- **Baza danych:** SQLite (`DB_CONNECTION=sqlite`)
+- **Autoryzacja:** sesyjna, wbudowana w Laravel; dostęp do panelu rozstrzyga
+  `User::canAccessPanel()` na podstawie kolumny `users.is_admin`
+- **Silnik widoków:** Blade
+- **Pliki:** dysk `public` (`storage/app/public`, wystawiony przez `storage:link`)
+- **Testy:** PHPUnit 12
 
-### Tabela `rooms`
-- `id` (bigint, PK)
-- `name` (string) - np. "Pokój 2-osobowy"
-- `slug` (string, unique)
-- `description` (text)
-- `capacity` (integer) - liczba osób
-- `price_per_night` (decimal, 8, 2)
-- `image_path` (string, nullable)
-- `is_active` (boolean, default: true)
-- `created_at`, `updated_at`
+## Trasy publiczne
 
-### Tabela `bookings`
-- `id` (bigint, PK)
-- `user_id` (bigint, FK users)
-- `room_id` (bigint, FK rooms)
-- `check_in` (date)
-- `check_out` (date)
-- `total_price` (decimal, 10, 2)
-- `status` (enum: ['pending', 'confirmed', 'cancelled', 'completed'], default: 'pending')
-- `notes` (text, nullable)
-- `created_at`, `updated_at`
+| Ścieżka                  | Widok                      | Treść                                      |
+|--------------------------|----------------------------|--------------------------------------------|
+| `/`                      | `hub.blade.php`            | Rozdroże trzech działów + 3 aktualności     |
+| `/osrodek`               | `home.blade.php`           | Pokoje, atrakcje, galeria, FAQ, kalendarz   |
+| `/jarmark`               | `jarmark.blade.php`        | Menu kawiarni, atrakcje, aktualności        |
+| `/gospodarstwo`          | `gospodarstwo.blade.php`   | Produkty gospodarstwa                       |
+| `/aktualnosci`           | `aktualnosci.blade.php`    | Lista aktualności z filtrem `?branch=`      |
+| `/polityka-prywatnosci`  | `polityka-prywatnosci`     | Strona statyczna                            |
+| `/sitemap.xml`           | —                          | Plik statyczny z `public/`                  |
 
-### Tabela `services` (Dodatkowe usługi)
-- `id` (bigint, PK)
-- `name` (string) - np. "Wypożyczenie roweru"
-- `description` (text, nullable)
-- `price` (decimal, 8, 2)
-- `is_active` (boolean, default: true)
-- `created_at`, `updated_at`
+## Schemat bazy danych
 
-### Tabela `cms_contents`
-- `id` (bigint, PK)
-- `key` (string, unique) - np. "hero_title"
-- `value` (text)
-- `created_at`, `updated_at`
+Zgodny z katalogiem `database/migrations/`.
 
-### Tabela `gallery_photos`
-- `id` (bigint, PK)
-- `title` (string, nullable)
-- `file_path` (string)
-- `is_active` (boolean, default: true)
-- `created_at`, `updated_at`
+### `users`
+`id`, `name`, `email` (unique), `email_verified_at`, `password` (hash bcrypt),
+`is_admin` (boolean, default `false`), `remember_token`, timestamps.
 
-### Tabela `audit_logs`
-- `id` (bigint, PK)
-- `user_id` (bigint, FK users, nullable)
-- `action` (string) - np. "created_booking"
-- `model_type` (string)
-- `model_id` (bigint)
-- `old_values` (json, nullable)
-- `new_values` (json, nullable)
-- `ip_address` (string, nullable)
-- `created_at`
+`is_admin` celowo **nie** znajduje się w `$fillable` — flaga uprawnień nigdy nie
+może zostać ustawiona przez mass assignment. Zapisuje ją `forceFill` w seederze
+i w `UserResource::persist()`.
+
+Nie ma kolumny `role` ani ról użytkowników.
+
+### `rooms`
+`id`, `name`, `room_type` (string, wartości z `App\Enums\RoomType`), `capacity`,
+`price_per_night` (decimal 8,2), `price_unit`, `description`, `image`, `images`
+(JSON), `amenities` (JSON), `sort_order`, timestamps.
+
+Model dokłada akcesory `is_currently_occupied`, `is_available_now`
+i `booked_ranges`, liczone z **załadowanej** relacji `reservations`. Trasa
+`/osrodek` używa `Room::with('reservations')`, więc lista pokoi to 2 zapytania.
+Relacja jest w `$hidden`, żeby `@json($rooms)` nie wysłał danych gości na stronę.
+
+### `reservations`
+`id`, `room_id` (FK → `rooms`, cascade delete), `guest_name`, `guest_phone`,
+`guest_email`, `check_in_date` (date), `check_out_date` (date), `total_price`
+(decimal 8,2), `status` (`confirmed` | `pending` | `cancelled`), `notes`,
+timestamps.
+
+Reguły w `Reservation::booted()`: data wyjazdu musi być późniejsza niż przyjazdu,
+a terminy nie mogą kolidować z inną nieanulowaną rezerwacją tego samego pokoju.
+Doba wyjazdu może być dobą przyjazdu kolejnego gościa (porównania ostre).
+
+### `news`
+`id`, `title`, `slug` (unique), `branch` (`resort` | `jarmark` | `farm`),
+`excerpt`, `content`, `image`, `is_published`, `published_at`, timestamps.
+
+### `faqs`
+`id`, `question`, `answer`, `branch`, `sort_order`, `is_published`, timestamps.
+
+### `gallery_images`
+`id`, `image`, `video_url`, `media_type` (`image` | `video`), `title`, `branch`,
+`sort_order`, `is_published`, timestamps.
+
+`video_url` przechodzi walidację: wyłącznie `https` z YouTube/Vimeo albo
+bezpośredni plik `.mp4`/`.webm`. Pole trafia do atrybutu `src` odtwarzacza.
+
+### `cms_contents`
+`id`, `key` (unique), `label`, `group`, `type`, `value`, timestamps. Prosty
+magazyn klucz-wartość dla tekstów strony.
+
+### Pozostałe
+`restaurant_halls` (`slug` unique, `features` JSON), `cafe_menu_items`
+(`category` z `App\Enums\CafeCategory`), `attractions` (`branch`),
+`farm_products`, oraz systemowe `sessions`, `password_reset_tokens`, `cache`,
+`jobs`.
+
+**Nie istnieją** tabele `bookings`, `services`, `gallery_photos` ani `audit_logs`.
+
+## Panel administracyjny
+
+Ścieżka `/admin`, dostawca `App\Providers\Filament\AdminPanelProvider`.
+
+- Logowanie sesyjne; `canAccessPanel()` wpuszcza wyłącznie konta z `is_admin`.
+- `/admin/profile` — zmiana nazwy, adresu e-mail i hasła zalogowanego konta.
+- „Ustawienia → Konta administratorów" (`UserResource`) — zakładanie i usuwanie
+  kont. Nie można odebrać uprawnień ani usunąć własnego konta.
+- Zasoby treści: pokoje, rezerwacje, aktualności, sale restauracyjne, menu
+  kawiarni, atrakcje ośrodka, atrakcje Jarmarku, produkty gospodarstwa, FAQ,
+  galeria, treści CMS.
+
+## Multimedia
+
+`FileUpload` zapisuje na dysk `public` z limitem 2 MB i listą dozwolonych typów.
+`MediaOptimizeObserver` po zapisie uruchamia `ImageOptimizer`, który kompresuje
+i konwertuje obrazy do WebP.
+
+## Bezpieczeństwo
+
+- Nagłówki `Strict-Transport-Security`, `X-Content-Type-Options`,
+  `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` oraz wymuszenie
+  HTTPS w `public/.htaccess`.
+- `@json(...)` z flagami `JSON_HEX_*` we wszystkich widokach.
+- Dane z panelu trafiają do DOM przez `createElement`/`textContent`,
+  nie przez `innerHTML`.
+- `SESSION_SECURE_COOKIE=true` domyślnie w `.env.example`.
+
+## Testy
+
+`php artisan test` — 17 testów: dostępność tras publicznych, przekierowanie
+niezalogowanego z `/admin`, oraz logika rezerwacji (kolejność dat, kolizje
+terminów, rezerwacje anulowane, `booked_ranges`, `is_available_now`).

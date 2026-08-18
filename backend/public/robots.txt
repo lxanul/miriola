@@ -5,13 +5,18 @@ Allow: /osrodek
 Allow: /jarmark
 Allow: /gospodarstwo
 Allow: /polityka-prywatnosci
-Allow: /regulamin
+Allow: /aktualnosci
 
-# Block admin panel and private storage from crawlers
+# Block admin panel from crawlers. (The old /storage/cms/private/ rule is gone:
+# the private disk roots outside public/ and was never web-served.)
 Disallow: /admin
 Disallow: /admin/
-Disallow: /storage/cms/private/
-Disallow: /*?*
+
+# "Disallow: /*?*" removed: it blocked every ?branch= filter and every ?page=N
+# of the paginated news list. See REVIEW.md H-24.
 
 # XML Sitemap Location
-Sitemap: http://127.0.0.1:8002/sitemap.xml
+# Sitemap directive deliberately omitted until sitemap.xml stops hardcoding
+# http://127.0.0.1:8002 in every <loc> — advertising it now would make Google
+# fetch the file and reject every URL as cross-domain. See REVIEW.md CR-8.
+# Restore as: Sitemap: https://<production-domain>/sitemap.xml

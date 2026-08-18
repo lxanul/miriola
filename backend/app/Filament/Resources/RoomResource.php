@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\RoomType;
 use App\Filament\Resources\RoomResource\Pages;
 use App\Models\Room;
 use Filament\Forms;
@@ -30,20 +31,18 @@ class RoomResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->label('Nazwa Pokoju / Domku')
                             ->placeholder('np. Pokój 101 - Słoneczny')
+                            ->maxLength(255)
                             ->required(),
 
                         Forms\Components\Select::make('room_type')
                             ->label('Kategoria obiektu')
-                            ->options([
-                                'Pokój 2-osobowy' => 'Pokój 2-osobowy',
-                                'Apartament Rodzinny' => 'Apartament Rodzinny',
-                                'Domek Letniskowy' => 'Domek Letniskowy',
-                            ])
+                            ->options(RoomType::options())
                             ->required(),
 
                         Forms\Components\TextInput::make('capacity')
                             ->label('Maksymalna liczba gości')
                             ->numeric()
+                            ->minValue(1)
                             ->default(2)
                             ->required(),
 
@@ -51,6 +50,26 @@ class RoomResource extends Resource
                             ->label('Kolejność wyświetlania')
                             ->numeric()
                             ->default(0),
+
+                        // Trzy pola poniżej były wypełniane przez seeder, ale nie
+                        // dało się ich zmienić z panelu. REVIEW.md H-18.
+                        Forms\Components\TextInput::make('price_per_night')
+                            ->label('Cena')
+                            ->numeric()
+                            ->minValue(0)
+                            ->prefix('zł')
+                            ->default(250),
+
+                        Forms\Components\TextInput::make('price_unit')
+                            ->label('Jednostka ceny')
+                            ->placeholder('zł / noc')
+                            ->maxLength(255)
+                            ->default('zł / noc'),
+
+                        Forms\Components\Textarea::make('description')
+                            ->label('Opis obiektu')
+                            ->rows(4)
+                            ->columnSpanFull(),
 
                         Forms\Components\TagsInput::make('amenities')
                             ->label('Udogodnienia (punkty opisu pokoju)')
@@ -60,6 +79,10 @@ class RoomResource extends Resource
                         Forms\Components\FileUpload::make('images')
                             ->label('Galeria zdjęć pokoju (możesz dodać dowolną ilość zdjęć)')
                             ->image()
+                            ->disk('public')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(2048)
+                            ->maxFiles(20)
                             ->multiple()
                             ->reorderable()
                             ->directory('rooms')
@@ -81,27 +104,23 @@ class RoomResource extends Resource
                 Tables\Columns\TextColumn::make('room_type')
                     ->label('Kategoria')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Pokój 2-osobowy' => 'info',
-                        'Apartament Rodzinny' => 'warning',
-                        'Domek Letniskowy' => 'success',
-                        default => 'gray',
-                    })
+                    ->color(fn (string $state): string => RoomType::tryFrom($state)?->color() ?? 'gray')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('capacity')
                     ->label('Liczba osób')
                     ->formatStateUsing(fn ($state) => "Max. {$state} os.")
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('price_per_night')
+                    ->label('Cena')
+                    ->money('PLN')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('room_type')
                     ->label('Kategoria')
-                    ->options([
-                        'Pokój 2-osobowy' => 'Pokój 2-osobowy',
-                        'Apartament Rodzinny' => 'Apartament Rodzinny',
-                        'Domek Letniskowy' => 'Domek Letniskowy',
-                    ]),
+                    ->options(RoomType::options()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

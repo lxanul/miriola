@@ -46,7 +46,12 @@ class CmsContentResource extends Resource
                         Forms\Components\TextInput::make('key')
                             ->label('Klucz identyfikacyjny (systemowy)')
                             ->disabled(fn ($record) => $record !== null)
-                            ->required(),
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'Taki klucz już istnieje.',
+                            ]),
 
                         Forms\Components\Select::make('type')
                             ->label('Typ zawartości')
@@ -68,6 +73,9 @@ class CmsContentResource extends Resource
                         Forms\Components\FileUpload::make('value_file')
                             ->label('Wgraj grafikę')
                             ->image()
+                            ->disk('public')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                            ->maxSize(2048)
                             ->directory('cms-graphics')
                             ->columnSpanFull()
                             ->visible(fn (Forms\Get $get) => $get('type') === 'image')

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
@@ -26,7 +27,7 @@ class ExampleTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('publicRoutes')]
+    #[DataProvider('publicRoutes')]
     public function test_publiczne_trasy_odpowiadaja_poprawnie(string $uri): void
     {
         $this->get($uri)->assertStatus(200);

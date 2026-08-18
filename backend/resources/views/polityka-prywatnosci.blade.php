@@ -41,7 +41,7 @@
                         <strong>Ośrodek Wypoczynkowy:</strong> realizacja rezerwacji oraz świadczenie usług noclegowych (pokoje, domki letniskowe) oraz wynajem sal restauracyjnych i bankietowych na przyjęcia okolicznościowe (art. 6 ust. 1 lit. b RODO).
                     </li>
                     <li>
-                        <strong>Jarmark &amp; Kawiarnia Rzemieślnicza:</strong> organizacja oraz rezerwacja warsztatów kulinarno-artystycznych, pokazów i wydarzeń plenerowych (art. 6 ust. 1 lit. b i f RODO).
+                        <strong>Jarmark &amp; Kawiarnia Rzemieślnicza:</strong> organizacja oraz rezerwacja pokazów i wydarzeń plenerowych (art. 6 ust. 1 lit. b i f RODO).
                     </li>
                     <li>
                         <strong>Gospodarstwo Rolne:</strong> obsługa zamówień telefonicznych oraz sprzedaż płodów rolnych (ogórków gruntowych, kiszonych, miodów naturalnych, wiejskich jajek) i kontakt z klientami (art. 6 ust. 1 lit. b RODO).
@@ -94,7 +94,7 @@
                     5. Okres Przechowywania Danych
                 </h2>
                 <p class="text-sm leading-relaxed">
-                    Dane osobowe przechowywane są przez okres niezbędny do realizacji usługi (noclegu, warsztatów, dostawy produktów), a po jej zakończeniu przez okres wymagany przepisami prawa podatkowego i rachunkowego (zazwyczaj 5 lat od końca roku kalendarzowego) lub do czasu przedawnienia ewentualnych roszczeń.
+                    Dane osobowe przechowywane są przez okres niezbędny do realizacji usługi (noclegu, dostawy produktów), a po jej zakończeniu przez okres wymagany przepisami prawa podatkowego i rachunkowego (zazwyczaj 5 lat od końca roku kalendarzowego) lub do czasu przedawnienia ewentualnych roszczeń.
                 </p>
             </section>
 
@@ -104,7 +104,7 @@
                     6. Dobrowolność Podania Danych
                 </h2>
                 <p class="text-sm leading-relaxed">
-                    Podanie danych osobowych (imię, nazwisko, numer telefonu, adres e-mail) jest dobrowolne, jednakże jest wymogiem niezbędnym do złożenia rezerwacji noclegu, rezerwacji sali, zapisu na warsztaty w Jarmarku lub złożenia zamówienia na produkty z Gospodarstwa Rolnego.
+                    Podanie danych osobowych (imię, nazwisko, numer telefonu, adres e-mail) jest dobrowolne, jednakże jest wymogiem niezbędnym do złożenia rezerwacji noclegu, rezerwacji sali lub złożenia zamówienia na produkty z Gospodarstwa Rolnego.
                 </p>
             </section>
 

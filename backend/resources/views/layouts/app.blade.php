@@ -77,14 +77,7 @@
     <!-- AOS Animations CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    {{-- TODO (REVIEW.md CR-7): the Play CDN compiles CSS in the browser on every
-         page load and is not for production. The Vite + Tailwind v4 pipeline is
-         already configured but unused; migrating needs a v3->v4 config port, so
-         it is left as a follow-up rather than a drive-by change.
-         The console.warn monkey-patch that hid Tailwind's own production warning
-         has been removed — the warning is accurate. --}}
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="{{ asset('assets/js/tailwind-config.js') }}"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -243,10 +236,13 @@
         <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-4 gap-gutter mb-12">
             <!-- Col 1: About -->
             <div class="space-y-4">
-                <div class="font-display text-headline-sm font-bold text-white tracking-tight flex items-center gap-2">
-                    <span class="material-symbols-outlined text-white text-3xl">cottage</span>
-                    <span>MIRiOLA</span>
-                </div>
+                <a href="{{ url('/') }}" class="inline-flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-white/20 rounded" aria-label="MIRiOLA - Strona główna">
+                    <img src="{{ asset('favicon.png') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform shrink-0">
+                    <div class="flex flex-col">
+                        <span class="font-display text-2xl font-bold text-white tracking-wider leading-none">MIRiOLA</span>
+                        <span class="text-[10px] uppercase tracking-widest text-surface-dim/70 font-semibold mt-1">Dolina Skawy</span>
+                    </div>
+                </a>
                 <p class="text-sm text-surface-dim/90 leading-relaxed">
                     Twój przytulny przystanek na odpoczynek w malowniczej dolinie Skawy. Oferujemy gościnność, wysoki komfort i relaks blisko natury.
                 </p>
@@ -376,9 +372,10 @@
 
         // Initialize Animations
         AOS.init({
+            disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
             once: true,
             offset: 50,
-            duration: 800
+            duration: 400
         });
 
         // Set Current Year

@@ -3,25 +3,25 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GalleryImageResource\Pages;
-use App\Filament\Resources\GalleryImageResource\RelationManagers;
 use App\Models\GalleryImage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GalleryImageResource extends Resource
 {
     protected static ?string $model = GalleryImage::class;
 
     protected static ?string $modelLabel = 'Zdjęcie Galerii';
+
     protected static ?string $pluralModelLabel = 'Galeria Zdjęć Ośrodka';
 
     protected static ?string $navigationIcon = 'heroicon-o-photo';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Galeria Zdjęć Ośrodka';
 
     public static function form(Form $form): Form
@@ -49,13 +49,11 @@ class GalleryImageResource extends Resource
                     ->placeholder('https://www.youtube.com/watch?v=... lub https://.../film.mp4')
                     ->url()
                     ->maxLength(255)
-                    // Pole trafia do atrybutu src odtwarzacza, więc dopuszczamy
-                    // wyłącznie https i znane hostingi wideo albo bezpośredni
-                    // plik. Bez tego przechodziły schematy javascript: i data:.
                     ->rule('regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i')
                     ->validationMessages([
                         'regex' => 'Dozwolone są tylko adresy https z YouTube, Vimeo lub bezpośrednie pliki .mp4/.webm.',
                     ])
+                    ->visible(fn (Forms\Get $get): bool => $get('media_type') === 'video')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('title')
                     ->label('Tytuł / Opis (opcjonalnie)')
@@ -64,7 +62,6 @@ class GalleryImageResource extends Resource
                     ->label('Sekcja Obiektu')
                     ->options([
                         'resort' => 'Ośrodek Wypoczynkowy',
-                        'jarmark' => 'Jarmark & Kawiarnia',
                     ])
                     ->default('resort')
                     ->required(),

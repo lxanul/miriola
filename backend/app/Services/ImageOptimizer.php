@@ -86,7 +86,7 @@ class ImageOptimizer
             // The old code wrote any non-empty body straight over the original, so
             // an error page destroyed the user's image. See REVIEW.md H-5.
             if (! $compressed->successful()
-                || ! str_starts_with($compressed->header('Content-Type') ?? '', 'image/')
+                || ! str_starts_with((string) $compressed->header('Content-Type'), 'image/')
                 || strlen($compressed->body()) < 100) {
                 Log::warning("TinyPNG returned a non-image body, keeping original: {$fullPath}");
 

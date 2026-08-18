@@ -2,27 +2,30 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Branch;
 use App\Filament\Resources\NewsResource\Pages;
-use App\Filament\Resources\NewsResource\RelationManagers;
 use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class NewsResource extends Resource
 {
     protected static ?string $model = News::class;
 
     protected static ?string $modelLabel = 'Artykuł';
+
     protected static ?string $pluralModelLabel = 'Aktualności';
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+
     protected static ?string $navigationGroup = 'Aktualności & Strona Główna';
+
     protected static ?string $navigationLabel = 'Wpisy Aktualności';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -34,7 +37,7 @@ class NewsResource extends Resource
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', \Illuminate\Support\Str::slug($state ?? ''))),
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('slug', Str::slug($state ?? ''))),
                 Forms\Components\TextInput::make('slug')
                     ->label('Adres URL (Slug)')
                     ->required()
@@ -52,8 +55,8 @@ class NewsResource extends Resource
                     ->label('Dział / Kategoria')
                     // Lista pochodzi z enuma — wcześniej brakowało działu „farm",
                     // choć baza zawiera aktualności gospodarstwa. H-11.
-                    ->options(\App\Enums\Branch::options())
-                    ->default(\App\Enums\Branch::Resort->value)
+                    ->options(Branch::options())
+                    ->default(Branch::Resort->value)
                     ->required(),
                 Forms\Components\Textarea::make('excerpt')
                     ->label('Krótki Wstęp / Streszczenie')
@@ -61,12 +64,33 @@ class NewsResource extends Resource
                 Forms\Components\Textarea::make('content')
                     ->label('Pełna Treść Aktualności')
                     ->columnSpanFull(),
+                Forms\Components\Select::make('media_type')
+                    ->label('Typ multimediów')
+                    ->options([
+                        'image' => '🖼️ Zdjęcie',
+                        'video' => '🎥 Wideo / Filmik',
+                    ])
+                    ->default('image')
+                    ->required()
+                    ->live(),
                 Forms\Components\FileUpload::make('image')
-                    ->label('Zdjęcie Główne')
+                    ->label('Zdjęcie Główne lub Okładka Wideo')
                     ->image()
                     ->disk('public')
                     ->directory('news-images')
-                    ->visibility('public'),
+                    ->visibility('public')
+                    ->helperText('Wymagane dla Zdjęcia. Dla Wideo — prześlij okładkę (miniaturkę).'),
+                Forms\Components\TextInput::make('video_url')
+                    ->label('Link do Wideo (YouTube / Vimeo / plik MP4)')
+                    ->placeholder('https://www.youtube.com/watch?v=... lub https://.../film.mp4')
+                    ->url()
+                    ->maxLength(255)
+                    ->rule('regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i')
+                    ->validationMessages([
+                        'regex' => 'Dozwolone są tylko adresy https z YouTube, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    ])
+                    ->visible(fn (Forms\Get $get): bool => $get('media_type') === 'video')
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_published')
                     ->label('Opublikowany na Stronie')
                     ->default(true)

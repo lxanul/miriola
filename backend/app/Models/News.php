@@ -13,6 +13,8 @@ class News extends Model
         'excerpt',
         'content',
         'image',
+        'media_type',
+        'video_url',
         'is_published',
         'published_at',
     ];

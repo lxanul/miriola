@@ -15,10 +15,15 @@ class CmsContentResource extends Resource
     protected static ?string $model = CmsContent::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
+
     protected static ?string $navigationGroup = 'Aktualności & Strona Główna';
+
     protected static ?string $navigationLabel = 'Teksty i Grafiki CMS';
+
     protected static ?string $modelLabel = 'Treść CMS';
+
     protected static ?string $pluralModelLabel = 'Teksty i Grafiki CMS';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -70,7 +75,7 @@ class CmsContentResource extends Resource
                             ->columnSpanFull()
                             ->visible(fn (Forms\Get $get) => $get('type') !== 'image'),
 
-                        Forms\Components\FileUpload::make('value_file')
+                        Forms\Components\FileUpload::make('value')
                             ->label('Wgraj grafikę')
                             ->image()
                             ->disk('public')
@@ -78,13 +83,8 @@ class CmsContentResource extends Resource
                             ->maxSize(2048)
                             ->directory('cms-graphics')
                             ->columnSpanFull()
-                            ->visible(fn (Forms\Get $get) => $get('type') === 'image')
-                            ->afterStateHydrated(function ($component, $record) {
-                                if ($record && $record->type === 'image') {
-                                    $component->state($record->value);
-                                }
-                            }),
-                    ])->columns(2)
+                            ->visible(fn (Forms\Get $get) => $get('type') === 'image'),
+                    ])->columns(2),
             ]);
     }
 

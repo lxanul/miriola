@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Jarmark - CEH & Kawiarnia MIRiOLA | Menu, Atrakcje, Nowości')
+@section('meta_description', 'Zapraszamy do Kawiarni Rzemieślniczej i Centrum Edukacyjno-Handlowego Jarmark w Gorzeniu Górnym. Aromatyczna kawa, domowe ciasta, strefa relaksu w ogrodzie i atrakcje dla dzieci.')
+
 
 @section('content')
     <!-- Hero Section Jarmark & Kawiarnia -->
@@ -76,37 +78,104 @@
                 </div>
             </div>
 
-            <!-- Menu Grid (Without Price, Photo + Title + Description) -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-aos="fade-up">
-                @forelse($cafeMenuItems ?? [] as $item)
+            <!-- Categorized Menu Cards (1 Image per Category, Dynamic from CMS, Bright Photos, No Prices, items-start Grid) -->
+            @php
+                $allMenu = collect($cafeMenuItems ?? []);
+                $groupedMenu = $allMenu->groupBy(function($item) {
+                    $val = is_object($item->category) ? $item->category->value : ($item->category ?? 'kawy_napoje');
+                    return match($val) {
+                        'kawy', 'kawy_napoje' => 'kawy_napoje',
+                        'lody' => 'lody',
+                        'gofry' => 'gofry',
+                        'desery', 'ciasta' => 'desery',
+                        'zapiekanki', 'przekaski' => 'zapiekanki',
+                        default => 'kawy_napoje',
+                    };
+                });
+
+                $categoriesMeta = [
+                    'kawy_napoje' => [
+                        'title' => 'Kawy & Napoje',
+                        'icon' => 'local_cafe',
+                        'cms_key' => 'cafe_cat_image_kawy_napoje',
+                        'default_image' => 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80',
+                    ],
+                    'lody' => [
+                        'title' => 'Lody Świderki',
+                        'icon' => 'icecream',
+                        'cms_key' => 'cafe_cat_image_lody',
+                        'default_image' => 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80',
+                    ],
+                    'gofry' => [
+                        'title' => 'Chrupiące Gofry',
+                        'icon' => 'cookie',
+                        'cms_key' => 'cafe_cat_image_gofry',
+                        'default_image' => 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80',
+                    ],
+                    'desery' => [
+                        'title' => 'Desery & Wypieki',
+                        'icon' => 'cake',
+                        'cms_key' => 'cafe_cat_image_desery',
+                        'default_image' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80',
+                    ],
+                    'zapiekanki' => [
+                        'title' => 'Chrupiące Zapiekanki',
+                        'icon' => 'fastfood',
+                        'cms_key' => 'cafe_cat_image_zapiekanki',
+                        'default_image' => 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80',
+                    ],
+                ];
+            @endphp
+
+            <div class="columns-1 lg:columns-2 gap-8 space-y-8" data-aos="fade-up">
+                @foreach($categoriesMeta as $catKey => $meta)
                     @php
-                        $optItemImg = (str_starts_with($item->image ?? '', 'http') && str_contains($item->image, 'unsplash.com'))
-                            ? preg_replace('/w=\d+/', 'w=400&q=75', $item->image)
-                            : (str_starts_with($item->image ?? '', 'http') ? $item->image : asset('storage/' . ($item->image ?? '')));
+                        $itemsInCat = $groupedMenu->get($catKey, collect());
+                        $cmsImgRaw = $cms[$meta['cms_key']] ?? null;
+                        $catImage = !empty($cmsImgRaw)
+                            ? (str_starts_with($cmsImgRaw, 'http') ? $cmsImgRaw : asset('storage/' . $cmsImgRaw))
+                            : $meta['default_image'];
                     @endphp
-                    <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs hover:shadow-lg transition-all duration-300 flex items-center gap-5 group hover:-translate-y-0.5">
-                        @if($item->image)
-                            <img src="{{ $optItemImg }}" 
-                                 alt="{{ $item->name }}" 
-                                 loading="lazy" decoding="async" width="96" height="96"
-                                 class="w-24 h-24 rounded-xl object-cover shrink-0 group-hover:scale-105 transition-transform duration-500 shadow-xs">
-                        @else
-                            <div class="w-24 h-24 rounded-xl bg-primary/5 flex items-center justify-center text-primary shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                                <span class="material-symbols-outlined text-4xl">local_cafe</span>
+                    @if($itemsInCat->isNotEmpty())
+                        <div class="break-inside-avoid inline-block w-full bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 group">
+                            <!-- Category Banner Image — tall, vivid, no heavy dark overlay -->
+                            <div class="relative h-52 w-full bg-slate-100 overflow-hidden">
+                                <img src="{{ $catImage }}" alt="{{ $meta['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent"></div>
+                                
+                                <div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 text-white">
+                                    <div class="w-9 h-9 rounded-lg bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shrink-0 shadow-xs">
+                                        <span class="material-symbols-outlined text-xl">{{ $meta['icon'] }}</span>
+                                    </div>
+                                    <h3 class="font-display font-bold text-xl md:text-2xl text-white drop-shadow-md tracking-tight">
+                                        {{ $meta['title'] }}
+                                    </h3>
+                                </div>
                             </div>
-                        @endif
-                        <div class="flex-grow min-w-0">
-                            <h3 class="font-display font-bold text-primary text-lg md:text-xl group-hover:text-accent transition-colors truncate">
-                                {{ $item->name }}
-                            </h3>
+
+                            <!-- Items List -->
+                            <div class="p-5">
+                                <ul class="divide-y divide-slate-100">
+                                    @foreach($itemsInCat as $item)
+                                        <li class="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3 group/item">
+                                            <div class="flex items-center gap-2.5 min-w-0">
+                                                <span class="w-2 h-2 rounded-full bg-accent shrink-0 group-hover/item:scale-125 transition-transform"></span>
+                                                <span class="font-medium text-slate-800 text-sm md:text-base group-hover/item:text-primary transition-colors">
+                                                    {{ $item->name }}
+                                                </span>
+                                            </div>
+                                            @if($item->is_featured)
+                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full shrink-0">
+                                                    <span class="material-symbols-outlined text-[12px]">star</span> Hit
+                                                </span>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="col-span-2 text-center py-16 bg-white rounded-2xl border border-slate-200 p-8">
-                        <span class="material-symbols-outlined text-5xl text-primary/30 mb-3 block">local_cafe</span>
-                        <p class="text-slate-600 font-medium">Menu kawiarni jest obecnie aktualizowane.</p>
-                    </div>
-                @endforelse
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>
@@ -123,37 +192,79 @@
                 <div class="w-16 h-0.5 bg-primary/20 mx-auto"></div>
             </div>
 
-            <!-- Attractions Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Attractions Grid — vertical cards with large image on top -->
+            <div class="flex flex-wrap justify-center gap-8">
                 @forelse($attractions ?? [] as $attraction)
-                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition-all flex flex-col sm:flex-row group" data-aos="fade-up">
-                        @if($attraction->image)
-                            <img src="{{ str_starts_with($attraction->image, 'http') ? $attraction->image : asset('storage/' . $attraction->image) }}" 
-                                 alt="{{ $attraction->title }}" 
-                                 loading="lazy" decoding="async" width="400" height="300"
-                                 class="sm:w-56 h-52 sm:h-auto object-cover shrink-0 group-hover:scale-105 transition-transform duration-500">
-                        @endif
-                        <div class="p-6 flex flex-col justify-between">
-                            <div>
-                                <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mb-3">
-                                    <span class="material-symbols-outlined text-amber-600 text-xl">{{ $attraction->icon ?? 'star' }}</span>
+                    <div class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group" data-aos="fade-up">
+                        <!-- Attraction Large Image -->
+                        <div class="relative h-56 md:h-64 w-full bg-slate-100 overflow-hidden shrink-0">
+                            @if($attraction->image)
+                                <img src="{{ str_starts_with($attraction->image, 'http') ? $attraction->image : asset('storage/' . $attraction->image) }}" 
+                                     alt="{{ $attraction->title }}" 
+                                     loading="lazy" decoding="async" width="600" height="400"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full flex items-center justify-center bg-amber-50">
+                                    <span class="material-symbols-outlined text-6xl text-amber-300">{{ $attraction->icon ?? 'star' }}</span>
                                 </div>
-                                <h3 class="font-display font-bold text-primary text-xl mb-2 group-hover:text-accent transition-colors">
-                                    {{ $attraction->title }}
-                                </h3>
-                                <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                                    {{ $attraction->description }}
-                                </p>
+                            @endif
+                            <!-- Icon Badge overlay -->
+                            <div class="absolute top-4 left-4 w-11 h-11 rounded-xl bg-white/90 backdrop-blur-md border border-white/60 flex items-center justify-center shadow-md">
+                                <span class="material-symbols-outlined text-amber-600 text-2xl">{{ $attraction->icon ?? 'star' }}</span>
                             </div>
+                        </div>
+                        <!-- Attraction Content -->
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-display font-bold text-primary text-xl mb-2 group-hover:text-accent transition-colors leading-snug">
+                                {{ $attraction->title }}
+                            </h3>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                {{ $attraction->description }}
+                            </p>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-2 text-center py-16 bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="w-full text-center py-16 bg-white rounded-2xl border border-slate-200 p-8">
                         <span class="material-symbols-outlined text-5xl text-primary/30 mb-3 block">sparkles</span>
-                        <p class="text-slate-600 font-medium">Brak aktualnie zaplanowanych pokazów i atrakcji.</p>
+                        <p class="text-slate-600 font-medium">Brak aktualnie zaplanowanych atrakcji.</p>
                     </div>
                 @endforelse
             </div>
         </div>
     </section>
+
+    <!-- FAQ Section Jarmark -->
+    @if(isset($faqs) && count($faqs) > 0)
+    <section id="faq" class="py-section-gap-mobile md:py-section-gap bg-background border-t border-slate-200/80">
+        <div class="max-w-3xl mx-auto px-gutter">
+            <!-- Section Header -->
+            <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+                <span class="text-xs uppercase tracking-widest text-primary/70 font-bold block mb-2">Pytania i Odpowiedzi</span>
+                <h2 class="font-display text-3xl md:text-headline-md text-primary font-bold mb-4">
+                    Najczęściej Zadawane Pytania (FAQ)
+                </h2>
+                <div class="w-16 h-0.5 bg-primary/20 mx-auto"></div>
+            </div>
+
+            <!-- FAQ List Accordion -->
+            <div class="space-y-4" data-aos="fade-up">
+                @foreach($faqs as $faq)
+                    <details class="group bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden transition-all duration-200">
+                        <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer font-bold text-primary text-base select-none hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                            <span class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-accent text-xl shrink-0">help_outline</span>
+                                <span>{{ $faq->question }}</span>
+                            </span>
+                            <span class="material-symbols-outlined text-primary/50 group-open:rotate-180 transition-transform duration-300 shrink-0">expand_more</span>
+                        </summary>
+                        <div class="px-5 pb-5 pt-1 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                            {{ $faq->answer }}
+                        </div>
+                    </details>
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
 @endsection
+

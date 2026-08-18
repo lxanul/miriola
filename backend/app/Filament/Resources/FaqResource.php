@@ -15,11 +15,15 @@ class FaqResource extends Resource
     protected static ?string $model = Faq::class;
 
     protected static ?string $modelLabel = 'Pytanie i Odpowiedź (FAQ)';
+
     protected static ?string $pluralModelLabel = 'Często Zadawane Pytania (FAQ)';
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Często Zadawane Pytania (FAQ)';
+
     protected static ?int $navigationSort = 5;
 
     public static function form(Form $form): Form

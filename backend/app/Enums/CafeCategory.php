@@ -11,18 +11,25 @@ namespace App\Enums;
  */
 enum CafeCategory: string
 {
+    case KawyNapoje = 'kawy_napoje';
+    case Desery = 'desery';
+    case Zapiekanki = 'zapiekanki';
+    case Gofry = 'gofry';
+    case Lody = 'lody';
+
+    // Legacy fallbacks
     case Kawy = 'kawy';
     case Ciasta = 'ciasta';
-    case Desery = 'desery';
     case Przekaski = 'przekaski';
 
     public function label(): string
     {
         return match ($this) {
-            self::Kawy => '☕ Kawy i Napoje Gorące',
-            self::Ciasta => '🍰 Ciasta i Wypieki',
-            self::Desery => '🍮 Desery',
-            self::Przekaski => '🥨 Przekąski i Rzemiosło',
+            self::KawyNapoje, self::Kawy => '☕ Kawy i Napoje',
+            self::Desery, self::Ciasta => '🍰 Desery',
+            self::Zapiekanki, self::Przekaski => '🥖 Zapiekanki',
+            self::Gofry => '🧇 Gofry',
+            self::Lody => '🍦 Lody',
         };
     }
 

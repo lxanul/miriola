@@ -16,9 +16,13 @@ class RoomResource extends Resource
     protected static ?string $model = Room::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Katalog Pokoi & Domków';
+
     protected static ?string $modelLabel = 'Pokój / Domek';
+
     protected static ?string $pluralModelLabel = 'Katalog Pokoi i Domków';
 
     public static function form(Form $form): Form
@@ -26,7 +30,7 @@ class RoomResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Dane Pokoju / Domku')
-                    ->description('Określ nazwę, cenę, pojemność oraz zdjęcia obiektu. Wszystkie rezerwacje i daty zajętości są automatycznie pobierane z Kalendarza Rezerwacji.')
+                    ->description('Określ nazwę, kategoria, pojemność oraz zdjęcia obiektu. Zaimplementowane daty zajętości są automatycznie pobierane z Kalendarza Rezerwacji.')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('Nazwa Pokoju / Domku')
@@ -51,29 +55,9 @@ class RoomResource extends Resource
                             ->numeric()
                             ->default(0),
 
-                        // Trzy pola poniżej były wypełniane przez seeder, ale nie
-                        // dało się ich zmienić z panelu. REVIEW.md H-18.
-                        Forms\Components\TextInput::make('price_per_night')
-                            ->label('Cena')
-                            ->numeric()
-                            ->minValue(0)
-                            ->prefix('zł')
-                            ->default(250),
-
-                        Forms\Components\TextInput::make('price_unit')
-                            ->label('Jednostka ceny')
-                            ->placeholder('zł / noc')
-                            ->maxLength(255)
-                            ->default('zł / noc'),
-
-                        Forms\Components\Textarea::make('description')
-                            ->label('Opis obiektu')
-                            ->rows(4)
-                            ->columnSpanFull(),
-
                         Forms\Components\TagsInput::make('amenities')
                             ->label('Udogodnienia (punkty opisu pokoju)')
-                            ->placeholder('Wpisz np. Max 6 osób i naciśnij Enter')
+                            ->placeholder('Wpisz np. Łazienka z prysznicem i naciśnij Enter')
                             ->columnSpanFull(),
 
                         Forms\Components\FileUpload::make('images')
@@ -87,7 +71,7 @@ class RoomResource extends Resource
                             ->reorderable()
                             ->directory('rooms')
                             ->columnSpanFull(),
-                    ])->columns(2)
+                    ])->columns(2),
             ]);
     }
 
@@ -110,11 +94,6 @@ class RoomResource extends Resource
                 Tables\Columns\TextColumn::make('capacity')
                     ->label('Liczba osób')
                     ->formatStateUsing(fn ($state) => "Max. {$state} os.")
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('price_per_night')
-                    ->label('Cena')
-                    ->money('PLN')
                     ->sortable(),
             ])
             ->filters([

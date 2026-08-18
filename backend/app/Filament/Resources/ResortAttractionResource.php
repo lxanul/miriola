@@ -16,11 +16,15 @@ class ResortAttractionResource extends Resource
     protected static ?string $model = Attraction::class;
 
     protected static ?string $modelLabel = 'Atrakcja Ośrodka';
+
     protected static ?string $pluralModelLabel = 'Atrakcje Ośrodka (4 udogodnienia)';
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Atrakcje Ośrodka (4 udogodnienia)';
+
     protected static ?int $navigationSort = 4;
 
     public static function getEloquentQuery(): Builder

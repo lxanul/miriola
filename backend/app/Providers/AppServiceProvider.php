@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\GalleryImage;
-use App\Models\Room;
-use App\Models\News;
+use App\Models\Attraction;
 use App\Models\CafeMenuItem;
 use App\Models\FarmProduct;
+use App\Models\GalleryImage;
+use App\Models\News;
 use App\Models\RestaurantHall;
-use App\Models\Attraction;
+use App\Models\Room;
 use App\Observers\MediaOptimizeObserver;
 use Illuminate\Support\ServiceProvider;
 

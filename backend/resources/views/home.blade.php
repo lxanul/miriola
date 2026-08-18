@@ -52,7 +52,7 @@
             <div class="text-center mb-16" data-aos="fade-up">
                 <span class="text-xs uppercase tracking-widest text-primary/60 font-bold block mb-2">Nasza Oferta</span>
                 <h2 class="font-display text-3xl md:text-headline-md text-primary font-bold mb-4">
-                    {{ $cms['rooms_section_title'] ?? 'Pokoje i Domki (10 Obiektów)' }}
+                    {{ $cms['rooms_section_title'] ?? ('Pokoje i Domki (' . (isset($rooms) ? count($rooms) : 10) . ' Obiektów)') }}
                 </h2>
                 <div class="w-16 h-0.5 bg-primary/20 mx-auto mb-6"></div>
                 
@@ -61,20 +61,20 @@
                     <button onclick="openAvailabilityModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-3 px-4 sm:px-7 rounded-full shadow-lg transition-all flex items-center justify-center gap-2 max-w-full btn-animate hover:scale-105">
                         <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse shrink-0"></span>
                         <span class="material-symbols-outlined text-lg shrink-0">domain</span>
-                        <span class="text-center">Sprawdź Dostępność 10 Pokoi & Domków (Na Żywo)</span>
+                        <span class="text-center">Sprawdź Dostępność {{ isset($rooms) ? count($rooms) : 10 }} Pokoi & Domków (Na Żywo)</span>
                     </button>
                 </div>
             </div>
             
-            <!-- Top 3 Rooms Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Top 3 Rooms Grid (Centered Flex Layout) -->
+            <div class="flex flex-wrap justify-center gap-8">
                 @foreach(($rooms ?? [])->take(3) as $room)
                     @php
                         $imageList = !empty($room->images) && is_array($room->images) 
                             ? $room->images 
                             : ($room->image ? [$room->image] : ['https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80']);
                     @endphp
-                    <article class="room-card bg-surface rounded-2xl overflow-hidden border border-primary/10 ambient-shadow hover:shadow-xl transition-all duration-300 flex flex-col justify-between" 
+                    <article class="room-card w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm bg-surface rounded-2xl overflow-hidden border border-primary/10 ambient-shadow hover:shadow-xl transition-all duration-300 flex flex-col justify-between" 
                              data-room-card="{{ $room->id }}" data-active-index="0" data-aos="fade-up">
                         
                         <!-- Photo Gallery Container (Click to open Lightbox) -->
@@ -292,7 +292,7 @@
                     <button id="toggle-more-rooms-btn" onclick="toggleMoreRooms()" 
                             class="bg-surface border border-primary/20 hover:bg-primary hover:text-white text-primary font-bold text-xs py-3.5 px-8 rounded-full shadow-md transition-all inline-flex items-center gap-2 btn-animate hover:scale-105 focus:outline-none">
                         <span class="material-symbols-outlined text-xl" id="more-rooms-icon">expand_more</span>
-                        <span id="more-rooms-text">Pokaż pozostałe pokoje i domki (7 Obiektów)</span>
+                        <span id="more-rooms-text">Pokaż pozostałe pokoje i domki ({{ max(0, count($rooms) - 3) }} Obiektów)</span>
                     </button>
                 </div>
             @endif
@@ -453,7 +453,7 @@
                             <span class="font-display text-sm md:text-base font-bold text-primary">{{ $faq->question }}</span>
                             <span class="material-symbols-outlined text-primary faq-icon transition-transform duration-300 select-none">expand_more</span>
                         </button>
-                        <div class="faq-content grid grid-rows-[0fr] transition-all duration-300 ease-in-out">
+                        <div class="faq-content grid grid-rows-[0fr]">
                             <div class="overflow-hidden">
                                 <div class="px-5 pb-5 md:px-6 md:pb-6 pt-2 border-t border-primary/10 text-sm text-on-surface-variant leading-relaxed">
                                     {{ $faq->answer }}
@@ -474,7 +474,7 @@
 
     <!-- Real-Time Availability & Interactive Calendar Modal for All 10 Rooms/Cottages -->
     <div id="availability-modal" onclick="closeAvailabilityModal()" class="fixed inset-0 bg-primary/70 backdrop-blur-md z-[110] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div onclick="event.stopPropagation()" class="bg-white border border-slate-200/80 rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative p-6 md:p-8 space-y-6">
+        <div onclick="event.stopPropagation()" class="bg-white border border-slate-200/80 rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative p-6 md:p-8 space-y-6 transform scale-95 transition-transform duration-300">
             <button onclick="closeAvailabilityModal()" aria-label="Zamknij kalendarz" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
                 <span class="material-symbols-outlined text-xl">close</span>
             </button>
@@ -496,7 +496,7 @@
                 </button>
                 <button id="tab-btn-list" onclick="switchAvailabilityTab('list')" class="pb-3 border-b-2 border-transparent text-slate-400 hover:text-primary flex items-center gap-1.5 focus:outline-none">
                     <span class="material-symbols-outlined text-base">format_list_bulleted</span>
-                    Wszystkie 10 Obiektów
+                    Wszystkie {{ isset($rooms) ? count($rooms) : 10 }} Obiektów
                 </button>
             </div>
 
@@ -613,7 +613,7 @@
 
     <!-- Room High-Resolution Gallery Lightbox Modal (Bright White Glassmorphic Design) -->
     <div id="room-lightbox-modal" onclick="if(event.target === this) closeRoomLightbox()" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300 p-2 sm:p-4 md:p-6" role="dialog" aria-modal="true">
-        <div class="relative w-full max-w-5xl bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] text-slate-800">
+        <div class="relative w-full max-w-5xl bg-white/95 backdrop-blur-xl border border-white/60 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] text-slate-800 transform scale-95 transition-transform duration-300">
             
             <!-- Lightbox Header (Bright Light Glass) -->
             <div class="p-4 sm:p-5 bg-white/95 flex items-center justify-between border-b border-slate-200/80 shrink-0">
@@ -708,6 +708,8 @@
         if (modal) {
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('opacity-100', 'pointer-events-auto');
+            const inner = modal.querySelector('div');
+            if (inner) inner.classList.remove('scale-95');
             document.body.style.overflow = 'hidden';
             renderCustomerCalendar();
         }
@@ -718,6 +720,8 @@
         if (modal) {
             modal.classList.remove('opacity-100', 'pointer-events-auto');
             modal.classList.add('opacity-0', 'pointer-events-none');
+            const inner = modal.querySelector('div');
+            if (inner) inner.classList.add('scale-95');
             document.body.style.overflow = 'auto';
         }
     }
@@ -963,7 +967,7 @@
             if (icon) icon.textContent = 'expand_less';
         } else {
             container.classList.add('hidden');
-            if (text) text.textContent = 'Pokaż pozostałe pokoje i domki (7 Obiektów)';
+            if (text) text.textContent = 'Pokaż pozostałe pokoje i domki ({{ max(0, count($rooms) - 3) }} Obiektów)';
             if (icon) icon.textContent = 'expand_more';
         }
     }
@@ -1043,6 +1047,8 @@
         if (modal) {
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('opacity-100', 'pointer-events-auto');
+            const inner = modal.querySelector('div');
+            if (inner) inner.classList.remove('scale-95');
             document.body.style.overflow = 'hidden';
         }
     }
@@ -1064,6 +1070,8 @@
         if (modal) {
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.classList.add('opacity-100', 'pointer-events-auto');
+            const inner = modal.querySelector('div');
+            if (inner) inner.classList.remove('scale-95');
             document.body.style.overflow = 'hidden';
         }
     }
@@ -1073,6 +1081,8 @@
         if (modal) {
             modal.classList.remove('opacity-100', 'pointer-events-auto');
             modal.classList.add('opacity-0', 'pointer-events-none');
+            const inner = modal.querySelector('div');
+            if (inner) inner.classList.add('scale-95');
             document.body.style.overflow = 'auto';
         }
         const videoStage = document.getElementById('lightbox-video-stage');

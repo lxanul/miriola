@@ -41,6 +41,9 @@ class Room extends Model
      */
     protected $hidden = ['reservations'];
 
+    /**
+     * @return HasMany<Reservation, $this>
+     */
     public function reservations(): HasMany
     {
         return $this->hasMany(Reservation::class);
@@ -51,7 +54,7 @@ class Room extends Model
      * Przy `Room::with('reservations')` cała lista pokoi kosztuje 2 zapytania
      * zamiast ~30. Patrz REVIEW.md H-14.
      *
-     * @return \Illuminate\Support\Collection<int, Reservation>
+     * @return \Illuminate\Database\Eloquent\Collection<int, Reservation>
      */
     protected function confirmedReservations()
     {

@@ -2,26 +2,27 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\CafeCategory;
 use App\Filament\Resources\CafeMenuItemResource\Pages;
-use App\Filament\Resources\CafeMenuItemResource\RelationManagers;
 use App\Models\CafeMenuItem;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class CafeMenuItemResource extends Resource
 {
     protected static ?string $model = CafeMenuItem::class;
 
     protected static ?string $modelLabel = 'Pozycja Menu';
+
     protected static ?string $pluralModelLabel = 'Menu Kawiarni';
 
     protected static ?string $navigationIcon = 'heroicon-o-cake';
+
     protected static ?string $navigationGroup = 'Jarmark CEH';
+
     protected static ?string $navigationLabel = 'Menu Kawiarni';
 
     public static function form(Form $form): Form
@@ -30,40 +31,21 @@ class CafeMenuItemResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nazwa Napoju / Ciasta / Dania')
+                    ->placeholder('np. Sernik Domowy, Kawa Espresso')
                     ->maxLength(255)
                     ->required(),
                 Forms\Components\Select::make('category')
                     ->label('Kategoria Menu')
-                    ->options(\App\Enums\CafeCategory::options())
-                    ->default(\App\Enums\CafeCategory::Kawy->value)
+                    ->options(CafeCategory::options())
+                    ->default(CafeCategory::KawyNapoje->value)
                     ->required(),
-                // Cena była w bazie, ale nie dało się jej zmienić z panelu. H-18.
-                Forms\Components\TextInput::make('price')
-                    ->label('Cena')
-                    ->numeric()
-                    ->minValue(0)
-                    ->prefix('zł')
-                    ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->label('Opis Pozycji')
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
-                    ->label('Zdjęcie Pozycji')
-                    ->image()
-                    ->disk('public')
-                    ->directory('cafe-menu')
-                    ->visibility('public'),
                 Forms\Components\Toggle::make('is_available')
                     ->label('Dostępne w Kawiarni')
                     ->default(true)
                     ->required(),
                 Forms\Components\Toggle::make('is_featured')
-                    ->label('Polecane / Hity Kawiarni')
+                    ->label('Polecane / Hit Kawiarni')
                     ->default(false),
-                Forms\Components\TextInput::make('sort_order')
-                    ->label('Kolejność Wyświetlania')
-                    ->numeric()
-                    ->default(0),
             ]);
     }
 
@@ -71,11 +53,15 @@ class CafeMenuItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Zdjęcie'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nazwa Pozycji')
-                    ->searchable(),
+                    ->searchable()
+                    ->weight('bold'),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Kategoria')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => CafeCategory::tryFrom($state ?? '')?->label() ?? ($state ?? 'Inne'))
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('is_available')
                     ->label('Dostępność')
                     ->boolean(),
@@ -84,7 +70,9 @@ class CafeMenuItemResource extends Resource
                     ->boolean(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('Filtruj wg Kategorii')
+                    ->options(CafeCategory::options()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

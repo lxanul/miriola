@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Models\News;
-use App\Models\RestaurantHall;
-use App\Models\CafeMenuItem;
 use App\Models\Attraction;
-use App\Models\FarmProduct;
+use App\Models\CafeMenuItem;
 use App\Models\CmsContent;
-
-use Illuminate\Support\Facades\Cache;
+use App\Models\Faq;
+use App\Models\FarmProduct;
+use App\Models\GalleryImage;
+use App\Models\News;
+use App\Models\Room;
+use Illuminate\Support\Facades\Route;
 
 // Helper to fetch database CMS values.
 // Strażnik function_exists jest konieczny: pakiet testowy ładuje plik tras przy
@@ -19,7 +19,7 @@ if (! function_exists('getCmsData')) {
     {
         try {
             return CmsContent::pluck('value', 'key')->toArray();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return [];
         }
     }
@@ -29,6 +29,7 @@ if (! function_exists('getCmsData')) {
 Route::get('/', function () {
     $cms = getCmsData();
     $latestNews = News::where('is_published', true)->latest('published_at')->take(3)->get();
+
     return view('hub', compact('cms', 'latestNews'));
 });
 
@@ -47,14 +48,14 @@ Route::get('/osrodek', function () {
     $news = News::where('branch', 'resort')->where('is_published', true)->latest()->get();
     // with('reservations'): akcesory is_available_now i booked_ranges liczą
     // z załadowanej relacji, więc lista pokoi to 2 zapytania zamiast ~30.
-    $rooms = \App\Models\Room::with('reservations')->orderBy('sort_order')->get();
+    $rooms = Room::with('reservations')->orderBy('sort_order')->get();
     $attractions = Attraction::where('branch', 'resort')->orderBy('sort_order')->get();
     // Bez filtra po dziale /osrodek pokazywał też pytania Jarmarku. REVIEW.md H-17.
-    $faqs = \App\Models\Faq::where('is_published', true)
+    $faqs = Faq::where('is_published', true)
         ->whereIn('branch', ['resort', 'general'])
         ->orderBy('sort_order')
         ->get();
-    $galleryImages = \App\Models\GalleryImage::where('branch', 'resort')->where('is_published', true)->orderBy('sort_order')->get();
+    $galleryImages = GalleryImage::where('branch', 'resort')->where('is_published', true)->orderBy('sort_order')->get();
 
     return view('home', compact('cms', 'news', 'rooms', 'attractions', 'faqs', 'galleryImages'));
 });
@@ -65,10 +66,13 @@ Route::get('/jarmark', function () {
     $cafeMenuItems = CafeMenuItem::where('is_available', true)->orderBy('sort_order')->get();
     $attractions = Attraction::where('branch', 'jarmark')->orderBy('sort_order')->get();
     $news = News::where('branch', 'jarmark')->where('is_published', true)->latest()->get();
+    $faqs = Faq::where('is_published', true)
+        ->whereIn('branch', ['jarmark', 'general'])
+        ->orderBy('sort_order')
+        ->get();
 
-    return view('jarmark', compact('cafeMenuItems', 'attractions', 'news', 'cms'));
+    return view('jarmark', compact('cafeMenuItems', 'attractions', 'news', 'cms', 'faqs'));
 });
-
 
 // 4. Gospodarstwo Rolne MIRiOLA
 Route::get('/gospodarstwo', function () {
@@ -82,12 +86,12 @@ Route::get('/gospodarstwo', function () {
 Route::get('/aktualnosci', function () {
     $cms = getCmsData();
     $currentBranch = request()->query('branch', 'all');
-    
+
     $query = News::where('is_published', true);
     if ($currentBranch !== 'all' && in_array($currentBranch, ['resort', 'jarmark', 'farm'])) {
         $query->where('branch', $currentBranch);
     }
-    
+
     $news = $query->latest('published_at')->paginate(12)->withQueryString();
 
     return view('aktualnosci', compact('news', 'currentBranch', 'cms'));
@@ -97,7 +101,49 @@ Route::get('/polityka-prywatnosci', function () {
     return view('polityka-prywatnosci');
 });
 
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\n";
+    $content .= "Allow: /\n";
+    $content .= "Allow: /osrodek\n";
+    $content .= "Allow: /jarmark\n";
+    $content .= "Allow: /gospodarstwo\n";
+    $content .= "Allow: /polityka-prywatnosci\n";
+    $content .= "Allow: /aktualnosci\n\n";
+    $content .= "Disallow: /admin\n";
+    $content .= "Disallow: /admin/\n\n";
+    $content .= 'Sitemap: '.url('/sitemap.xml')."\n";
+
+    return response($content, 200, ['Content-Type' => 'text/plain']);
+});
+
 Route::get('/sitemap.xml', function () {
-    $sitemapPath = public_path('sitemap.xml');
-    return response()->file($sitemapPath, ['Content-Type' => 'text/xml']);
+
+    $urls = [
+        ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily'],
+        ['loc' => url('/osrodek'), 'priority' => '0.9', 'changefreq' => 'daily', 'image' => asset('assets/img/hero.jpg'), 'title' => 'Ośrodek Wypoczynkowy MIRiOLA Dolina Skawy'],
+        ['loc' => url('/jarmark'), 'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => url('/gospodarstwo'), 'priority' => '0.8', 'changefreq' => 'weekly'],
+        ['loc' => url('/aktualnosci'), 'priority' => '0.7', 'changefreq' => 'daily'],
+        ['loc' => url('/polityka-prywatnosci'), 'priority' => '0.3', 'changefreq' => 'monthly'],
+    ];
+
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'."\n";
+    foreach ($urls as $u) {
+        $xml .= '  <url>'."\n";
+        $xml .= '    <loc>'.htmlspecialchars($u['loc']).'</loc>'."\n";
+        $xml .= '    <lastmod>'.date('Y-m-d').'</lastmod>'."\n";
+        $xml .= '    <changefreq>'.$u['changefreq'].'</changefreq>'."\n";
+        $xml .= '    <priority>'.$u['priority'].'</priority>'."\n";
+        if (isset($u['image'])) {
+            $xml .= '    <image:image>'."\n";
+            $xml .= '      <image:loc>'.htmlspecialchars($u['image']).'</image:loc>'."\n";
+            $xml .= '      <image:title>'.htmlspecialchars($u['title']).'</image:title>'."\n";
+            $xml .= '    </image:image>'."\n";
+        }
+        $xml .= '  </url>'."\n";
+    }
+    $xml .= '</urlset>';
+
+    return response($xml, 200, ['Content-Type' => 'text/xml']);
 });

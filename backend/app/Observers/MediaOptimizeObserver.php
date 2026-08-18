@@ -2,6 +2,13 @@
 
 namespace App\Observers;
 
+use App\Models\Attraction;
+use App\Models\CafeMenuItem;
+use App\Models\FarmProduct;
+use App\Models\GalleryImage;
+use App\Models\News;
+use App\Models\RestaurantHall;
+use App\Models\Room;
 use App\Services\ImageOptimizer;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,13 +20,13 @@ class MediaOptimizeObserver
      * observed but never optimized. See REVIEW.md H-10.
      */
     private const FIELDS = [
-        \App\Models\GalleryImage::class => ['image'],
-        \App\Models\Room::class => ['images'],
-        \App\Models\News::class => ['image'],
-        \App\Models\CafeMenuItem::class => ['image'],
-        \App\Models\FarmProduct::class => ['image'],
-        \App\Models\Attraction::class => ['image'],
-        \App\Models\RestaurantHall::class => ['main_image'],
+        GalleryImage::class => ['image'],
+        Room::class => ['images'],
+        News::class => ['image'],
+        CafeMenuItem::class => ['image'],
+        FarmProduct::class => ['image'],
+        Attraction::class => ['image'],
+        RestaurantHall::class => ['main_image'],
     ];
 
     public function saved(Model $model): void
@@ -32,7 +39,7 @@ class MediaOptimizeObserver
                 continue;
             }
 
-            $value = $model->{$field};
+            $value = $model->getAttribute($field);
             if (empty($value)) {
                 continue;
             }

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\CafeMenuItemResource\Pages;
 
 use App\Filament\Resources\CafeMenuItemResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateCafeMenuItem extends CreateRecord

@@ -3,27 +3,28 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RestaurantHallResource\Pages;
-use App\Filament\Resources\RestaurantHallResource\RelationManagers;
 use App\Models\RestaurantHall;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class RestaurantHallResource extends Resource
 {
     protected static ?string $model = RestaurantHall::class;
 
     protected static ?string $modelLabel = 'Sala Restauracyjna';
+
     protected static ?string $pluralModelLabel = 'Sale Restauracyjne';
 
     protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-home-modern';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Sale Restauracyjne';
 
     public static function form(Form $form): Form
@@ -35,7 +36,7 @@ class RestaurantHallResource extends Resource
                     ->maxLength(255)
                     ->required()
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', \Illuminate\Support\Str::slug($state)) : null),
+                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                 Forms\Components\TextInput::make('slug')
                     ->label('Adres URL (Slug)')
                     ->required()

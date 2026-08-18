@@ -16,9 +16,13 @@ class ReservationResource extends Resource
     protected static ?string $model = Reservation::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+
     protected static ?string $navigationGroup = 'Ośrodek Wypoczynkowy';
+
     protected static ?string $navigationLabel = 'Grafik & Kalendarz Rezerwacji';
+
     protected static ?string $modelLabel = 'Rezerwacja';
+
     protected static ?string $pluralModelLabel = 'Kalendarz Rezerwacji';
 
     public static function form(Form $form): Form
@@ -86,7 +90,7 @@ class ReservationResource extends Resource
                             ->label('Notatki i uwagi (np. wpłacona zaliczka 200zł, godzina przyjazdu, łóżeczko)')
                             ->rows(3)
                             ->columnSpanFull(),
-                    ])->columns(2)
+                    ])->columns(2),
             ]);
     }
 
@@ -108,7 +112,7 @@ class ReservationResource extends Resource
 
                 Tables\Columns\TextColumn::make('check_in_date')
                     ->label('Termin pobytu')
-                    ->formatStateUsing(fn (Reservation $record) => $record->check_in_date->format('d.m.Y') . ' → ' . $record->check_out_date->format('d.m.Y'))
+                    ->formatStateUsing(fn (Reservation $record) => $record->check_in_date->format('d.m.Y').' → '.$record->check_out_date->format('d.m.Y'))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')

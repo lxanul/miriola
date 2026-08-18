@@ -16,14 +16,4 @@ class EditCmsContent extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
-
-    protected function mutateFormDataBeforeSave(array $data): array
-    {
-        if (($data['type'] ?? null) === 'image' && !empty($data['value_file'])) {
-            $data['value'] = $data['value_file'];
-        }
-        unset($data['value_file']);
-
-        return $data;
-    }
 }

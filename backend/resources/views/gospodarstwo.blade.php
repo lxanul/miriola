@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA | Ekologiczne Ogórki, Miody i Plony')
+@section('title', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA | Czosnek, Borówki i Miody')
+@section('meta_description', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA w dolinie Skawy. Oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki oraz naturalne miody z własnej pasieki.')
+
 
 @section('styles')
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&w=1600&q=80">
+    <link rel="preload" as="image" href="{{ asset('assets/img/gospodarstwo-hero.jpg') }}">
 @endsection
 
 @section('content')
@@ -11,7 +13,7 @@
     <section id="start" class="relative w-full h-[75vh] min-h-[520px] flex items-center justify-center bg-slate-900 overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
-             style="background-image: url('https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&w=1600&q=80')">
+             style="background-image: url('{{ asset('assets/img/gospodarstwo-hero.jpg') }}')">
         </div>
         <!-- Bright Light Overlay for Crisp Text Contrast -->
         <div class="absolute inset-0 bg-gradient-to-t from-primary/55 via-primary/25 to-black/15"></div>
@@ -28,7 +30,7 @@
                 Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA
             </h1>
             <p class="font-body text-base md:text-lg lg:text-body-lg mb-8 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
-                Tradycyjna uprawa i ekologiczne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól oferujemy świeże ogórki gruntowe, słynne słoiki ogórków kiszonych, miody oraz wiejskie jajka.
+                Tradycyjna uprawa i ekologiczne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki oraz naturalne miody.
             </p>
 
             <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 px-2 max-w-full">
@@ -59,10 +61,10 @@
                 </p>
             </div>
 
-            <!-- Products Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Products Grid (Centered Flex Layout for 3 Products or Any Count) -->
+            <div class="flex flex-wrap justify-center gap-8">
                 @forelse($farmProducts ?? [] as $product)
-                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group" data-aos="fade-up">
+                    <div class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group" data-aos="fade-up">
                         <div>
                             <!-- Image Box with Status Badge & Price Badge -->
                             <div class="aspect-square w-full bg-slate-100 relative overflow-hidden">
@@ -88,13 +90,10 @@
                             </div>
 
                             <!-- Product Info -->
-                            <div class="p-6 space-y-2">
+                            <div class="p-6">
                                 <h3 class="font-display font-bold text-primary text-xl leading-snug group-hover:text-accent transition-colors">
                                     {{ $product->name }}
                                 </h3>
-                                <p class="text-xs md:text-sm text-slate-600 leading-relaxed">
-                                    {{ $product->description }}
-                                </p>
                             </div>
                         </div>
 

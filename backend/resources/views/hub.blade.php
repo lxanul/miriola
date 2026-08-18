@@ -27,17 +27,48 @@
     <meta name="twitter:description" content="Noclegi, Kawiarnia Rzemieślnicza oraz Ekologiczne Ogórki i Miody w Dolinie Skawy.">
     <meta name="twitter:image" content="{{ asset('assets/img/hero.jpg') }}">
     
+    <!-- Schema.org JSON-LD Structured Data for LocalBusiness & Resort -->
+    <script type="application/ld+json">
+    {
+      "@@context": "https://schema.org",
+      "@@type": "Resort",
+      "name": "Ośrodek Wypoczynkowy MIRiOLA",
+      "image": "{{ asset('assets/img/hero.jpg') }}",
+      "@@id": "{{ url('/') }}",
+      "url": "{{ url('/') }}",
+      "telephone": "+48608103119",
+      "email": "miroslawzadora@wp.pl",
+      "priceRange": "250 zł - 450 zł",
+      "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "ul. Zakopiańska 192",
+        "addressLocality": "Wadowice",
+        "postalCode": "34-100",
+        "addressCountry": "PL"
+      },
+      "geo": {
+        "@@type": "GeoCoordinates",
+        "latitude": 49.8833,
+        "longitude": 19.4833
+      },
+      "openingHoursSpecification": {
+        "@@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    }
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Material Symbols Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS Engine -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{{ asset('assets/js/tailwind-config.js') }}"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     
     <!-- AOS Animation Library -->
@@ -48,22 +79,22 @@
     <!-- Top Header -->
     <header class="w-full py-3.5 sm:py-5 px-3 sm:px-gutter border-b border-primary/10 bg-surface/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-container-max mx-auto flex justify-between items-center gap-2">
-            <a href="{{ url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none shrink-0" aria-label="Strona główna">
-                <img src="{{ asset('images/logo.png') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
+            <a href="{{ url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded shrink-0" aria-label="Strona główna">
+                <img src="{{ asset('images/logo.png') }}" alt="MIRiOLA Logo" width="180" height="48" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
                 <div class="flex flex-col">
                     <span class="font-display text-lg sm:text-xl font-bold text-primary tracking-wide leading-none">MIRiOLA</span>
                     <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary/70 font-bold mt-1">Dolina Skawy</span>
                 </div>
             </a>
             <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
-                <a href="tel:{{ $cms['phone_number'] ?? '+48608103119' }}" class="hidden md:flex items-center gap-2 text-xs font-bold text-primary hover:text-accent transition-colors mr-2">
+                <a href="tel:{{ $cms['phone_number'] ?? '+48608103119' }}" class="hidden md:flex items-center gap-2 text-xs font-bold text-primary hover:text-accent transition-colors mr-2 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
                     <span class="material-symbols-outlined text-sm text-accent">call</span>
                     {{ $cms['phone_number'] ?? '+48 608 103 119' }}
                 </a>
                 
                 <!-- FB Link Badge -->
                 <a href="{{ $cms['facebook_url'] ?? '#' }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()"
-                   class="bg-[#1877F2]/10 hover:bg-[#1877F2] text-[#1877F2] hover:text-white border border-[#1877F2]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none shrink-0"
+                   class="bg-[#1877F2]/10 hover:bg-[#1877F2] text-[#1877F2] hover:text-white border border-[#1877F2]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#1877F2] shrink-0"
                    title="Facebook MIRiOLA">
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current shrink-0" viewBox="0 0 24 24">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -73,7 +104,7 @@
 
                 <!-- OLX Link Badge -->
                 <a href="{{ $cms['olx_url'] ?? '#' }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()"
-                   class="bg-[#002f34]/10 hover:bg-[#002f34] text-[#002f34] hover:text-white border border-[#002f34]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none shrink-0"
+                   class="bg-[#002f34]/10 hover:bg-[#002f34] text-[#002f34] hover:text-white border border-[#002f34]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#002f34] shrink-0"
                    title="Ogłoszenia OLX MIRiOLA">
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current shrink-0" viewBox="0 0 24 24">
                         <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 6H6v-4h6v4z"/>
@@ -83,7 +114,7 @@
 
                 <!-- Instagram Link Badge -->
                 <a href="{{ $cms['instagram_url'] ?? '#' }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()"
-                   class="bg-[#E1306C]/10 hover:bg-[#E1306C] text-[#E1306C] hover:text-white border border-[#E1306C]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none shrink-0"
+                   class="bg-[#E1306C]/10 hover:bg-[#E1306C] text-[#E1306C] hover:text-white border border-[#E1306C]/25 text-[11px] sm:text-xs font-bold py-1.5 sm:py-2 w-[62px] sm:w-[76px] rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 shadow-sm btn-animate hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#E1306C] shrink-0"
                    title="Instagram MIRiOLA">
                     <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current shrink-0" viewBox="0 0 24 24">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -99,15 +130,20 @@
         
         <!-- Welcome Hero Text & Clean Central Logo Showcase -->
         <div class="text-center max-w-3xl mx-auto mb-6 md:mb-8 flex flex-col items-center" data-aos="fade-down">
-            <span class="inline-flex items-center gap-2 bg-primary/5 text-primary text-xs md:text-sm font-bold px-5 py-2 rounded-full uppercase tracking-widest mb-4 border border-primary/10 shadow-xs">
+            <span class="inline-flex items-center gap-2 bg-primary/5 text-primary text-xs md:text-sm font-bold px-5 py-2 rounded-full uppercase tracking-widest mb-3 border border-primary/10 shadow-xs">
                 <span class="w-2.5 h-2.5 rounded-full bg-accent animate-pulse"></span>
                 Witaj w Sercu Doliny Skawy
             </span>
 
+            <h1 class="font-display text-2xl sm:text-3xl md:text-4xl font-bold text-primary tracking-tight mb-4">
+                MIRiOLA – Kompleks Wypoczynkowy w Dolinie Skawy
+            </h1>
+
             <div class="group my-1">
                 <img src="{{ asset('images/logo.png') }}" 
                      alt="MIRiOLA - Witaj w Sercu Doliny Skawy" 
-                     class="h-44 sm:h-60 md:h-72 w-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-500">
+                     width="300" height="256" fetchpriority="high"
+                     class="h-40 sm:h-56 md:h-64 w-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-500">
             </div>
         </div>
 
@@ -210,7 +246,7 @@
                 
                 <!-- Background Image Overlay with Zoom Effect -->
                 <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
-                     style="background-image: url('https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&w=1000&q=80')"></div>
+                     style="background-image: url('{{ asset('assets/img/gospodarstwo-hero.jpg') }}')"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/35 to-black/10"></div>
                 
                 <!-- Content Top Badge -->
@@ -230,15 +266,15 @@
                             Gospodarstwo Ogrodniczo-Pszczelarskie
                         </h2>
                         <p class="text-xs md:text-sm text-white/80 leading-relaxed font-light">
-                            Prosto z naszych pól: tradycyjne ogórki kiszone i gruntowe, naturalne miody oraz wiejskie jajka.
+                            Prosto z naszych pól i pasieki: 3 rodzaje czosnku, świeże borówki oraz naturalne miody z własnego gospodarstwa.
                         </p>
                     </div>
 
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2 pt-2 border-t border-white/15 text-[11px]">
-                        <span class="bg-white/10 px-2.5 py-1 rounded">Ogórki Gruntowe</span>
-                        <span class="bg-white/10 px-2.5 py-1 rounded">Przetwory & Miody</span>
-                        <span class="bg-white/10 px-2.5 py-1 rounded">Zamówienia Tel.</span>
+                        <span class="bg-white/10 px-2.5 py-1 rounded">3 Rodzaje Czosnku</span>
+                        <span class="bg-white/10 px-2.5 py-1 rounded">Świeże Borówki</span>
+                        <span class="bg-white/10 px-2.5 py-1 rounded">Naturalne Miody</span>
                     </div>
 
                     <!-- CTA Button inside card -->
@@ -264,7 +300,7 @@
                     Najnowsze Aktualności & Wydarzenia
                 </h2>
                 <p class="text-on-surface-variant text-sm leading-relaxed">
-                    Bądź na bieżąco z wydarzeniami, warsztatami rzemieślniczymi oraz nowościami w naszym kompleksie.
+                    Bądź na bieżąco z wydarzeniami oraz nowościami w naszym kompleksie.
                 </p>
             </div>
 
@@ -279,6 +315,7 @@
                                 @if($item->image)
                                     <img src="{{ str_starts_with($item->image, 'http') ? $item->image : asset('storage/' . $item->image) }}" 
                                          alt="{{ $item->title }}"
+                                         width="400" height="225"
                                          loading="lazy" decoding="async"
                                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 @else
@@ -286,9 +323,17 @@
                                         <span class="material-symbols-outlined text-5xl">newspaper</span>
                                     </div>
                                 @endif
+                                
+                                @if($item->video_url)
+                                    <div class="absolute inset-0 bg-slate-950/30 flex items-center justify-center group-hover:bg-slate-950/20 transition-colors">
+                                        <div class="w-12 h-12 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center text-primary shadow-lg group-hover:scale-110 transition-transform">
+                                            <span class="material-symbols-outlined text-3xl">play_arrow</span>
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <!-- Category Badge -->
-                                <span class="absolute top-3 left-3 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white {{ $item->branch === 'resort' ? 'bg-primary/90' : ($item->branch === 'jarmark' ? 'bg-amber-600/90' : 'bg-slate-700/90') }}">
+                                <span class="absolute top-3 left-3 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white z-10 {{ $item->branch === 'resort' ? 'bg-primary/90' : ($item->branch === 'jarmark' ? 'bg-amber-600/90' : 'bg-slate-700/90') }}">
                                     {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : '🌐 Ogólne') }}
                                 </span>
                             </div>
@@ -310,8 +355,8 @@
 
                         <!-- Read More Footer -->
                         <div class="p-6 pt-0 flex items-center text-xs font-bold text-accent group-hover:translate-x-1 transition-transform">
-                            <span>Czytaj cały artykuł</span>
-                            <span class="material-symbols-outlined text-base ml-1">arrow_forward</span>
+                            <span>{{ $item->video_url ? 'Obejrzyj wideo' : 'Czytaj cały artykuł' }}</span>
+                            <span class="material-symbols-outlined text-base ml-1">{{ $item->video_url ? 'play_circle' : 'arrow_forward' }}</span>
                         </div>
                     </article>
                 @endforeach
@@ -321,7 +366,7 @@
             <div class="mt-10 text-center">
                 <a href="{{ url('/aktualnosci') }}" class="inline-flex items-center gap-2 bg-primary text-white font-bold py-3.5 px-8 rounded-xl hover:bg-primary/90 transition-all shadow-md hover:shadow-lg btn-animate text-xs uppercase tracking-wider">
                     <span>Zobacz wszystkie aktualności</span>
-                    <span class="material-symbols-outlined text-lg">newspaper</span>
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
                 </a>
             </div>
         </section>
@@ -342,13 +387,17 @@
 
     <!-- News Article Full-Screen Modal -->
     <div id="hub-news-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 p-4" onclick="closeHubNewsModal()">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
+            <button onclick="closeHubNewsModal()" class="absolute top-4 right-4 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors shadow-lg z-20">
+                <span class="material-symbols-outlined text-xl">close</span>
+            </button>
+            
+            <!-- Modal Video Container -->
+            <div id="hub-modal-video-container" class="hidden rounded-t-2xl overflow-hidden bg-black"></div>
+
             <!-- Modal Header Image -->
-            <div class="relative h-64 bg-slate-100">
+            <div id="hub-modal-image-wrapper" class="relative h-64 bg-slate-100 hidden rounded-t-2xl overflow-hidden">
                 <img id="hub-modal-news-image" src="" alt="Zdjęcie artykułu aktualności MIRiOLA" class="w-full h-full object-cover">
-                <button onclick="closeHubNewsModal()" class="absolute top-4 right-4 bg-slate-900/60 hover:bg-slate-900 text-white rounded-full w-10 h-10 flex items-center justify-center transition-colors shadow-lg">
-                    <span class="material-symbols-outlined text-xl">close</span>
-                </button>
             </div>
             <!-- Modal Body -->
             <div class="p-6 md:p-8 space-y-4">
@@ -365,7 +414,10 @@
     <!-- Footer -->
     <footer class="w-full py-8 px-gutter border-t border-primary/10 bg-surface text-center text-xs text-on-surface-variant">
         <div class="max-w-container-max mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>&copy; {{ date('Y') }} MIRiOLA. Wszelkie prawa zastrzeżone.</p>
+            <div class="flex items-center gap-2.5">
+                <img src="{{ asset('favicon.png') }}" alt="MIRiOLA Logo" class="h-7 w-auto object-contain">
+                <p>&copy; {{ date('Y') }} MIRiOLA. Wszelkie prawa zastrzeżone.</p>
+            </div>
             <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6">
                 <a href="{{ url('/osrodek') }}" class="hover:text-primary transition-colors whitespace-nowrap">Ośrodek</a>
                 <a href="{{ url('/jarmark') }}" class="hover:text-primary transition-colors whitespace-nowrap">Jarmark &amp; Kawiarnia</a>
@@ -410,12 +462,35 @@
                 badge.className = 'text-xs font-bold px-3 py-1 rounded-full text-white bg-slate-700';
             }
 
-            const img = document.getElementById('hub-modal-news-image');
-            if (item.image) {
-                img.src = item.image.startsWith('http') ? item.image : '/storage/' + item.image;
-                img.parentElement.style.display = 'block';
+            const videoContainer = document.getElementById('hub-modal-video-container');
+            const imgWrapper = document.getElementById('hub-modal-image-wrapper');
+            videoContainer.innerHTML = '';
+
+            if (item.video_url && item.video_url.trim() !== '') {
+                videoContainer.classList.remove('hidden');
+                imgWrapper.classList.add('hidden');
+                const videoUrl = item.video_url;
+                if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                    let embedUrl = videoUrl;
+                    if (videoUrl.includes('watch?v=')) {
+                        embedUrl = videoUrl.replace('watch?v=', 'embed/');
+                    } else if (videoUrl.includes('youtu.be/')) {
+                        embedUrl = videoUrl.replace('youtu.be/', 'youtube.com/embed/');
+                    }
+                    videoContainer.innerHTML = `<iframe src="${embedUrl}" class="w-full h-72 rounded-t-2xl" frameborder="0" allowfullscreen></iframe>`;
+                } else {
+                    const src = videoUrl.startsWith('http') ? videoUrl : `/storage/${videoUrl}`;
+                    videoContainer.innerHTML = `<video src="${src}" controls autoplay class="w-full h-72 rounded-t-2xl object-cover bg-black"></video>`;
+                }
             } else {
-                img.parentElement.style.display = 'none';
+                videoContainer.classList.add('hidden');
+                const img = document.getElementById('hub-modal-news-image');
+                if (item.image) {
+                    img.src = item.image.startsWith('http') ? item.image : '/storage/' + item.image;
+                    imgWrapper.classList.remove('hidden');
+                } else {
+                    imgWrapper.classList.add('hidden');
+                }
             }
 
             const modal = document.getElementById('hub-news-modal');
@@ -431,6 +506,9 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
             modal.querySelector('div').classList.add('scale-95');
             document.body.style.overflow = 'auto';
+            // Stop video playback (YouTube iframe / HTML5 video) on close
+            const vc = document.getElementById('hub-modal-video-container');
+            if (vc) vc.innerHTML = '';
         }
 
         document.addEventListener('keydown', (e) => {

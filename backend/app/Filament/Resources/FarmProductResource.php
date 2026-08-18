@@ -3,25 +3,25 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FarmProductResource\Pages;
-use App\Filament\Resources\FarmProductResource\RelationManagers;
 use App\Models\FarmProduct;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FarmProductResource extends Resource
 {
     protected static ?string $model = FarmProduct::class;
 
     protected static ?string $modelLabel = 'Produkt Rolny';
+
     protected static ?string $pluralModelLabel = 'Oferta Produktów Rolnych';
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
+
     protected static ?string $navigationGroup = 'Gospodarstwo Rolne';
+
     protected static ?string $navigationLabel = 'Oferta Produktów Rolnych';
 
     public static function form(Form $form): Form
@@ -29,23 +29,10 @@ class FarmProductResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Nazwa Produktu (np. Ogórki Kiszone, Miód)')
+                    ->label('Nazwa Produktu (np. Czosnek, Borówka, Miód)')
                     ->required(),
-                Forms\Components\Textarea::make('description')
-                    ->label('Opis Produktu')
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('unit_name')
-                    ->label('Jednostka / Opakowanie (np. słoik 900ml, kg, skrzynka)')
-                    ->maxLength(255)
-                    ->default('słoik 900ml'),
-                // Cena była w bazie, ale nie dało się jej zmienić z panelu. H-18.
-                Forms\Components\TextInput::make('unit_price')
-                    ->label('Cena za jednostkę')
-                    ->numeric()
-                    ->minValue(0)
-                    ->prefix('zł'),
                 Forms\Components\FileUpload::make('image')
-                    ->label('Zdjęcie Produktu')
+                    ->label('Zdjęcie Produktu (opcjonalne)')
                     ->image()
                     ->disk('public')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
@@ -77,8 +64,6 @@ class FarmProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nazwa Produktu')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('unit_name')
-                    ->label('Jednostka'),
                 Tables\Columns\IconColumn::make('is_available')
                     ->label('Dostępność')
                     ->boolean(),

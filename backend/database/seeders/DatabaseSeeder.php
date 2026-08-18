@@ -2,14 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attraction;
+use App\Models\CafeMenuItem;
+use App\Models\CmsContent;
+use App\Models\Faq;
+use App\Models\FarmProduct;
+use App\Models\GalleryImage;
+use App\Models\News;
+use App\Models\Reservation;
+use App\Models\RestaurantHall;
+use App\Models\Room;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
-use App\Models\News;
-use App\Models\RestaurantHall;
-use App\Models\CafeMenuItem;
-use App\Models\Attraction;
-use App\Models\FarmProduct;
-use App\Models\CmsContent;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,9 +27,9 @@ class DatabaseSeeder extends Seeder
      * zdjęciami. Bez tego każde `db:seed` podmieniało zdjęcia wgrane przez
      * właściciela z powrotem na linki z Unsplash.
      *
-     * @param  class-string<\Illuminate\Database\Eloquent\Model>  $model
+     * @param  class-string<Model>  $model
      */
-    private function upsert(string $model, array $key, array $attributes): \Illuminate\Database\Eloquent\Model
+    private function upsert(string $model, array $key, array $attributes): Model
     {
         $existing = $model::where($key)->first();
 
@@ -41,14 +47,14 @@ class DatabaseSeeder extends Seeder
         //    (/admin/profile), a konta zakłada się w „Ustawienia → Konta
         //    administratorów". Dlatego seeder nigdy nie nadpisuje istniejącego
         //    konta — ponowne `db:seed` nie cofnie zmienionego hasła.
-        if (! \App\Models\User::where('is_admin', true)->exists()) {
+        if (! User::where('is_admin', true)->exists()) {
             throw_if(
                 blank(config('app.admin_password')),
                 \RuntimeException::class,
                 'Brak konta administratora, a ADMIN_PASSWORD nie jest ustawione — ustaw je w .env, żeby utworzyć pierwsze konto.'
             );
 
-            $admin = \App\Models\User::updateOrCreate(
+            $admin = User::updateOrCreate(
                 ['email' => config('app.admin_email')],
                 [
                     'name' => 'Administrator',
@@ -61,7 +67,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // 1. Restaurant Halls
-        $this->upsert(RestaurantHall::class, 
+        $this->upsert(RestaurantHall::class,
             ['slug' => 'sala-glowna-biesiadna'],
             [
                 'name' => 'Sala Główna Biesiadna',
@@ -74,13 +80,13 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(RestaurantHall::class, 
+        $this->upsert(RestaurantHall::class,
             ['slug' => 'sala-kameralna-tarasowa'],
             [
                 'name' => 'Sala Kameralna Tarasowa',
                 'subtitle' => 'Kameralna atmosfera z panoramicznym widokiem na Dolinę Skawy',
                 'capacity' => 45,
-                'description' => 'Jasna i przytulna sala usytuowana na piętrze, z wyjściem na rozległy zadaszony taras. Doskonała na kameralne przyjęcia rodzinne, warsztaty, kolacje biznesowe czy jubileusze z pięknym widokiem na naturę.',
+                'description' => 'Jasna i przytulna sala usytuowana na piętrze, z wyjściem na rozległy zadaszony taras. Doskonała na kameralne przyjęcia rodzinne, spotkania biznesowe czy jubileusze z pięknym widokiem na naturę.',
                 'main_image' => 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80',
                 'features' => ['Zadaszony taras', 'Widok na dolinę', 'WiFi', 'Kameralny wystrój', 'Klimatyzacja'],
                 'sort_order' => 2,
@@ -88,7 +94,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // 2. News / Aktualności
-        $this->upsert(News::class, 
+        $this->upsert(News::class,
             ['slug' => 'otwarcie-sezonu-letniego-2026'],
             [
                 'title' => 'Otwarcie Sezonu Letniego w Ośrodku MIRiOLA',
@@ -101,20 +107,20 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(News::class, 
-            ['slug' => 'warsztaty-rekodziela-i-kawiarnia-jarmark'],
+        $this->upsert(News::class,
+            ['slug' => 'nowosci-w-kawiarni-jarmark'],
             [
-                'title' => 'Nowe Menu Kawiarni & Rzemieślnicze Warsztaty w Jarmarku',
+                'title' => 'Nowe Menu i Wyjątkowa Kawa w Kawiarni Jarmark',
                 'branch' => 'jarmark',
-                'excerpt' => 'W każdy weekend zapraszamy do naszej Kawiarni na domowe serniki oraz warsztaty dla dzieci.',
-                'content' => 'Centrum Edukacyjno-Handlowe Jarmark wzbogaca ofertę kawiarnianą o świeżo paloną kawę rzemieślniczą oraz lokalne wypieki. Zachęcamy do udziału w weekendowych pokazach dawnych rzemiosł!',
+                'excerpt' => 'W każdy weekend zapraszamy do naszej Kawiarni na domowe serniki i rzemieślniczą kawę.',
+                'content' => 'Jarmark MIRiOLA wzbogaca ofertę kawiarnianą o świeżo paloną kawę rzemieślniczą oraz lokalne wypieki. Zachęcamy do spędzenia wolnego czasu w naszej klimatycznej strefie plenerowej!',
                 'image' => 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
                 'is_published' => true,
                 'published_at' => now(),
             ]
         );
 
-        $this->upsert(News::class, 
+        $this->upsert(News::class,
             ['slug' => 'zbiory-ogorkow-gruntowych-gospodarstwo'],
             [
                 'title' => 'Ruszyły Zbiory Świeżych Ogórków Gruntowych!',
@@ -128,57 +134,63 @@ class DatabaseSeeder extends Seeder
         );
 
         // 3. Cafe Menu Items
-        $this->upsert(CafeMenuItem::class, 
-            ['name' => 'Espresso Rzemieślnicze'],
-            [
-                'category' => 'kawy',
-                'description' => 'Intensywne espresso z wyselekcjonowanych ziaren Arabica 100%',
-                'price' => 10.00,
-                'image' => 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80',
-                'is_available' => true,
-                'sort_order' => 1,
-            ]
-        );
+        CafeMenuItem::truncate();
 
-        $this->upsert(CafeMenuItem::class, 
-            ['name' => 'Cappuccino z Pianką'],
-            [
-                'category' => 'kawy',
-                'description' => 'Klasyczne cappuccino na bazie świeżego wiejskiego mleka',
-                'price' => 14.00,
-                'image' => 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=600&q=80',
-                'is_available' => true,
-                'sort_order' => 2,
-            ]
-        );
+        $menuData = [
+            // Kawy & Napoje
+            ['name' => 'Espresso', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Kawa Czarna', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Kawa Latte', 'category' => 'kawy_napoje', 'is_featured' => true],
+            ['name' => 'Cappuccino', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Flat White', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Macchiato', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Podwójne Espresso', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Kawa Mrożona', 'category' => 'kawy_napoje', 'is_featured' => true],
+            ['name' => 'Kawa z Lodami', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Grzaniec Jabłkowy (duży / mały)', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Lemoniada w Butelce', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Napój w Puszce (duża / mała)', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Sok Owocowy 100%', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Sok Mandarynkowy (w kubku 0.25l)', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Woda Mineralna (0.50l)', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Herbata', 'category' => 'kawy_napoje', 'is_featured' => false],
+            ['name' => 'Piwo Łomża 0,0% (0.5l)', 'category' => 'kawy_napoje', 'is_featured' => false],
 
-        $this->upsert(CafeMenuItem::class, 
-            ['name' => 'Domowy Sernik z Malinami'],
-            [
-                'category' => 'ciasta',
-                'description' => 'Pieczołowicie przygotowany domowy sernik na bazie lokalnego twarogu z malinową konfiturą',
-                'price' => 18.00,
-                'image' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=600&q=80',
-                'is_available' => true,
-                'is_featured' => true,
-                'sort_order' => 3,
-            ]
-        );
+            // Lody
+            ['name' => 'Świderki Bezglutenowe - Śmietankowe', 'category' => 'lody', 'is_featured' => true],
+            ['name' => 'Świderki Bezglutenowe - Czekoladowe', 'category' => 'lody', 'is_featured' => false],
+            ['name' => 'Świderki Bezglutenowe - Czekoladowo-Śmietankowe', 'category' => 'lody', 'is_featured' => false],
+            ['name' => 'Świderki Bezglutenowe - Truskawkowe', 'category' => 'lody', 'is_featured' => false],
+            ['name' => 'Dodatki do Lodów (Posypka, Wafelek, Polewa)', 'category' => 'lody', 'is_featured' => false],
 
-        $this->upsert(CafeMenuItem::class, 
-            ['name' => 'Szarlotka na Ciepło z Lodami'],
-            [
-                'category' => 'ciasta',
-                'description' => 'Chrupiąca szarlotka z jabłkami z wiejskiego sadu, serwowana z gałką lodów waniliowych',
-                'price' => 19.00,
-                'image' => 'https://images.unsplash.com/photo-1568571780765-9276ac8b75a2?auto=format&fit=crop&w=600&q=80',
+            // Gofry
+            ['name' => 'Gofry Solo', 'category' => 'gofry', 'is_featured' => true],
+            ['name' => 'Dodatki do Gofrów (Cukier Puder, Dżem, Nutella, Śmietana, Polewa, Owoce, Miód)', 'category' => 'gofry', 'is_featured' => false],
+
+            // Desery
+            ['name' => 'Lody + Bita Śmietana bez laktozy + Owoce + Polewa', 'category' => 'desery', 'is_featured' => true],
+            ['name' => 'Bita Śmietana + Owoce + Polewa do wyboru', 'category' => 'desery', 'is_featured' => false],
+            ['name' => 'Jabłecznik z Lodami i Śmietaną', 'category' => 'desery', 'is_featured' => true],
+            ['name' => 'Jabłecznik Domowy', 'category' => 'desery', 'is_featured' => false],
+            ['name' => 'Rurka z Bitą Śmietaną', 'category' => 'desery', 'is_featured' => false],
+
+            // Zapiekanki
+            ['name' => 'Zapiekanka Giga (Pieczarki, Ser)', 'category' => 'zapiekanki', 'is_featured' => true],
+            ['name' => 'Zapiekanka Mała (Pieczarki, Ser)', 'category' => 'zapiekanki', 'is_featured' => false],
+            ['name' => 'Dodatek: Cebulka Prażona', 'category' => 'zapiekanki', 'is_featured' => false],
+        ];
+
+        foreach ($menuData as $item) {
+            CafeMenuItem::create([
+                'name' => $item['name'],
+                'category' => $item['category'],
                 'is_available' => true,
-                'sort_order' => 4,
-            ]
-        );
+                'is_featured' => $item['is_featured'],
+            ]);
+        }
 
         // 4. Attractions for Jarmark & Resort
-        $this->upsert(Attraction::class, 
+        $this->upsert(Attraction::class,
             ['title' => 'Dmuchany Plac Zabaw dla Dzieci'],
             [
                 'branch' => 'jarmark',
@@ -189,7 +201,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(Attraction::class, 
+        $this->upsert(Attraction::class,
             ['title' => 'Sferyczny Namiot Plenerowy MIRiOLA'],
             [
                 'branch' => 'jarmark',
@@ -200,7 +212,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(Attraction::class, 
+        $this->upsert(Attraction::class,
             ['title' => 'Strefa Kawiarniana & Leżaki na Trawie'],
             [
                 'branch' => 'jarmark',
@@ -251,7 +263,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 4b. Seed FAQs
-        $this->upsert(\App\Models\Faq::class, 
+        $this->upsert(Faq::class,
             ['question' => 'Jak daleko jest do jeziora?'],
             [
                 'answer' => 'Nasz ośrodek znajduje się zaledwie 1 km od zapory wodnej w Świnnej Porębie (Jezioro Mucharskie), w malowniczej dolinie Skawy.',
@@ -262,9 +274,9 @@ class DatabaseSeeder extends Seeder
         );
 
         // Delete old pets question if exists
-        \App\Models\Faq::where('question', 'LIKE', '%zwierzęta%')->delete();
+        Faq::where('question', 'LIKE', '%zwierzęta%')->delete();
 
-        $this->upsert(\App\Models\Faq::class, 
+        $this->upsert(Faq::class,
             ['question' => 'Czy w ośrodku oferowane są śniadania?'],
             [
                 'answer' => 'Tak! Ośrodek prowadzi wyśmienite śniadania w naszej klimatycznej Sali Rycerskiej. Serwujemy obfity bufet oraz świeże lokalne produkty.',
@@ -274,7 +286,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(\App\Models\Faq::class, 
+        $this->upsert(Faq::class,
             ['question' => 'Jakie są godziny zameldowania?'],
             [
                 'answer' => 'Doba hotelowa rozpoczyna się o godzinie 14:00 w dniu przyjazdu, a kończy o godzinie 11:00 w dniu wyjazdu.',
@@ -284,7 +296,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $this->upsert(\App\Models\Faq::class, 
+        $this->upsert(Faq::class,
             ['question' => 'Czy na terenie obiektu jest parking?'],
             [
                 'answer' => 'Tak, zapewniamy bezpłatny, ogrodzony i monitorowany parking dla wszystkich naszych gości.',
@@ -293,16 +305,36 @@ class DatabaseSeeder extends Seeder
                 'is_published' => true,
             ]
         );
+
+        $this->upsert(Faq::class,
+            ['question' => 'W jakich godzinach otwarta jest Kawiarnia Jarmark?'],
+            [
+                'answer' => 'Kawiarnia Jarmark jest otwarta od poniedziałku do piątku w godzinach 15:00 - 20:00, a w weekendy (sobota-niedziela) w godzinach 10:00 - 20:00.',
+                'branch' => 'jarmark',
+                'sort_order' => 1,
+                'is_published' => true,
+            ]
+        );
+
+        $this->upsert(Faq::class,
+            ['question' => 'Czy strefa relaksu i dmuchaniec dla dzieci są płatne?'],
+            [
+                'answer' => 'Korzystanie ze strefy ogrodowej, leżaków oraz dmuchanego placu zabaw jest bezpłatne dla klientów naszej kawiarni.',
+                'branch' => 'jarmark',
+                'sort_order' => 2,
+                'is_published' => true,
+            ]
+        );
         // truncate() also destroyed admin-uploaded gallery items. See REVIEW.md CR-2.
-        \App\Models\GalleryImage::whereIn('title', [
+        GalleryImage::whereIn('title', [
             'Ośrodek MIRiOLA i otaczający ogród',
             'Strefa Relaksu i Jacuzzi',
             'Stylowe pokoje i domki',
             'Duża Wiata Biesiadna',
             'Krajobraz Doliny Skawy',
         ])->delete();
-        
-        \App\Models\GalleryImage::create([
+
+        GalleryImage::create([
             'title' => 'Ośrodek MIRiOLA i otaczający ogród',
             'image' => 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80',
             'branch' => 'resort',
@@ -310,7 +342,7 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        \App\Models\GalleryImage::create([
+        GalleryImage::create([
             'title' => 'Strefa Relaksu i Jacuzzi',
             'image' => 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80',
             'branch' => 'resort',
@@ -318,7 +350,7 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        \App\Models\GalleryImage::create([
+        GalleryImage::create([
             'title' => 'Stylowe pokoje i domki',
             'image' => 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=1200&q=80',
             'branch' => 'resort',
@@ -326,7 +358,7 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        \App\Models\GalleryImage::create([
+        GalleryImage::create([
             'title' => 'Duża Wiata Biesiadna',
             'image' => 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=80',
             'branch' => 'resort',
@@ -334,7 +366,7 @@ class DatabaseSeeder extends Seeder
             'is_published' => true,
         ]);
 
-        \App\Models\GalleryImage::create([
+        GalleryImage::create([
             'title' => 'Krajobraz Doliny Skawy',
             'image' => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
             'branch' => 'resort',
@@ -343,55 +375,44 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // 5. Farm Products
-        $this->upsert(FarmProduct::class, 
-            ['name' => 'Ogórki Gruntowe Ekologiczne'],
+        FarmProduct::truncate();
+
+        $this->upsert(FarmProduct::class,
+            ['name' => 'Czosnek Ekologiczny (3 Rodzaje)'],
             [
-                'description' => 'Świeżo rwane ogórki idealne do małosolnych lub kwaszenia w słoikach.',
-                'unit_price' => 7.50,
-                'unit_name' => 'kg',
-                'image' => 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&w=600&q=80',
+                'description' => '',
+                'unit_price' => 25.00,
+                'unit_name' => 'kg / pęczek',
+                'image' => 'assets/img/czosnek.jpg',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 1,
             ]
         );
 
-        $this->upsert(FarmProduct::class, 
-            ['name' => 'Domowe Ogórki Kiszone (Słoik 900ml)'],
+        $this->upsert(FarmProduct::class,
+            ['name' => 'Borówka Amerykańska'],
             [
-                'description' => 'Tradycyjne polskie ogórki kiszone z dodatkiem czosnku, chrzanu i kopru według naszej receptury.',
-                'unit_price' => 15.00,
-                'unit_name' => 'słoik',
-                'image' => 'https://images.unsplash.com/photo-1590779033100-9f60a05a013d?auto=format&fit=crop&w=600&q=80',
+                'description' => '',
+                'unit_price' => 25.00,
+                'unit_name' => 'kg',
+                'image' => 'assets/img/borowka.jpg',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 2,
             ]
         );
 
-        $this->upsert(FarmProduct::class, 
-            ['name' => 'Miód Spadziowy z Pasieki MIRiOLA'],
+        $this->upsert(FarmProduct::class,
+            ['name' => 'Miód Naturalny z Pasieki MIRiOLA'],
             [
-                'description' => 'Naturalny, głęboki w smaku miód z czystych lasów doliny Skawy.',
+                'description' => '',
                 'unit_price' => 45.00,
                 'unit_name' => 'słoik 1kg',
-                'image' => 'https://images.unsplash.com/photo-1587049352847-4a222e784d38?auto=format&fit=crop&w=600&q=80',
+                'image' => 'assets/img/miod.jpg',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 3,
-            ]
-        );
-
-        $this->upsert(FarmProduct::class, 
-            ['name' => 'Jajka Wiejskie z Wolnego Wybiegu'],
-            [
-                'description' => 'Świeże jajka od kur żywionych naturalnym ziarnem w naszym gospodarstwie.',
-                'unit_price' => 16.00,
-                'unit_name' => '10 szt.',
-                'image' => 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=600&q=80',
-                'is_available' => true,
-                'phone_contact' => '+48608103119',
-                'sort_order' => 4,
             ]
         );
 
@@ -409,29 +430,31 @@ class DatabaseSeeder extends Seeder
             ['key' => 'osrodek_hero_title', 'label' => 'Ośrodek - Tytuł Nagłówka Hero', 'value' => 'Odkryj spokój w sercu doliny Skawy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'osrodek_hero_description', 'label' => 'Ośrodek - Opis Nagłówka Hero', 'value' => 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego', 'type' => 'textarea', 'group' => 'resort'],
             ['key' => 'room1_title', 'label' => 'Pokój 1 - Tytuł', 'value' => 'Pokój 2-osobowy', 'type' => 'text', 'group' => 'resort'],
-            ['key' => 'room1_price', 'label' => 'Pokój 1 - Cena', 'value' => 'od 250 zł / noc', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room1_description', 'label' => 'Pokój 1 - Opis', 'value' => 'Kameralny i elegancki pokój z dużym łóżkiem dwuosobowym, idealny dla par szukających relaksu z pięknym widokiem na okolicę.', 'type' => 'textarea', 'group' => 'resort'],
 
             ['key' => 'room2_title', 'label' => 'Pokój 2 - Tytuł', 'value' => 'Apartament Rodzinny', 'type' => 'text', 'group' => 'resort'],
-            ['key' => 'room2_price', 'label' => 'Pokój 2 - Cena', 'value' => 'od 450 zł / noc', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room2_description', 'label' => 'Pokój 2 - Opis', 'value' => 'Przestronny apartament dla całej rodziny, wyposażony w aneks kuchenny, komfortową część wypoczynkową oraz duży taras z widokiem.', 'type' => 'textarea', 'group' => 'resort'],
 
             ['key' => 'room3_title', 'label' => 'Pokój 3 - Tytuł', 'value' => 'Domek Letniskowy', 'type' => 'text', 'group' => 'resort'],
-            ['key' => 'room3_price', 'label' => 'Pokój 3 - Cena', 'value' => 'od 350 zł / noc', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room3_description', 'label' => 'Pokój 3 - Opis', 'value' => 'Samodzielny domek w otoczeniu zielonego ogrodu. Zapewnia całkowitą prywatność, posiada przytulny salon z kominkiem oraz aneks.', 'type' => 'textarea', 'group' => 'resort'],
 
             // Jarmark
             ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Rzemieślnicza', 'type' => 'text', 'group' => 'jarmark'],
-            ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz warsztaty kulinarno-artystyczne.', 'type' => 'textarea', 'group' => 'jarmark'],
+            ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz klimatyczną strefę spotkań.', 'type' => 'textarea', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_kawy_napoje', 'label' => 'Kawiarnia - Zdjęcie kategorii Kawy & Napoje', 'value' => 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_lody', 'label' => 'Kawiarnia - Zdjęcie kategorii Lody', 'value' => 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_gofry', 'label' => 'Kawiarnia - Zdjęcie kategorii Gofry', 'value' => 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_desery', 'label' => 'Kawiarnia - Zdjęcie kategorii Desery', 'value' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_zapiekanki', 'label' => 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'value' => 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
 
             // Gospodarstwo
             ['key' => 'gospodarstwo_hero_title', 'label' => 'Gospodarstwo - Tytuł Nagłówka', 'value' => 'Gospodarstwo Rolne MIRiOLA', 'type' => 'text', 'group' => 'farm'],
-            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjne uprawy, ekologiczne przetwory i wiejskie produkty prosto od rolnika w Dolinie Skawy.', 'type' => 'textarea', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjne uprawy, 3 rodzaje czosnku, świeże borówki oraz naturalny miód prosto z naszego gospodarstwa w Dolinie Skawy.', 'type' => 'textarea', 'group' => 'farm'],
             ['key' => 'gospodarstwo_phone', 'label' => 'Gospodarstwo - Telefon do zamówień', 'value' => '+48 608 103 119', 'type' => 'text', 'group' => 'farm'],
         ];
 
         foreach ($cmsFields as $field) {
-            $this->upsert(CmsContent::class, 
+            $this->upsert(CmsContent::class,
                 ['key' => $field['key']],
                 $field
             );
@@ -447,7 +470,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Pokój 6-osobowy',
                 'capacity' => 6,
                 'price_per_night' => 250.00,
-                'is_available' => true,
                 'sort_order' => 1,
                 'amenities' => ['Pokój normalny', 'Max 6 osób', '6 łóżek pojedynczych', 'Wystrój pomarańczowy'],
                 'images' => [
@@ -461,7 +483,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Pokój 5-osobowy',
                 'capacity' => 5,
                 'price_per_night' => 240.00,
-                'is_available' => true,
                 'sort_order' => 2,
                 'amenities' => ['Pokój normalny', 'Max 5 osób', '5 łóżek pojedynczych', 'Wystrój borówkowy'],
                 'images' => [
@@ -475,7 +496,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Apartament 2-pokojowy',
                 'capacity' => 6,
                 'price_per_night' => 450.00,
-                'is_available' => true,
                 'sort_order' => 3,
                 'amenities' => ['Apartament 2-pokojowy', 'Max 6 osób', 'Stylowy akcent oliwkowy'],
                 'images' => [
@@ -489,7 +509,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Apartament 2-poziomowy',
                 'capacity' => 5,
                 'price_per_night' => 460.00,
-                'is_available' => true,
                 'sort_order' => 4,
                 'amenities' => ['Apartament 2-pokojowy', 'Dwupoziomowy', 'Max 5 osób', 'Wystrój Tiramisu'],
                 'images' => [
@@ -503,7 +522,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Pokój 5-osobowy',
                 'capacity' => 5,
                 'price_per_night' => 250.00,
-                'is_available' => true,
                 'sort_order' => 5,
                 'amenities' => ['Max 5 osób', '1 łóżko podwójne', '3 łóżka pojedyncze', 'Wystrój cytrynowy'],
                 'images' => [
@@ -516,7 +534,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Domek Letniskowy',
                 'capacity' => 4,
                 'price_per_night' => 350.00,
-                'is_available' => true,
                 'sort_order' => 6,
                 'amenities' => ['Domek 4 os.', '1 łóżko podwójne', '2 łóżka pojedyncze'],
                 'images' => [
@@ -529,7 +546,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Domek Letniskowy',
                 'capacity' => 4,
                 'price_per_night' => 350.00,
-                'is_available' => true,
                 'sort_order' => 7,
                 'amenities' => ['Domek 4 os.', '1 łóżko podwójne', '2 łóżka pojedyncze'],
                 'images' => [
@@ -542,7 +558,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Domek Letniskowy',
                 'capacity' => 4,
                 'price_per_night' => 350.00,
-                'is_available' => true,
                 'sort_order' => 8,
                 'amenities' => ['Domek 4 os.', '1 łóżko podwójne', '2 łóżka pojedyncze'],
                 'images' => [
@@ -555,7 +570,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Domek z aneksem',
                 'capacity' => 4,
                 'price_per_night' => 380.00,
-                'is_available' => true,
                 'sort_order' => 9,
                 'amenities' => ['Domek 4 os.', '1 łóżko podwójne', '2 łóżka pojedyncze', 'Aneks kuchenny'],
                 'images' => [
@@ -568,7 +582,6 @@ class DatabaseSeeder extends Seeder
                 'room_type' => 'Domek 2-pokojowy',
                 'capacity' => 5,
                 'price_per_night' => 420.00,
-                'is_available' => true,
                 'sort_order' => 10,
                 'amenities' => ['Domek VIP Via 2-pokojowy', 'Max 5 osób'],
                 'images' => [
@@ -579,18 +592,18 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($roomsData as $room) {
-            $this->upsert(\App\Models\Room::class, ['name' => $room['name']], $room);
+            $this->upsert(Room::class, ['name' => $room['name']], $room);
         }
 
         // 8. Seed Sample Reservations
         // These matched no seeded room ('103'/'202'/'Domek Letniskowy 2' do not
         // exist), so no reservation was ever seeded. See REVIEW.md M-13.
-        $room103 = \App\Models\Room::where('name', 'Pokój Pomarańczowy')->first();
-        $room202 = \App\Models\Room::where('name', 'Apartament Oliwkowy')->first();
-        $domek2 = \App\Models\Room::where('name', 'Domek nr 2')->first();
+        $room103 = Room::where('name', 'Pokój Pomarańczowy')->first();
+        $room202 = Room::where('name', 'Apartament Oliwkowy')->first();
+        $domek2 = Room::where('name', 'Domek nr 2')->first();
 
         if ($room103) {
-            $this->upsert(\App\Models\Reservation::class, 
+            $this->upsert(Reservation::class,
                 // Match key must equal the stored value or updateOrCreate never
                 // matches its own row and duplicates on every reseed.
                 ['guest_phone' => '601 222 333', 'room_id' => $room103->id],
@@ -608,7 +621,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if ($room202) {
-            $this->upsert(\App\Models\Reservation::class, 
+            $this->upsert(Reservation::class,
                 ['guest_phone' => '699 444 555', 'room_id' => $room202->id],
                 [
                     'guest_name' => 'Anna i Marek Nowak',
@@ -624,7 +637,7 @@ class DatabaseSeeder extends Seeder
         }
 
         if ($domek2) {
-            $this->upsert(\App\Models\Reservation::class, 
+            $this->upsert(Reservation::class,
                 ['guest_phone' => '505 111 888', 'room_id' => $domek2->id],
                 [
                     'guest_name' => 'Piotr Wiśniewski',

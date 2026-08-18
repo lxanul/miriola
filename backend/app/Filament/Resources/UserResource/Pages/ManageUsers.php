@@ -16,7 +16,7 @@ class ManageUsers extends ManageRecords
         return [
             Actions\CreateAction::make()
                 ->label('Dodaj konto')
-                ->using(fn (array $data) => UserResource::persist(new User(), $data)),
+                ->using(fn (array $data) => UserResource::persist(new User, $data)),
         ];
     }
 }

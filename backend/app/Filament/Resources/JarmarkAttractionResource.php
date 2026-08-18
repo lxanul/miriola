@@ -16,11 +16,15 @@ class JarmarkAttractionResource extends Resource
     protected static ?string $model = Attraction::class;
 
     protected static ?string $modelLabel = 'Atrakcja Jarmarku';
+
     protected static ?string $pluralModelLabel = 'Atrakcje Jarmarku';
 
     protected static ?string $navigationIcon = 'heroicon-o-ticket';
+
     protected static ?string $navigationGroup = 'Jarmark CEH';
+
     protected static ?string $navigationLabel = 'Atrakcje Jarmarku';
+
     protected static ?int $navigationSort = 2;
 
     public static function getEloquentQuery(): Builder
@@ -90,11 +94,6 @@ class JarmarkAttractionResource extends Resource
                     ->disk('public')
                     ->directory('attractions')
                     ->visibility('public'),
-                Forms\Components\TextInput::make('sort_order')
-                    ->label('Kolejność Wyświetlania')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
             ]);
     }
 

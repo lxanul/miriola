@@ -22,10 +22,10 @@ class FarmProduct extends Model
         'is_available' => 'boolean',
     ];
 
-    public function getImageUrlAttribute(): string
+    public function getImageUrlAttribute(): ?string
     {
         if (blank($this->image)) {
-            return asset('assets/img/czosnek.jpg');
+            return null;
         }
 
         if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {

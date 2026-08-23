@@ -106,11 +106,21 @@
                     <div class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group" data-aos="fade-up">
                         <div>
                             <!-- Image Box with Status Badge & Price Badge -->
-                            <div class="aspect-square w-full bg-slate-100 relative overflow-hidden">
-                                <img src="{{ $product->image_url }}" 
-                                     alt="{{ $product->name }}" 
-                                     loading="lazy" decoding="async" width="400" height="400"
-                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 {{ !$product->is_available ? 'grayscale opacity-75' : '' }}">
+                            <div class="aspect-square w-full bg-slate-100 relative overflow-hidden flex items-center justify-center">
+                                @if(!empty($product->image_url))
+                                    <img src="{{ $product->image_url }}" 
+                                         alt="{{ $product->name }}" 
+                                         loading="lazy" decoding="async" width="400" height="400"
+                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 {{ !$product->is_available ? 'grayscale opacity-75' : '' }}">
+                                @else
+                                    <!-- Elegant Product Icon Placeholder -->
+                                    <div class="w-full h-full bg-gradient-to-br from-emerald-50 via-teal-50/50 to-primary/5 flex flex-col items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-500">
+                                        <div class="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner mb-3">
+                                            <span class="material-symbols-outlined text-4xl">eco</span>
+                                        </div>
+                                        <span class="text-xs uppercase tracking-wider font-bold text-primary/60">Produkt Gospodarstwa</span>
+                                    </div>
+                                @endif
 
                                 <!-- Top Badges Container -->
                                 <div class="absolute inset-x-0 top-0 p-3 flex items-start justify-between gap-2 z-10">

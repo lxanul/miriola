@@ -71,13 +71,13 @@ class CmsContentResource extends Resource
 
                         Forms\Components\Textarea::make('value')
                             ->label('Wartość tekstu / Linku')
+                            ->placeholder('Wpisz tekst, link lub numer telefonu...')
                             ->nullable()
                             ->rows(4)
                             ->columnSpanFull()
-                            // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-2.
                             ->hidden(fn (Forms\Get $get) => $get('type') === 'image'),
 
-                        Forms\Components\FileUpload::make('value')
+                        Forms\Components\FileUpload::make('image_path')
                             ->label('Wgraj grafikę')
                             ->image()
                             ->disk('public')
@@ -85,8 +85,8 @@ class CmsContentResource extends Resource
                             ->maxSize(2048)
                             ->directory('cms-graphics')
                             ->columnSpanFull()
-                            // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-2.
-                            ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
+                            ->hidden(fn (Forms\Get $get) => $get('type') !== 'image')
+                            ->dehydrated(false),
                     ])->columns(2),
             ]);
     }

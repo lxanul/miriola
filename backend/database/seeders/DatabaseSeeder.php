@@ -429,8 +429,12 @@ class DatabaseSeeder extends Seeder
             ['key' => 'tiktok_url', 'label' => 'Link do profilu TikTok', 'value' => 'https://www.tiktok.com/@miriola', 'type' => 'url', 'group' => 'general'],
 
             // Ośrodek
+            ['key' => 'hero_badge', 'label' => 'Ośrodek - Odznaka / Badge Hero', 'value' => 'Komfortowe noclegi w dolinie Skawy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'osrodek_hero_title', 'label' => 'Ośrodek - Tytuł Nagłówka Hero', 'value' => 'Odkryj spokój w sercu doliny Skawy', 'type' => 'text', 'group' => 'resort'],
+            ['key' => 'hero_title', 'label' => 'Ośrodek - Tytuł Główny Hero (Alias)', 'value' => 'Odkryj spokój w sercu doliny Skawy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'osrodek_hero_description', 'label' => 'Ośrodek - Opis Nagłówka Hero', 'value' => 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego', 'type' => 'textarea', 'group' => 'resort'],
+            ['key' => 'hero_description', 'label' => 'Ośrodek - Opis Główny Hero (Alias)', 'value' => 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego', 'type' => 'textarea', 'group' => 'resort'],
+            ['key' => 'rooms_section_title', 'label' => 'Ośrodek - Tytuł Sekcji Pokoje i Domki', 'value' => 'Pokoje i Domki', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room1_title', 'label' => 'Pokój 1 - Tytuł', 'value' => 'Pokój 2-osobowy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room1_description', 'label' => 'Pokój 1 - Opis', 'value' => 'Kameralny i elegancki pokój z dużym łóżkiem dwuosobowym, idealny dla par szukających relaksu z pięknym widokiem na okolicę.', 'type' => 'textarea', 'group' => 'resort'],
 
@@ -440,7 +444,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'room3_title', 'label' => 'Pokój 3 - Tytuł', 'value' => 'Domek Letniskowy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room3_description', 'label' => 'Pokój 3 - Opis', 'value' => 'Samodzielny domek w otoczeniu zielonego ogrodu. Zapewnia całkowitą prywatność, posiada przytulny salon z kominkiem oraz aneks.', 'type' => 'textarea', 'group' => 'resort'],
 
-            ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => null, 'type' => 'image', 'group' => 'resort'],
+            ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => 'assets/img/orl.jpg', 'type' => 'image', 'group' => 'resort'],
 
             // Jarmark
             ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Rzemieślnicza', 'type' => 'text', 'group' => 'jarmark'],

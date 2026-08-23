@@ -60,7 +60,10 @@ class FarmProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Zdjęcie'),
+                    ->label('Zdjęcie')
+                    ->getStateUsing(fn ($record) => $record->image_url)
+                    ->defaultImageUrl(asset('assets/img/placeholder-product.svg'))
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nazwa Produktu')
                     ->searchable(),

@@ -54,6 +54,7 @@ class RestaurantHallResource extends Resource
                     ->suffix('osób'),
                 Forms\Components\Textarea::make('description')
                     ->label('Opis Sali')
+                    ->nullable()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('main_image')
                     ->label('Zdjęcie Główne')
@@ -108,6 +109,11 @@ class RestaurantHallResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
     }
 
     public static function getPages(): array

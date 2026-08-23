@@ -45,15 +45,19 @@ class GalleryImageResource extends Resource
                     ->maxSize(2048)
                     ->directory('gallery'),
                 Forms\Components\TextInput::make('video_url')
-                    ->label('Link do Wideo (YouTube / Vimeo / plik MP4)')
-                    ->placeholder('https://www.youtube.com/watch?v=... lub https://.../film.mp4')
-                    ->url()
+                    ->label('Link do Wideo (YouTube / TikTok / Vimeo / plik MP4)')
+                    ->placeholder('np. https://www.youtube.com/watch?v=... lub https://www.tiktok.com/@user/video/123456789')
+                    ->nullable()
                     ->maxLength(255)
-                    ->rule('regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i')
-                    ->validationMessages([
-                        'regex' => 'Dozwolone są tylko adresy https z YouTube, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-1.
+                    ->hidden(fn (Forms\Get $get): bool => $get('media_type') !== 'video')
+                    ->rules([
+                        'nullable',
+                        'regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com|tiktok\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i',
                     ])
-                    ->visible(fn (Forms\Get $get): bool => $get('media_type') === 'video')
+                    ->validationMessages([
+                        'regex' => 'Dozwolone są tylko adresy https z YouTube, TikTok, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    ])
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('title')
                     ->label('Tytuł / Opis (opcjonalnie)')
@@ -116,6 +120,11 @@ class GalleryImageResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
     }
 
     public static function getPages(): array

@@ -420,11 +420,13 @@ class DatabaseSeeder extends Seeder
         $cmsFields = [
             // Ogólne
             ['key' => 'phone_number', 'label' => 'Telefon główny do rezerwacji', 'value' => '+48 608 103 119', 'type' => 'text', 'group' => 'general'],
+            ['key' => 'phone_number_2', 'label' => 'Telefon dodatkowy do kontaktu', 'value' => '+48 696 312 574', 'type' => 'text', 'group' => 'general'],
             ['key' => 'email_address', 'label' => 'E-mail kontaktowy', 'value' => 'miroslawzadora@wp.pl', 'type' => 'text', 'group' => 'general'],
             ['key' => 'facebook_url', 'label' => 'Link do profilu Facebook (Ośrodek)', 'value' => 'https://www.facebook.com/p/Miriola-noclegi-100057455918786/?locale=pl_PL', 'type' => 'url', 'group' => 'general'],
             ['key' => 'jarmark_facebook_url', 'label' => 'Link do profilu Facebook (Jarmark)', 'value' => 'https://www.facebook.com/jarmark.miriola/', 'type' => 'url', 'group' => 'general'],
             ['key' => 'olx_url', 'label' => 'Link do ogłoszeń OLX', 'value' => 'https://www.olx.pl/d/oferta/noclegi-zator-wadowice-rodziny-wycieczki-grupy-do-45-osob-posilki-hb-CID1816-IDKBWIY.html?isPreviewActive=0&sliderIndex=0&srsltid=AfmBOoqYM6MhpIRkEbA7QBXh6SWkobLNq8khCjq-ojhLXTUk3PByYanh', 'type' => 'url', 'group' => 'general'],
-            ['key' => 'instagram_url', 'label' => 'Link do profilu Instagram', 'value' => '#', 'type' => 'url', 'group' => 'general'],
+            ['key' => 'instagram_url', 'label' => 'Link do profilu Instagram', 'value' => 'https://www.instagram.com/miroslawzadora/', 'type' => 'url', 'group' => 'general'],
+            ['key' => 'tiktok_url', 'label' => 'Link do profilu TikTok', 'value' => 'https://www.tiktok.com/@miriola', 'type' => 'url', 'group' => 'general'],
 
             // Ośrodek
             ['key' => 'osrodek_hero_title', 'label' => 'Ośrodek - Tytuł Nagłówka Hero', 'value' => 'Odkryj spokój w sercu doliny Skawy', 'type' => 'text', 'group' => 'resort'],
@@ -438,6 +440,8 @@ class DatabaseSeeder extends Seeder
             ['key' => 'room3_title', 'label' => 'Pokój 3 - Tytuł', 'value' => 'Domek Letniskowy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room3_description', 'label' => 'Pokój 3 - Opis', 'value' => 'Samodzielny domek w otoczeniu zielonego ogrodu. Zapewnia całkowitą prywatność, posiada przytulny salon z kominkiem oraz aneks.', 'type' => 'textarea', 'group' => 'resort'],
 
+            ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => null, 'type' => 'image', 'group' => 'resort'],
+
             // Jarmark
             ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Rzemieślnicza', 'type' => 'text', 'group' => 'jarmark'],
             ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz klimatyczną strefę spotkań.', 'type' => 'textarea', 'group' => 'jarmark'],
@@ -448,9 +452,12 @@ class DatabaseSeeder extends Seeder
             ['key' => 'cafe_cat_image_zapiekanki', 'label' => 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'value' => 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
 
             // Gospodarstwo
-            ['key' => 'gospodarstwo_hero_title', 'label' => 'Gospodarstwo - Tytuł Nagłówka', 'value' => 'Gospodarstwo Rolne MIRiOLA', 'type' => 'text', 'group' => 'farm'],
-            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjne uprawy, 3 rodzaje czosnku, świeże borówki oraz naturalny miód prosto z naszego gospodarstwa w Dolinie Skawy.', 'type' => 'textarea', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_hero_title', 'label' => 'Gospodarstwo - Tytuł Nagłówka', 'value' => 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA', 'type' => 'text', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjna uprawa i ekologiczne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki, naturalne miody oraz domowe przetwory i nie tylko.', 'type' => 'textarea', 'group' => 'farm'],
             ['key' => 'gospodarstwo_phone', 'label' => 'Gospodarstwo - Telefon do zamówień', 'value' => '+48 608 103 119', 'type' => 'text', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_cert_info', 'label' => 'Gospodarstwo - Informacja o rejestracji w Sanepidzie i RHD', 'value' => 'Gospodarstwo prowadzi Rolniczy Handel Detaliczny (RHD) i jest zarejestrowane w Sanepidzie. Skontaktuj się z nami telefonicznie, aby potwierdzić aktualną dostępność i ustalić termin odbioru!', 'type' => 'textarea', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_allegro_text', 'label' => 'Gospodarstwo - Tekst o Allegro Lokalnie', 'value' => 'Istnieje możliwość zakupu na Allegro Lokalnie', 'type' => 'text', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_allegro_url', 'label' => 'Gospodarstwo - Link do Allegro Lokalnie', 'value' => 'https://allegrolokalnie.pl', 'type' => 'url', 'group' => 'farm'],
         ];
 
         foreach ($cmsFields as $field) {

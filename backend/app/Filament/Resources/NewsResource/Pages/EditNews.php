@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\NewsResource\Pages;
 
 use App\Filament\Resources\NewsResource;
+use App\Models\News;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 

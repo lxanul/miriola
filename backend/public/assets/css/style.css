@@ -16,9 +16,19 @@
     outline-offset: 2px !important;
 }
 
-/* Ensure smooth scrolling across the page */
+/* Ensure smooth scrolling & prevent horizontal swaying on mobile devices */
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden !important;
+    max-width: 100%;
+    width: 100%;
+}
+
+body {
+    overflow-x: hidden !important;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
 }
 
 /* Ambient shadow with Deep Sea Blue tint (6% opacity) as per DESIGN.md */
@@ -60,7 +70,7 @@ html {
 
 /* Spring-like Micro-interactions for buttons */
 .btn-animate {
-    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 .btn-animate:active {
     transform: scale(0.97);
@@ -102,3 +112,53 @@ html {
 .scrollbar-none::-webkit-scrollbar {
     display: none;
 }
+
+/* Custom subtle slim scrollbar for modals */
+.modal-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 30, 64, 0.2) transparent;
+}
+.modal-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.modal-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 30, 64, 0.2);
+    border-radius: 9999px;
+}
+.modal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 30, 64, 0.4);
+}
+
+/* Social Media Badges */
+.social-badge-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+    text-decoration: none;
+}
+.social-badge-btn:hover {
+    transform: translateY(-2px);
+}
+@media (max-width: 640px) {
+    .social-badge-btn {
+        width: 2.125rem;
+        height: 2.125rem;
+        padding: 0;
+    }
+    .social-badge-btn .social-text {
+        display: none !important;
+    }
+}
+

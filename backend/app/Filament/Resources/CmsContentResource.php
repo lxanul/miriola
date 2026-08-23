@@ -63,7 +63,7 @@ class CmsContentResource extends Resource
                             ->options([
                                 'text' => 'Krótki tekst (Tytuł, cena, telefon)',
                                 'textarea' => 'Wielowierszowy opis',
-                                'url' => 'Adres internetowy URL (FB, OLX, IG)',
+                                'url' => 'Adres internetowy URL (FB, OLX, IG, TikTok)',
                                 'image' => 'Grafika / Zdjęcie',
                             ])
                             ->default('text')
@@ -71,9 +71,11 @@ class CmsContentResource extends Resource
 
                         Forms\Components\Textarea::make('value')
                             ->label('Wartość tekstu / Linku')
+                            ->nullable()
                             ->rows(4)
                             ->columnSpanFull()
-                            ->visible(fn (Forms\Get $get) => $get('type') !== 'image'),
+                            // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-2.
+                            ->hidden(fn (Forms\Get $get) => $get('type') === 'image'),
 
                         Forms\Components\FileUpload::make('value')
                             ->label('Wgraj grafikę')
@@ -83,7 +85,8 @@ class CmsContentResource extends Resource
                             ->maxSize(2048)
                             ->directory('cms-graphics')
                             ->columnSpanFull()
-                            ->visible(fn (Forms\Get $get) => $get('type') === 'image'),
+                            // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-2.
+                            ->hidden(fn (Forms\Get $get) => $get('type') !== 'image'),
                     ])->columns(2),
             ]);
     }
@@ -146,6 +149,11 @@ class CmsContentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
     }
 
     public static function getPages(): array

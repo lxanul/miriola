@@ -2,14 +2,53 @@
 
 @section('title', 'Jarmark - CEH & Kawiarnia MIRiOLA | Menu, Atrakcje, Nowości')
 @section('meta_description', 'Zapraszamy do Kawiarni Rzemieślniczej i Centrum Edukacyjno-Handlowego Jarmark w Gorzeniu Górnym. Aromatyczna kawa, domowe ciasta, strefa relaksu w ogrodzie i atrakcje dla dzieci.')
+@section('og_image', asset('assets/img/jarmark-hero.jpg'))
 
+@section('schema')
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "CafeOrCoffeeShop",
+  "@@id": "{{ url('/jarmark') }}#cafe",
+  "name": "Kawiarnia Rzemieślnicza Jarmark MIRiOLA",
+  "description": "Kawiarnia rzemieślnicza w Centrum Edukacyjno-Handlowym Jarmark MIRiOLA. Specialty kawa, domowe ciasta, lody rzemieślnicze.",
+  "image": "{{ asset('assets/img/jarmark-hero.jpg') }}",
+  "url": "{{ url('/jarmark') }}",
+  "telephone": "+48608103119",
+  "servesCuisine": ["Kawa specialty", "Ciasta domowe", "Desery", "Lody rzemieślnicze"],
+  "hasMenu": "{{ url('/jarmark#menu') }}",
+  "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "ul. Zakopiańska 192",
+    "addressLocality": "Wadowice",
+    "addressRegion": "Małopolska",
+    "postalCode": "34-100",
+    "addressCountry": "PL"
+  },
+  "geo": {
+    "@@type": "GeoCoordinates",
+    "latitude": 49.8439,
+    "longitude": 19.5107
+  },
+  "openingHoursSpecification": [
+    {
+      "@@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "09:00",
+      "closes": "20:00"
+    }
+  ],
+  "parentOrganization": { "@@id": "{{ url('/') }}#resort" }
+}
+</script>
+@endsection
 
 @section('content')
     <!-- Hero Section Jarmark & Kawiarnia -->
     <section id="start" class="relative w-full h-[75vh] min-h-[520px] flex items-center justify-center bg-slate-900 overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
-             style="background-image: url('{{ asset('assets/img/jarmark-hero.jpg') }}')">
+             style="background-image: url('{{ asset('assets/img/jarmark-hero.webp') }}')">
         </div>
         <!-- Bright Light Overlay for Crisp Text Contrast -->
         <div class="absolute inset-0 bg-gradient-to-t from-primary/55 via-primary/25 to-black/15"></div>
@@ -23,10 +62,10 @@
                 </span>
             </div>
             <h1 class="font-display text-4xl md:text-5xl lg:text-display-lg font-bold mb-6 leading-tight drop-shadow-md max-w-4xl mx-auto text-white">
-                Jarmark Centrum Edukacyjno-Handlowe
+                {{ !empty($cms['jarmark_hero_title']) ? $cms['jarmark_hero_title'] : 'Jarmark Centrum Edukacyjno-Handlowe' }}
             </h1>
             <p class="font-body text-base md:text-lg lg:text-body-lg mb-8 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
-                Zapraszamy do naszej kawiarni plenerowej na aromatyczną kawę, domowe ciasta, lody oraz relaks w ogrodzie ze sferycznym namiotem i dmuchańcem dla dzieci.
+                {{ !empty($cms['jarmark_hero_description']) ? $cms['jarmark_hero_description'] : 'Zapraszamy do naszej kawiarni plenerowej na aromatyczną kawę, domowe ciasta, lody oraz relaks w ogrodzie ze sferycznym namiotem i dmuchańcem dla dzieci.' }}
             </p>
 
             <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4 px-2 max-w-full">

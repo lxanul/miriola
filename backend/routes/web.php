@@ -8,17 +8,22 @@ use App\Models\FarmProduct;
 use App\Models\GalleryImage;
 use App\Models\News;
 use App\Models\Room;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 // Helper to fetch database CMS values.
 // Strażnik function_exists jest konieczny: pakiet testowy ładuje plik tras przy
 // każdym starcie aplikacji, więc bez niego drugi test kończył się fatalnym
 // błędem „Cannot redeclare getCmsData()" i cały pakiet nigdy nie przechodził.
+// Cache 60 min — dane CMS rzadko się zmieniają. Obserwator CmsContentObserver
+// wywołuje Cache::forget('cms_data') przy każdym save().
 if (! function_exists('getCmsData')) {
     function getCmsData(): array
     {
         try {
-            return CmsContent::pluck('value', 'key')->toArray();
+            return Cache::remember('cms_data', 3600, function () {
+                return CmsContent::pluck('value', 'key')->toArray();
+            });
         } catch (Throwable $e) {
             return [];
         }
@@ -97,12 +102,26 @@ Route::get('/aktualnosci', function () {
     return view('aktualnosci', compact('news', 'currentBranch', 'cms'));
 });
 
+// 6. Dedykowana strona artykułu (SEO – indeksowalna przez Google)
+Route::get('/aktualnosci/{slug}', function (string $slug) {
+    $article = News::where('slug', $slug)->where('is_published', true)->firstOrFail();
+
+    $related = News::where('is_published', true)
+        ->where('id', '!=', $article->id)
+        ->where('branch', $article->branch)
+        ->latest('published_at')
+        ->take(3)
+        ->get();
+
+    return view('artykul', compact('article', 'related'));
+});
+
 Route::get('/polityka-prywatnosci', function () {
     return view('polityka-prywatnosci');
 });
 
 Route::get('/robots.txt', function () {
-    $content = "User-agent: *\n";
+    $content  = "User-agent: *\n";
     $content .= "Allow: /\n";
     $content .= "Allow: /osrodek\n";
     $content .= "Allow: /jarmark\n";
@@ -110,38 +129,58 @@ Route::get('/robots.txt', function () {
     $content .= "Allow: /polityka-prywatnosci\n";
     $content .= "Allow: /aktualnosci\n\n";
     $content .= "Disallow: /admin\n";
-    $content .= "Disallow: /admin/\n\n";
-    $content .= 'Sitemap: '.url('/sitemap.xml')."\n";
+    $content .= "Disallow: /admin/\n";
+    $content .= "Disallow: /livewire/\n\n";
+    $content .= 'Sitemap: ' . url('/sitemap.xml') . "\n";
 
     return response($content, 200, ['Content-Type' => 'text/plain']);
 });
 
 Route::get('/sitemap.xml', function () {
-
-    $urls = [
-        ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily'],
-        ['loc' => url('/osrodek'), 'priority' => '0.9', 'changefreq' => 'daily', 'image' => asset('assets/img/hero.jpg'), 'title' => 'Ośrodek Wypoczynkowy MIRiOLA Dolina Skawy'],
-        ['loc' => url('/jarmark'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-        ['loc' => url('/gospodarstwo'), 'priority' => '0.8', 'changefreq' => 'weekly'],
-        ['loc' => url('/aktualnosci'), 'priority' => '0.7', 'changefreq' => 'daily'],
+    // Statyczne URL z priorytetami
+    $staticUrls = [
+        ['loc' => url('/'),              'priority' => '1.0', 'changefreq' => 'daily'],
+        ['loc' => url('/osrodek'),       'priority' => '0.9', 'changefreq' => 'daily',   'image' => asset('assets/img/hero.webp'),          'imageTitle' => 'Ośrodek Wypoczynkowy MIRiOLA Dolina Skawy'],
+        ['loc' => url('/jarmark'),       'priority' => '0.8', 'changefreq' => 'weekly',  'image' => asset('assets/img/jarmark-hero.webp'),   'imageTitle' => 'Jarmark Centrum Edukacyjno-Handlowe MIRiOLA'],
+        ['loc' => url('/gospodarstwo'),  'priority' => '0.8', 'changefreq' => 'weekly',  'image' => asset('assets/img/gospodarstwo-hero.webp'), 'imageTitle' => 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA'],
+        ['loc' => url('/aktualnosci'),   'priority' => '0.7', 'changefreq' => 'daily'],
         ['loc' => url('/polityka-prywatnosci'), 'priority' => '0.3', 'changefreq' => 'monthly'],
     ];
 
-    $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">'."\n";
+    // Dynamiczne URL artykułów — każdy artykuł ma własną stronę
+    $newsUrls = News::where('is_published', true)
+        ->select(['slug', 'title', 'image', 'updated_at', 'published_at'])
+        ->latest('published_at')
+        ->get()
+        ->map(fn (News $n) => [
+            'loc'        => url('/aktualnosci/' . $n->slug),
+            'priority'   => '0.6',
+            'changefreq' => 'monthly',
+            'lastmod'    => $n->updated_at->format('Y-m-d'),
+            'image'      => $n->thumbnail_url,
+            'imageTitle' => $n->title,
+        ])
+        ->toArray();
+
+    $urls = array_merge($staticUrls, $newsUrls);
+
+    $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+    $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' . "\n";
+
     foreach ($urls as $u) {
-        $xml .= '  <url>'."\n";
-        $xml .= '    <loc>'.htmlspecialchars($u['loc']).'</loc>'."\n";
-        $xml .= '    <lastmod>'.date('Y-m-d').'</lastmod>'."\n";
-        $xml .= '    <changefreq>'.$u['changefreq'].'</changefreq>'."\n";
-        $xml .= '    <priority>'.$u['priority'].'</priority>'."\n";
-        if (isset($u['image'])) {
-            $xml .= '    <image:image>'."\n";
-            $xml .= '      <image:loc>'.htmlspecialchars($u['image']).'</image:loc>'."\n";
-            $xml .= '      <image:title>'.htmlspecialchars($u['title']).'</image:title>'."\n";
-            $xml .= '    </image:image>'."\n";
+        $lastmod = $u['lastmod'] ?? date('Y-m-d');
+        $xml .= "  <url>\n";
+        $xml .= '    <loc>' . htmlspecialchars($u['loc']) . "</loc>\n";
+        $xml .= "    <lastmod>{$lastmod}</lastmod>\n";
+        $xml .= '    <changefreq>' . $u['changefreq'] . "</changefreq>\n";
+        $xml .= '    <priority>' . $u['priority'] . "</priority>\n";
+        if (! empty($u['image'])) {
+            $xml .= "    <image:image>\n";
+            $xml .= '      <image:loc>' . htmlspecialchars($u['image']) . "</image:loc>\n";
+            $xml .= '      <image:title>' . htmlspecialchars($u['imageTitle'] ?? '') . "</image:title>\n";
+            $xml .= "    </image:image>\n";
         }
-        $xml .= '  </url>'."\n";
+        $xml .= "  </url>\n";
     }
     $xml .= '</urlset>';
 

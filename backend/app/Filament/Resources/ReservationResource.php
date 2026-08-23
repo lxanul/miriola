@@ -88,6 +88,7 @@ class ReservationResource extends Resource
 
                         Forms\Components\Textarea::make('notes')
                             ->label('Notatki i uwagi (np. wpłacona zaliczka 200zł, godzina przyjazdu, łóżeczko)')
+                            ->nullable()
                             ->rows(3)
                             ->columnSpanFull(),
                     ])->columns(2),
@@ -164,6 +165,11 @@ class ReservationResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
     }
 
     public static function getPages(): array

@@ -52,12 +52,27 @@ class UserResource extends Resource
                     ->dehydrated(fn (?string $state) => filled($state))
                     ->helperText('Minimum 12 znaków. Przy edycji zostaw puste, aby nie zmieniać hasła.'),
 
+                Forms\Components\Select::make('role')
+                    ->label('Rola i zakres uprawnień')
+                    ->options([
+                        'admin' => '👑 Główny Administrator (Pełny dostęp do panelu)',
+                        'news_editor' => '📰 Edytor Aktualności (Dostęp tylko do Aktualności)',
+                    ])
+                    ->default('admin')
+                    ->required()
+                    // ->dehydrated(false) gdy disabled: pole wyłączone nie może
+                    // nadpisać roli samemu sobie. BUG-5.
+                    ->disabled(fn (?User $record) => $record?->is(auth()->user()) ?? false)
+                    ->dehydrated(fn (?User $record) => ! ($record?->is(auth()->user()) ?? false))
+                    ->helperText('Edytor Aktualności widzi wyłącznie sekcję Wpisów Aktualności.'),
+
                 Forms\Components\Toggle::make('is_admin')
                     ->label('Dostęp do panelu /admin')
                     ->default(true)
-                    // Nie da się odebrać uprawnień samemu sobie — inaczej jedyny
-                    // administrator mógłby zamknąć się poza panelem.
+                    // Nie da się odebrać uprawnień samemu sobie.
                     ->disabled(fn (?User $record) => $record?->is(auth()->user()) ?? false)
+                    // ->dehydrated(false) gdy disabled: persist() obsługuje is_admin ręcznie.
+                    ->dehydrated(fn (?User $record) => ! ($record?->is(auth()->user()) ?? false))
                     ->helperText('Bez tego przełącznika konto nie zaloguje się do panelu.'),
             ]);
     }
@@ -76,6 +91,19 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('role')
+                    ->label('Rola')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'news_editor' => 'Edytor Aktualności',
+                        default => 'Główny Admin',
+                    })
+                    ->color(fn (?string $state): string => match ($state) {
+                        'news_editor' => 'warning',
+                        default => 'success',
+                    })
+                    ->sortable(),
+
                 Tables\Columns\IconColumn::make('is_admin')
                     ->label('Panel /admin')
                     ->boolean(),
@@ -92,6 +120,11 @@ class UserResource extends Resource
                     ->visible(fn (User $record) => ! $record->is(auth()->user())),
             ])
             ->bulkActions([]);
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
     }
 
     /**

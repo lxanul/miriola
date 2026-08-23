@@ -18,11 +18,14 @@
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Open Graph / Social Media SEO -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="@yield('title', 'Ośrodek Wypoczynkowy MIRiOLA - Dolina Skawy, Noclegi blisko Wadowic')">
     <meta property="og:description" content="@yield('meta_description', 'Zapraszamy do Ośrodka Wypoczynkowego MIRiOLA w dolinie Skawy. Oferujemy komfortowe pokoje, apartamenty i domki letniskowe blisko Wadowic i Jeziora Mucharskiego.')">
-    <meta property="og:image" content="{{ asset('assets/img/hero.jpg') }}">
+    <meta property="og:image" content="@yield('og_image', asset('assets/img/hero.webp'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="@yield('title', 'MIRiOLA - Ośrodek Wypoczynkowy, Jarmark, Gospodarstwo')">
     <meta property="og:locale" content="pl_PL">
     <meta property="og:site_name" content="MIRiOLA">
 
@@ -30,50 +33,112 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', 'Ośrodek Wypoczynkowy MIRiOLA - Dolina Skawy')">
     <meta name="twitter:description" content="@yield('meta_description', 'Komfortowe noclegi, Jarmark i Kawiarnia oraz Gospodarstwo Rolne w Dolinie Skawy.')">
-    <meta name="twitter:image" content="{{ asset('assets/img/hero.jpg') }}">
+    <meta name="twitter:image" content="@yield('og_image', asset('assets/img/hero.webp'))">
+    <meta name="twitter:image:alt" content="@yield('title', 'MIRiOLA - Ośrodek Wypoczynkowy, Jarmark, Gospodarstwo')">
 
-    <!-- Schema.org JSON-LD Structured Data for LocalBusiness & Lodging -->
+    <!-- Schema.org JSON-LD — GlobalOrganization (obecna na każdej stronie) -->
     <script type="application/ld+json">
     {
       "@@context": "https://schema.org",
-      "@@type": "Resort",
-      "name": "Ośrodek Wypoczynkowy MIRiOLA",
-      "image": "{{ asset('assets/img/hero.jpg') }}",
-      "@@id": "{{ url('/') }}",
-      "url": "{{ url('/') }}",
-      "telephone": "+48608103119",
-      "email": "miroslawzadora@wp.pl",
-      "priceRange": "250 zł - 450 zł",
-      "address": {
-        "@@type": "PostalAddress",
-        "streetAddress": "ul. Zakopiańska 192",
-        "addressLocality": "Wadowice",
-        "postalCode": "34-100",
-        "addressCountry": "PL"
-      },
-      "geo": {
-        "@@type": "GeoCoordinates",
-        "latitude": 49.8833,
-        "longitude": 19.4833
-      },
-      "openingHoursSpecification": {
-        "@@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "00:00",
-        "closes": "23:59"
-      }
+      "@@graph": [
+        {
+          "@@type": "Resort",
+          "@@id": "{{ url('/') }}#resort",
+          "name": "Ośrodek Wypoczynkowy MIRiOLA",
+          "alternateName": "MIRiOLA Dolina Skawy",
+          "description": "Kompleks rekreacyjno-wypoczynkowy w dolinie Skawy: Ośrodek Wypoczynkowy, Jarmark Centrum Edukacyjno-Handlowe z Kawiarnią, Gospodarstwo Ogrodniczo-Pszczelarskie.",
+          "image": [
+            "{{ asset('assets/img/hero.webp') }}",
+            "{{ asset('assets/img/jarmark-hero.webp') }}",
+            "{{ asset('assets/img/gospodarstwo-hero.webp') }}"
+          ],
+          "url": "{{ url('/') }}",
+          "telephone": "+48608103119",
+          "email": "miroslawzadora@wp.pl",
+          "priceRange": "250 zł - 450 zł",
+          "currenciesAccepted": "PLN",
+          "paymentAccepted": "Cash, Bank Transfer",
+          "hasMap": "https://maps.google.com/?q=Zakopianska+192+Wadowice",
+          "logo": {
+            "@@type": "ImageObject",
+            "url": "{{ asset('images/logo.png') }}",
+            "width": 180,
+            "height": 48
+          },
+          "address": {
+            "@@type": "PostalAddress",
+            "streetAddress": "ul. Zakopiańska 192",
+            "addressLocality": "Wadowice",
+            "addressRegion": "Małopolska",
+            "postalCode": "34-100",
+            "addressCountry": "PL"
+          },
+          "geo": {
+            "@@type": "GeoCoordinates",
+            "latitude": 49.8833,
+            "longitude": 19.4833
+          },
+          "openingHoursSpecification": [
+            {
+              "@@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+              "opens": "00:00",
+              "closes": "23:59"
+            }
+          ],
+          "amenityFeature": [
+            {"@@type": "LocationFeatureSpecification", "name": "Parking",          "value": true},
+            {"@@type": "LocationFeatureSpecification", "name": "WiFi",             "value": true},
+            {"@@type": "LocationFeatureSpecification", "name": "Ogród",            "value": true},
+            {"@@type": "LocationFeatureSpecification", "name": "Kawiarnia",        "value": true},
+            {"@@type": "LocationFeatureSpecification", "name": "Plac zabaw",       "value": true},
+            {"@@type": "LocationFeatureSpecification", "name": "Dostęp dla niepełnosprawnych", "value": true}
+          ],
+          "sameAs": [
+            "https://www.facebook.com/p/Miriola-noclegi-100057455918786/"
+          ],
+          "containsPlace": [
+            {
+              "@@type": "CafeOrCoffeeShop",
+              "name": "Kawiarnia Rzemieślnicza Jarmark MIRiOLA",
+              "servesCuisine": ["Kawa specialty", "Ciasta domowe", "Desery"],
+              "url": "{{ url('/jarmark') }}",
+              "telephone": "+48608103119"
+            },
+            {
+              "@@type": "LocalBusiness",
+              "@@id": "{{ url('/gospodarstwo') }}#farm",
+              "name": "Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA",
+              "description": "Ekologiczny czosnek, borówki i miody z własnej pasieki w dolinie Skawy.",
+              "url": "{{ url('/gospodarstwo') }}"
+            }
+          ]
+        },
+        {
+          "@@type": "WebSite",
+          "@@id": "{{ url('/') }}#website",
+          "url": "{{ url('/') }}",
+          "name": "MIRiOLA Dolina Skawy",
+          "inLanguage": "pl-PL",
+          "publisher": {"@@id": "{{ url('/') }}#resort"}
+        }
+      ]
     }
     </script>
+    {{-- Per-strona Schema (artykuły, breadcrumbs itp.) --}}
+    @yield('schema')
     
-    <!-- Fonts & Icons Optimization -->
+    <!-- Fonts & Icons — scalony request (1 RTT zamiast 2) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-    <link rel="dns-prefetch" href="https://images.unsplash.com">
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    
+    {{-- Scalony URL: Noto Serif + Work Sans + Material Symbols w jednym request --}}
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Work+Sans:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    </noscript>
+
     <!-- AOS Animations CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -102,7 +167,7 @@
                 $isOsrodek = Request::is('osrodek');
                 $isJarmark = Request::is('jarmark');
                 $isGospodarstwo = Request::is('gospodarstwo');
-                $isAktualnosci = Request::is('aktualnosci');
+                $isAktualnosci = Request::is('aktualnosci') || Request::is('aktualnosci/*');
 
                 $facebookUrl = $isJarmark 
                     ? ($cms['jarmark_facebook_url'] ?? 'https://www.facebook.com/jarmark.miriola/') 
@@ -132,38 +197,42 @@
                 </a>
 
                 @if($isAktualnosci)
-                    <a href="{{ url('/osrodek') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Ośrodek</a>
-                    <a href="{{ url('/jarmark') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Jarmark CEH</a>
-                    <a href="{{ url('/gospodarstwo') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Gospodarstwo Ogrodniczo-Pszczelarskie</a>
-                    <a href="{{ url('/aktualnosci') }}" class="desktop-nav-link text-primary font-bold border-b-2 border-primary pb-1 transition-all">Aktualności</a>
+                    @php
+                        $activeBranch = $currentBranch ?? (isset($article) ? $article->branch : request()->query('branch', 'all'));
+                    @endphp
+                    <a href="{{ url('/aktualnosci?branch=all') }}" class="desktop-nav-link transition-all {{ $activeBranch === 'all' ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary nav-underline' }}">Wszystkie</a>
+                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="desktop-nav-link transition-all {{ $activeBranch === 'resort' ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary nav-underline' }}">Ośrodek</a>
+                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="desktop-nav-link transition-all {{ $activeBranch === 'jarmark' ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary nav-underline' }}">Jarmark CEH</a>
+                    <a href="{{ url('/aktualnosci?branch=farm') }}" class="desktop-nav-link transition-all {{ $activeBranch === 'farm' ? 'text-primary font-bold border-b-2 border-primary' : 'text-on-surface-variant hover:text-primary nav-underline' }}">Gospodarstwo</a>
                 @endif
 
                 @if($isOsrodek)
-                    <a href="#pokoje" class="desktop-nav-link text-primary font-semibold nav-underline pb-1 transition-all">Pokoje</a>
-                    <a href="#galeria" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Galeria</a>
-                    <a href="#atrakcje" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Atrakcje</a>
-                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Aktualności</a>
-                    <a href="#faq" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">FAQ</a>
-                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Kontakt</a>
+                    <a href="#pokoje" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Pokoje</a>
+                    <a href="#galeria" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Galeria</a>
+                    <a href="#atrakcje" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Atrakcje</a>
+                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Aktualności</a>
+                    <a href="#faq" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">FAQ</a>
+                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Kontakt</a>
                 @endif
 
                 @if($isJarmark)
-                    <a href="#menu" class="desktop-nav-link text-primary font-semibold nav-underline pb-1 transition-all">Menu Kawiarni</a>
-                    <a href="#atrakcje-jarmark" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Atrakcje</a>
-                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Aktualności</a>
-                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Kontakt</a>
+                    <a href="#menu" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Menu Kawiarni</a>
+                    <a href="#atrakcje-jarmark" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Atrakcje</a>
+                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Aktualności</a>
+                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Kontakt</a>
                 @endif
 
                 @if($isGospodarstwo)
-                    <a href="#produkty" class="desktop-nav-link text-primary font-semibold nav-underline pb-1 transition-all">Oferta Produktów</a>
-                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Kontakt</a>
+                    <a href="#produkty" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Oferta Produktów</a>
+                    <a href="{{ url('/aktualnosci?branch=farm') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Aktualności</a>
+                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Kontakt</a>
                 @endif
 
                 @if(!$isOsrodek && !$isJarmark && !$isGospodarstwo && !$isAktualnosci)
-                    <a href="{{ url('/osrodek#pokoje') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Pokoje</a>
-                    <a href="{{ url('/osrodek#atrakcje') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Atrakcje</a>
-                    <a href="{{ url('/osrodek#faq') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">FAQ</a>
-                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline pb-1 transition-all">Kontakt</a>
+                    <a href="{{ url('/osrodek#pokoje') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Pokoje</a>
+                    <a href="{{ url('/osrodek#atrakcje') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Atrakcje</a>
+                    <a href="{{ url('/osrodek#faq') }}" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">FAQ</a>
+                    <a href="#kontakt" class="desktop-nav-link text-on-surface-variant hover:text-primary nav-underline transition-all">Kontakt</a>
                 @endif
             </div>
             
@@ -175,7 +244,7 @@
                 </a>
                 
                 <!-- Hamburger Button (Mobile) -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 text-primary hover:bg-surface-dim/40 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Otwórz menu">
+                <button id="mobile-menu-btn" class="lg:hidden p-2 text-primary hover:bg-surface-dim/40 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Otwórz menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span class="material-symbols-outlined text-3xl">menu</span>
                 </button>
             </div>
@@ -183,42 +252,46 @@
         
         <!-- Mobile Dropdown Menu -->
         <div id="mobile-menu" class="lg:hidden bg-background border-t border-primary/10 absolute w-full pointer-events-none opacity-0 -translate-y-2 transition-all duration-300 ease-out z-30">
-            <div class="flex flex-col px-6 py-5 space-y-4 shadow-lg text-sm">
-                <a href="{{ url('/') }}" class="font-bold text-primary flex items-center gap-2 py-1 border-b border-primary/10">
+            <div class="flex flex-col px-6 py-5 space-y-2 shadow-lg text-sm">
+                <a href="{{ url('/') }}" class="font-bold text-primary flex items-center gap-2 min-h-[48px] py-2 border-b border-primary/10">
                     <span class="material-symbols-outlined text-base">apps</span>
                     Wybór Działalności
                 </a>
                 @if($isAktualnosci)
-                    <a href="{{ url('/osrodek') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Ośrodek Wypoczynkowy</a>
-                    <a href="{{ url('/jarmark') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Jarmark Centrum Edukacyjno-Handlowe</a>
-                    <a href="{{ url('/gospodarstwo') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Gospodarstwo Ogrodniczo-Pszczelarskie</a>
-                    <a href="{{ url('/aktualnosci') }}" class="mobile-link text-primary font-bold py-1">Aktualności</a>
+                    @php
+                        $activeBranch = $currentBranch ?? (isset($article) ? $article->branch : request()->query('branch', 'all'));
+                    @endphp
+                    <a href="{{ url('/aktualnosci?branch=all') }}" class="mobile-link font-medium min-h-[48px] flex items-center py-3 {{ $activeBranch === 'all' ? 'text-primary font-bold border-l-4 border-primary pl-2 bg-primary/5 rounded-r' : 'text-on-surface-variant hover:text-primary' }}">Wszystkie Aktualności</a>
+                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="mobile-link font-medium min-h-[48px] flex items-center py-3 {{ $activeBranch === 'resort' ? 'text-primary font-bold border-l-4 border-primary pl-2 bg-primary/5 rounded-r' : 'text-on-surface-variant hover:text-primary' }}">Ośrodek Wypoczynkowy</a>
+                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="mobile-link font-medium min-h-[48px] flex items-center py-3 {{ $activeBranch === 'jarmark' ? 'text-primary font-bold border-l-4 border-primary pl-2 bg-primary/5 rounded-r' : 'text-on-surface-variant hover:text-primary' }}">Jarmark Centrum Edukacyjno-Handlowe</a>
+                    <a href="{{ url('/aktualnosci?branch=farm') }}" class="mobile-link font-medium min-h-[48px] flex items-center py-3 {{ $activeBranch === 'farm' ? 'text-primary font-bold border-l-4 border-primary pl-2 bg-primary/5 rounded-r' : 'text-on-surface-variant hover:text-primary' }}">Gospodarstwo Ogrodniczo-Pszczelarskie</a>
                 @endif
                 @if($isOsrodek)
-                    <a href="#pokoje" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Pokoje i Domki</a>
-                    <a href="#galeria" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Galeria Zdjęć</a>
-                    <a href="#atrakcje" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Atrakcje</a>
-                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Aktualności</a>
-                    <a href="#faq" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">FAQ</a>
-                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Kontakt</a>
+                    <a href="#pokoje" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Pokoje i Domki</a>
+                    <a href="#galeria" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Galeria Zdjęć</a>
+                    <a href="#atrakcje" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Atrakcje</a>
+                    <a href="{{ url('/aktualnosci?branch=resort') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Aktualności</a>
+                    <a href="#faq" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">FAQ</a>
+                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Kontakt</a>
                 @endif
                 @if($isJarmark)
-                    <a href="#menu" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Menu Kawiarni</a>
-                    <a href="#atrakcje-jarmark" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Atrakcje</a>
-                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Aktualności</a>
-                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Kontakt</a>
+                    <a href="#menu" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Menu Kawiarni</a>
+                    <a href="#atrakcje-jarmark" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Atrakcje</a>
+                    <a href="{{ url('/aktualnosci?branch=jarmark') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Aktualności</a>
+                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Kontakt</a>
                 @endif
                 @if($isGospodarstwo)
-                    <a href="#produkty" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Oferta Produktów</a>
-                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Kontakt</a>
+                    <a href="#produkty" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Oferta Produktów</a>
+                    <a href="{{ url('/aktualnosci?branch=farm') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Aktualności</a>
+                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Kontakt</a>
                 @endif
                 @if(!$isOsrodek && !$isJarmark && !$isGospodarstwo && !$isAktualnosci)
-                    <a href="{{ url('/osrodek#pokoje') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Pokoje</a>
-                    <a href="{{ url('/osrodek#atrakcje') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Atrakcje</a>
-                    <a href="{{ url('/osrodek#faq') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">FAQ</a>
-                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary py-1">Kontakt</a>
+                    <a href="{{ url('/osrodek#pokoje') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Pokoje</a>
+                    <a href="{{ url('/osrodek#atrakcje') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Atrakcje</a>
+                    <a href="{{ url('/osrodek#faq') }}" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">FAQ</a>
+                    <a href="#kontakt" class="mobile-link text-on-surface-variant font-medium hover:text-primary min-h-[48px] flex items-center py-3">Kontakt</a>
                 @endif
-                <a href="tel:+48608103119" class="border border-accent text-accent text-center font-bold py-2.5 rounded hover:bg-accent hover:text-white btn-animate flex items-center justify-center gap-2">
+                <a href="tel:+48608103119" class="border border-accent text-accent text-center font-bold min-h-[48px] py-3 rounded hover:bg-accent hover:text-white btn-animate flex items-center justify-center gap-2">
                     <span class="material-symbols-outlined text-[18px]">call</span>
                     {{ $mobileCallBtnLabel }}
                 </a>
@@ -260,12 +333,15 @@
                             <span>ul. Zakopiańska 192,<br>34-100 Gorzeń Górny (k. Wadowic)</span>
                         @endif
                     </p>
+                    <div class="flex items-start gap-2">
+                        <span class="material-symbols-outlined text-[18px] text-accent/80 shrink-0 mt-0.5">phone</span>
+                        <div class="flex flex-col space-y-1">
+                            <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="hover:text-white transition-colors font-medium whitespace-nowrap">{{ $cms['phone_number'] ?? '+48 608 103 119' }}</a>
+                            <a href="tel:{{ !empty($cms['phone_number_2']) ? preg_replace('/\s+/', '', $cms['phone_number_2']) : '+48696312574' }}" class="hover:text-white transition-colors font-medium whitespace-nowrap">{{ $cms['phone_number_2'] ?? '+48 696 312 574' }}</a>
+                        </div>
+                    </div>
                     <p class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px] text-accent/80">phone</span>
-                        <a href="tel:{{ $cms['phone_number'] ?? '+48608103119' }}" class="hover:text-white transition-colors font-medium whitespace-nowrap">{{ $cms['phone_number'] ?? '+48 608 103 119' }}</a>
-                    </p>
-                    <p class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[18px] text-accent/80">mail</span>
+                        <span class="material-symbols-outlined text-[18px] text-accent/80 shrink-0">mail</span>
                         <a href="mailto:{{ $cms['email_address'] ?? 'miroslawzadora@wp.pl' }}" class="hover:text-white transition-colors">{{ $cms['email_address'] ?? 'miroslawzadora@wp.pl' }}</a>
                     </p>
                 </address>
@@ -297,16 +373,29 @@
                 <h3 class="text-white font-bold text-base uppercase tracking-wider">Przydatne linki</h3>
                 <ul class="space-y-2.5 text-sm">
                     <li><a class="text-surface-dim/80 hover:text-white transition-colors" href="{{ url('/polityka-prywatnosci') }}">Polityka Prywatności</a></li>
-                    <li class="pt-2 flex flex-wrap items-center gap-3">
-                        <a href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Profil MIRiOLA na Facebooku" class="bg-[#1877F2]/20 text-white hover:bg-[#1877F2] text-xs font-bold px-3.5 py-1.5 rounded flex items-center gap-1.5 transition-all focus:outline-none">
-                            <span>Facebook</span>
+                    <li class="pt-2 flex items-center gap-2.5">
+                        <a href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Profil MIRiOLA na Facebooku" title="Facebook MIRiOLA" class="w-9 h-9 rounded-xl bg-[#1877F2]/20 hover:bg-[#1877F2] text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-[0_4px_12px_rgba(24,119,242,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
                         </a>
-                        <a href="{{ $olxUrl }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Ogłoszenia MIRiOLA na serwisie OLX" class="bg-white/20 text-white hover:bg-white hover:text-primary text-xs font-bold px-3.5 py-1.5 rounded flex items-center gap-1.5 transition-all focus:outline-none">
-                            <span>OLX</span>
+                        <a href="{{ $olxUrl }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Ogłoszenia MIRiOLA na serwisie OLX" title="Ogłoszenia OLX" class="w-9 h-9 rounded-xl bg-white/15 hover:bg-white text-white hover:text-[#002f34] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-[0_4px_12px_rgba(255,255,255,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4l-1 5v2h1v6h10v-6h4v6h2v-6h1zm-9 6H6v-4h6v4z"/>
+                            </svg>
                         </a>
-                        <a href="{{ $cms['instagram_url'] ?? 'https://www.instagram.com/miroslawzadora/' }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Profil MIRiOLA na Instagramie" class="bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white text-xs font-bold px-3.5 py-1.5 rounded flex items-center gap-1.5 transition-all hover:opacity-90 focus:outline-none">
-                            <span>Instagram</span>
+                        <a href="{{ $cms['instagram_url'] ?? 'https://www.instagram.com/miroslawzadora/' }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Profil MIRiOLA na Instagramie" title="Instagram MIRiOLA" class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-[0_4px_12px_rgba(220,39,67,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
                         </a>
+                        @if(!empty($cms['tiktok_url']))
+                        <a href="{{ $cms['tiktok_url'] }}" target="_blank" rel="noopener noreferrer" onclick="this.blur()" aria-label="Profil MIRiOLA na TikToku" title="TikTok MIRiOLA" class="w-9 h-9 rounded-xl bg-white/15 hover:bg-black text-white flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-[0_4px_12px_rgba(0,0,0,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/>
+                            </svg>
+                        </a>
+                        @endif
                     </li>
                 </ul>
             </div>
@@ -320,7 +409,7 @@
 
     <!-- Availability Bar (Floating Call Button for Mobile) -->
     <div class="fixed bottom-0 left-0 w-full bg-background border-t border-primary/10 shadow-[0_-4px_10px_rgba(0,30,64,0.06)] py-3 px-gutter z-40 md:hidden">
-        <a href="tel:+48608103119" class="w-full bg-accent text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg btn-animate">
+        <a href="tel:+48608103119" class="w-full bg-accent text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg btn-animate focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
             <span class="material-symbols-outlined text-[20px]">call</span>
             {{ $mobileCallBtnLabel }}
         </a>
@@ -328,13 +417,13 @@
 
     <!-- Scroll to Top Button (Strzałka w górę) -->
     <button id="scroll-top-btn" 
-            class="fixed bottom-20 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-primary text-white border border-white/20 shadow-2xl z-50 flex items-center justify-center opacity-0 pointer-events-none translate-y-4 transition-all duration-300 hover:scale-110 hover:bg-accent focus:outline-none" 
+            class="fixed bottom-20 md:bottom-8 right-6 md:right-8 w-12 h-12 rounded-full bg-primary text-white border border-white/20 shadow-2xl z-50 flex items-center justify-center opacity-0 pointer-events-none translate-y-4 transition-all duration-300 hover:scale-110 hover:bg-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-accent" 
             aria-label="Przewiń do góry">
         <span class="material-symbols-outlined text-2xl">arrow_upward</span>
     </button>
 
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-banner" class="fixed bottom-6 right-6 left-6 md:left-auto md:max-w-md bg-white border border-outline-variant shadow-2xl rounded-xl p-6 z-50 transform translate-y-24 opacity-0 transition-all duration-500 ease-out hidden" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc">
+    <!-- Cookie Consent Banner — odsuniery od bottom bar na mobile (bottom-20) -->
+    <div id="cookie-banner" class="fixed bottom-20 md:bottom-6 right-4 left-4 md:left-auto md:max-w-md bg-white border border-outline-variant shadow-2xl rounded-xl p-5 z-50 transform translate-y-24 opacity-0 transition-all duration-500 ease-out hidden" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-desc">
         <div class="flex items-start gap-4">
             <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary shrink-0">
                 <span class="material-symbols-outlined text-[22px]">cookie</span>
@@ -344,9 +433,12 @@
                 <p id="cookie-desc" class="text-xs text-on-surface-variant leading-relaxed">
                     Strona Ośrodka MIRiOLA wykorzystuje pliki cookie w celach funkcjonalnych i statystycznych. Szczegółowe informacje znajdziesz w naszej <a href="{{ url('/polityka-prywatnosci') }}" class="text-primary font-semibold hover:underline">Polityce Prywatności</a>.
                 </p>
-                <div class="flex justify-end gap-3 pt-2">
+                <div class="flex justify-end gap-2 pt-2 flex-wrap">
+                    <button id="reject-cookies" class="text-on-surface-variant font-semibold text-xs px-4 py-2 rounded border border-outline-variant hover:border-primary hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                        Tylko niezbędne
+                    </button>
                     <button id="accept-cookies" class="bg-primary text-white font-bold text-xs px-5 py-2 rounded hover:bg-opacity-95 hover:shadow-sm btn-animate focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                        Akceptuję
+                        Akceptuję wszystkie
                     </button>
                 </div>
             </div>
@@ -456,11 +548,11 @@
 
                 desktopLinks.forEach(link => {
                     const href = link.getAttribute('href');
-                    if (!href) return;
+                    if (!href || !href.startsWith('#')) return;
                     link.classList.remove(...activeDesktopClasses, 'font-semibold');
                     link.classList.add(...inactiveDesktopClasses);
                     
-                    if (href === `#${currentSection}` || href.endsWith(`/#${currentSection}`)) {
+                    if (href === `#${currentSection}`) {
                         link.classList.remove(...inactiveDesktopClasses);
                         link.classList.add(...activeDesktopClasses);
                     }
@@ -468,10 +560,10 @@
 
                 mobileNavLinks.forEach(link => {
                     const href = link.getAttribute('href');
-                    if (!href) return;
+                    if (!href || !href.startsWith('#')) return;
                     link.classList.remove(...activeMobileClasses, ...inactiveMobileClasses);
                     
-                    if (href === `#${currentSection}` || href.endsWith(`/#${currentSection}`)) {
+                    if (href === `#${currentSection}`) {
                         link.classList.add(...activeMobileClasses);
                     } else {
                         link.classList.add(...inactiveMobileClasses);
@@ -488,7 +580,16 @@
         document.addEventListener('DOMContentLoaded', () => {
             const cookieBanner = document.getElementById('cookie-banner');
             const acceptButton = document.getElementById('accept-cookies');
+            const rejectButton = document.getElementById('reject-cookies');
             
+            function dismissBanner(value) {
+                localStorage.setItem('cookie_consent_miriola', value);
+                cookieBanner.classList.add('translate-y-24', 'opacity-0');
+                setTimeout(() => {
+                    cookieBanner.classList.add('hidden');
+                }, 500);
+            }
+
             if (cookieBanner && acceptButton) {
                 if (!localStorage.getItem('cookie_consent_miriola')) {
                     cookieBanner.classList.remove('hidden');
@@ -497,13 +598,10 @@
                     }, 200);
                 }
                 
-                acceptButton.addEventListener('click', () => {
-                    localStorage.setItem('cookie_consent_miriola', 'accepted');
-                    cookieBanner.classList.add('translate-y-24', 'opacity-0');
-                    setTimeout(() => {
-                        cookieBanner.classList.add('hidden');
-                    }, 500);
-                });
+                acceptButton.addEventListener('click', () => dismissBanner('accepted'));
+                if (rejectButton) {
+                    rejectButton.addEventListener('click', () => dismissBanner('essential_only'));
+                }
             }
         });
     </script>
@@ -511,3 +609,4 @@
     @yield('scripts')
 </body>
 </html>
+

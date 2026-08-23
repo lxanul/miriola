@@ -5,7 +5,7 @@
 
 @section('head')
     @php
-        $heroImgUrl = isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.jpg');
+        $heroImgUrl = isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.webp');
     @endphp
     <link rel="preload" as="image" href="{{ $heroImgUrl }}" fetchpriority="high">
 @endsection
@@ -15,10 +15,20 @@
     <section id="start" class="relative w-full h-[80vh] flex items-center justify-center bg-surface-dim overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
-             style="background-image: url('{{ isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.jpg') }}')">
+             style="background-image: url('{{ isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.webp') }}')">
         </div>
         <!-- Bright Light Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/25 to-black/15"></div>
+        
+        <!-- Award Badge Top-Right (Orły Turystyki 2024) -->
+        <div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
+            <div class="relative group">
+                <img src="{{ isset($cms['osrodek_award_badge']) && !empty($cms['osrodek_award_badge']) ? (str_starts_with($cms['osrodek_award_badge'], 'http') ? $cms['osrodek_award_badge'] : asset('storage/' . $cms['osrodek_award_badge'])) : asset('assets/img/orl.jpg') }}" 
+                     alt="Orły Turystyki 2024 - Laureat Konkursu" 
+                     width="180" height="210"
+                     class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
+            </div>
+        </div>
         
         <!-- Hero Content -->
         <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto" data-aos="fade-up">
@@ -38,9 +48,9 @@
             <p class="font-body text-base md:text-lg lg:text-body-lg mb-8 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
                 {{ $cms['hero_description'] ?? 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego' }}
             </p>
-            <a href="tel:+48608103119" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-5 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+            <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-5 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
                 <span class="material-symbols-outlined text-[20px] shrink-0">call</span>
-                <span>Zadzwoń i zarezerwuj: <span class="whitespace-nowrap">608 103 119</span></span>
+                <span>Zadzwoń i zarezerwuj: <span class="whitespace-nowrap">{{ !empty($cms['phone_number']) ? $cms['phone_number'] : '608 103 119' }}</span></span>
             </a>
         </div>
     </section>
@@ -126,10 +136,10 @@
                                         </span>
                                         
                                         <!-- Compact Thumbnail Strip -->
-                                        <div class="flex items-center gap-1 overflow-x-auto max-w-[75%] pb-0.5 scrollbar-none">
+                                        <div class="flex items-center gap-1.5 overflow-x-auto max-w-[75%] py-1 px-1 scrollbar-none">
                                             @foreach($imageList as $idx => $imgUrl)
                                                 <button type="button" onclick="changeRoomImage({{ $room->id }}, {{ $idx }}); event.stopPropagation();" 
-                                                        class="room-thumb w-7 h-7 rounded overflow-hidden shrink-0 border border-white/40 transition-all {{ $idx === 0 ? 'border-amber-300 ring-1 ring-amber-300 scale-105 opacity-100' : 'opacity-60 hover:opacity-100' }}">
+                                                        class="room-thumb w-7 h-7 rounded-md overflow-hidden shrink-0 border-2 transition-all {{ $idx === 0 ? 'border-amber-400 opacity-100 shadow-sm' : 'border-white/50 opacity-60 hover:opacity-100 hover:border-white' }}">
                                                     <img src="{{ str_starts_with($imgUrl, 'http') ? $imgUrl : asset('storage/' . $imgUrl) }}" 
                                                          class="w-full h-full object-cover" alt="Miniaturka {{ $idx + 1 }}">
                                                 </button>
@@ -231,10 +241,10 @@
                                             </span>
                                             
                                             <!-- Compact Thumbnail Strip -->
-                                            <div class="flex items-center gap-1 overflow-x-auto max-w-[75%] pb-0.5 scrollbar-none">
+                                            <div class="flex items-center gap-1.5 overflow-x-auto max-w-[75%] py-1 px-1 scrollbar-none">
                                                 @foreach($imageList as $idx => $imgUrl)
                                                     <button type="button" onclick="changeRoomImage({{ $room->id }}, {{ $idx }}); event.stopPropagation();" 
-                                                            class="room-thumb w-7 h-7 rounded overflow-hidden shrink-0 border border-white/40 transition-all {{ $idx === 0 ? 'border-amber-300 ring-1 ring-amber-300 scale-105 opacity-100' : 'opacity-60 hover:opacity-100' }}">
+                                                            class="room-thumb w-7 h-7 rounded-md overflow-hidden shrink-0 border-2 transition-all {{ $idx === 0 ? 'border-amber-400 opacity-100 shadow-sm' : 'border-white/50 opacity-60 hover:opacity-100 hover:border-white' }}">
                                                         <img src="{{ str_starts_with($imgUrl, 'http') ? $imgUrl : asset('storage/' . $imgUrl) }}" 
                                                              class="w-full h-full object-cover" alt="Miniaturka {{ $idx + 1 }}">
                                                     </button>
@@ -314,10 +324,10 @@
             <!-- Gallery Carousel Container -->
             <div class="relative group" data-aos="fade-up">
                 <!-- Navigation Arrows (< and >) -->
-                <button type="button" onclick="scrollGalleryLeft()" aria-label="Przewiń w lewo" class="absolute -left-2 sm:left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 text-primary hover:bg-primary hover:text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all z-20 focus:outline-none hover:scale-110 border border-slate-200">
+                <button type="button" onclick="scrollGalleryLeft()" aria-label="Przewiń w lewo" class="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 text-primary hover:bg-primary hover:text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all z-20 focus:outline-none hover:scale-110 border border-slate-200">
                     <span class="material-symbols-outlined text-2xl">chevron_left</span>
                 </button>
-                <button type="button" onclick="scrollGalleryRight()" aria-label="Przewiń w prawo" class="absolute -right-2 sm:right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 text-primary hover:bg-primary hover:text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all z-20 focus:outline-none hover:scale-110 border border-slate-200">
+                <button type="button" onclick="scrollGalleryRight()" aria-label="Przewiń w prawo" class="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 text-primary hover:bg-primary hover:text-white flex items-center justify-center shadow-lg backdrop-blur-md transition-all z-20 focus:outline-none hover:scale-110 border border-slate-200">
                     <span class="material-symbols-outlined text-2xl">chevron_right</span>
                 </button>
 
@@ -335,7 +345,7 @@
                         <div onclick="openGalleryLightbox({{ $idx }})" 
                              class="snap-center shrink-0 w-72 sm:w-96 aspect-[4/3] rounded-2xl overflow-hidden relative shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer group/card border border-slate-200/80 bg-slate-100">
                             @if($gImg->image)
-                                <img src="{{ $thumbUrl }}" alt="{{ $gImg->title ?? 'Multimedium' }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover/card:scale-108 transition-transform duration-700">
+                                <img src="{{ $thumbUrl }}" alt="{{ $gImg->title ? $gImg->title . ' — Ośrodek MIRiOLA' : 'Zdjęcie z Ośrodka Wypoczynkowego MIRiOLA w dolinie Skawy' }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover/card:scale-108 transition-transform duration-700">
                             @else
                                 <div class="w-full h-full bg-slate-900 flex items-center justify-center text-white">
                                     <span class="material-symbols-outlined text-6xl text-amber-300">movie</span>
@@ -665,7 +675,7 @@
             <!-- Lightbox Footer: Thumbnails, Amenities & Call Button (Bright Light Glass) -->
             <div class="p-4 sm:p-5 bg-white/95 border-t border-slate-200/80 space-y-4 shrink-0 overflow-y-auto max-h-[30vh]">
                 <!-- Thumbnails Row -->
-                <div id="lightbox-thumbs" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+                <div id="lightbox-thumbs" class="flex items-center gap-2.5 overflow-x-auto py-2 px-1 scrollbar-none">
                     <!-- Populated dynamically via JS -->
                 </div>
 
@@ -924,11 +934,11 @@
 
         thumbs.forEach((thumb, i) => {
             if (i === targetIndex) {
-                thumb.classList.add('border-amber-300', 'ring-1', 'ring-amber-300', 'scale-105', 'opacity-100');
-                thumb.classList.remove('border-white/40', 'opacity-60');
+                thumb.classList.remove('border-white/50', 'opacity-60');
+                thumb.classList.add('border-amber-400', 'opacity-100', 'shadow-sm');
             } else {
-                thumb.classList.remove('border-amber-300', 'ring-1', 'ring-amber-300', 'scale-105', 'opacity-100');
-                thumb.classList.add('border-white/40', 'opacity-60');
+                thumb.classList.remove('border-amber-400', 'opacity-100', 'shadow-sm');
+                thumb.classList.add('border-white/50', 'opacity-60');
             }
         });
 
@@ -1169,7 +1179,7 @@
                     let fullUrl = imgUrl.startsWith('http') ? imgUrl : ('/storage/' + imgUrl);
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = `w-14 h-10 rounded-md overflow-hidden shrink-0 border-2 transition-all ${idx === currentLightboxImgIndex ? 'border-primary ring-2 ring-primary scale-105 opacity-100' : 'border-slate-300 opacity-60 hover:opacity-100'}`;
+                    btn.className = `relative w-14 h-10 rounded-lg overflow-hidden shrink-0 border-2 transition-all duration-200 ${idx === currentLightboxImgIndex ? 'border-amber-400 opacity-100 shadow-md ring-2 ring-amber-400/40' : 'border-slate-300/80 opacity-60 hover:opacity-100 hover:border-slate-400'}`;
                     btn.onclick = (e) => {
                         e.stopPropagation();
                         currentLightboxImgIndex = idx;
@@ -1199,23 +1209,51 @@
                     const vUrl = String(item.video_url);
                     const ytId = extractYouTubeId(vUrl);
                     if (ytId) {
-                        // Adres budowany z samego ID, nigdy z surowego pola —
-                        // inaczej "https://zly.pl/#youtube.com" trafiłby do src.
                         const frame = document.createElement('iframe');
                         frame.className = 'w-full h-full max-h-[60vh] aspect-video rounded-lg shadow-2xl';
                         frame.src = 'https://www.youtube.com/embed/' + encodeURIComponent(ytId) + '?autoplay=1';
                         frame.setAttribute('frameborder', '0');
-                        frame.setAttribute('allow', 'autoplay; encrypted-media');
-                        frame.setAttribute('allowfullscreen', '');
+                        frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen');
+                        videoStage.replaceChildren(frame);
+                    } else if (vUrl.includes('tiktok.com')) {
+                        const match = vUrl.match(/(?:video\/|\/v\/)(\d+)/) || vUrl.match(/(\d{15,25})/);
+                        const ttId = match && match[1] ? match[1] : '';
+                        const embedUrl = ttId ? `https://www.tiktok.com/player/v1/${ttId}?music_info=1&description=1` : vUrl;
+                        const container = document.createElement('div');
+                        container.className = 'w-full flex flex-col items-center justify-center';
+                        const frame = document.createElement('iframe');
+                        frame.className = 'w-full max-w-sm h-[480px] max-h-[60vh] rounded-2xl shadow-2xl border-0';
+                        frame.src = embedUrl;
+                        frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen');
+                        container.appendChild(frame);
+                        const ttBtn = document.createElement('a');
+                        ttBtn.href = vUrl;
+                        ttBtn.target = '_blank';
+                        ttBtn.rel = 'noopener noreferrer';
+                        ttBtn.className = 'mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-900 text-white text-xs font-bold shadow-md hover:bg-slate-800 transition-all';
+                        ttBtn.textContent = 'Otwórz w aplikacji TikTok';
+                        container.appendChild(ttBtn);
+                        videoStage.replaceChildren(container);
+                    } else if (vUrl.includes('vimeo.com')) {
+                        const match = vUrl.match(/vimeo\.com\/(\d+)/);
+                        const vmId = match && match[1] ? match[1] : '';
+                        const embedUrl = vmId ? `https://player.vimeo.com/video/${vmId}?autoplay=1` : vUrl;
+                        const frame = document.createElement('iframe');
+                        frame.className = 'w-full h-full max-h-[60vh] aspect-video rounded-lg shadow-2xl';
+                        frame.src = embedUrl;
+                        frame.setAttribute('frameborder', '0');
+                        frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen');
                         videoStage.replaceChildren(frame);
                     } else {
                         const video = document.createElement('video');
                         video.controls = true;
                         video.autoplay = true;
+                        video.playsInline = true;
+                        video.setAttribute('playsinline', '');
+                        video.setAttribute('webkit-playsinline', '');
+                        video.setAttribute('preload', 'metadata');
                         video.className = 'max-h-[60vh] max-w-full rounded-lg shadow-2xl';
                         const source = document.createElement('source');
-                        // Wszystko, co nie jest http(s), ląduje pod /storage/,
-                        // więc schematy javascript: i data: nigdy nie ożyją.
                         source.src = /^https?:\/\//i.test(vUrl) ? vUrl : '/storage/' + vUrl;
                         video.appendChild(source);
                         video.appendChild(document.createTextNode('Twoja przeglądarka nie obsługuje tagu video.'));
@@ -1238,7 +1276,7 @@
                     let isV = (gItem.media_type === 'video') || !!gItem.video_url;
                     const btn = document.createElement('button');
                     btn.type = 'button';
-                    btn.className = `relative w-14 h-10 rounded-md overflow-hidden shrink-0 border-2 transition-all ${idx === currentGalleryIndex ? 'border-primary ring-2 ring-primary scale-105 opacity-100' : 'border-slate-300 opacity-60 hover:opacity-100'}`;
+                    btn.className = `relative w-14 h-10 rounded-lg overflow-hidden shrink-0 border-2 transition-all duration-200 ${idx === currentGalleryIndex ? 'border-amber-400 opacity-100 shadow-md ring-2 ring-amber-400/40' : 'border-slate-300/80 opacity-60 hover:opacity-100 hover:border-slate-400'}`;
                     btn.onclick = (e) => {
                         e.stopPropagation();
                         currentGalleryIndex = idx;

@@ -58,11 +58,11 @@ class NewsResource extends Resource
                     ->options(Branch::options())
                     ->default(Branch::Resort->value)
                     ->required(),
-                Forms\Components\Textarea::make('excerpt')
-                    ->label('Krótki Wstęp / Streszczenie')
-                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('content')
-                    ->label('Pełna Treść Aktualności')
+                    ->label('Treść Aktualności')
+                    ->placeholder('Wpisz treść artykułu lub wiadomości...')
+                    ->nullable()
+                    ->rows(6)
                     ->columnSpanFull(),
                 Forms\Components\Select::make('media_type')
                     ->label('Typ multimediów')
@@ -77,19 +77,26 @@ class NewsResource extends Resource
                     ->label('Zdjęcie Główne lub Okładka Wideo')
                     ->image()
                     ->disk('public')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml'])
+                    ->maxSize(5120)
                     ->directory('news-images')
                     ->visibility('public')
                     ->helperText('Wymagane dla Zdjęcia. Dla Wideo — prześlij okładkę (miniaturkę).'),
                 Forms\Components\TextInput::make('video_url')
-                    ->label('Link do Wideo (YouTube / Vimeo / plik MP4)')
-                    ->placeholder('https://www.youtube.com/watch?v=... lub https://.../film.mp4')
-                    ->url()
+                    ->label('Link do Wideo (YouTube / TikTok / Vimeo / plik MP4)')
+                    ->placeholder('np. https://www.youtube.com/watch?v=... lub https://www.tiktok.com/@user/video/123456789')
+                    ->nullable()
                     ->maxLength(255)
-                    ->rule('regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i')
-                    ->validationMessages([
-                        'regex' => 'Dozwolone są tylko adresy https z YouTube, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    // Walidacja regex tylko gdy pole widoczne — ->hidden() wyłącza
+                    // walidację, ->visible() jej NIE wyłącza. H-BUG-01.
+                    ->hidden(fn (Forms\Get $get): bool => $get('media_type') !== 'video')
+                    ->rules([
+                        'nullable',
+                        'regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com|tiktok\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i',
                     ])
-                    ->visible(fn (Forms\Get $get): bool => $get('media_type') === 'video')
+                    ->validationMessages([
+                        'regex' => 'Dozwolone są tylko adresy https z YouTube, TikTok, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                    ])
                     ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_published')
                     ->label('Opublikowany na Stronie')
@@ -149,6 +156,11 @@ class NewsResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->isAdmin() || auth()->user()?->isNewsEditor();
     }
 
     public static function getPages(): array

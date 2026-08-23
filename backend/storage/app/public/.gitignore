@@ -1,2 +1,9 @@
-*
+/*
 !.gitignore
+!/rooms/
+!/attractions/
+!/gallery/
+!/farm-products/
+!/news-images/
+!/cafe-menu/
+!/cms-graphics/

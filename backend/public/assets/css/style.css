@@ -162,3 +162,29 @@ body {
     }
 }
 
+/* Frameless Header Phone Link */
+.header-phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: #001e40;
+    margin-right: 0.5rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+.header-phone-link .material-symbols-outlined {
+    color: #f75555;
+    font-size: 1.125rem;
+}
+.header-phone-link:hover {
+    color: #f75555;
+}
+@media (max-width: 640px) {
+    .header-phone-link {
+        display: none !important;
+    }
+}
+

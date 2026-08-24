@@ -87,10 +87,11 @@
                 </div>
             </a>
             <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
-                <!-- Phone Number Badge -->
+                <!-- Phone Number (clean text without frame) -->
                 <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" 
-                   class="hidden lg:inline-flex items-center gap-2 bg-primary/5 hover:bg-primary hover:text-white text-primary border border-primary/15 text-xs font-bold py-2 px-3.5 rounded-xl transition-all duration-300 shadow-xs mr-1 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                    <span class="material-symbols-outlined text-base text-accent">call</span>
+                   class="header-phone-link focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                   title="Zadzwoń do nas" aria-label="Zadzwoń: {{ $cms['phone_number'] ?? '+48 608 103 119' }}">
+                    <span class="material-symbols-outlined">call</span>
                     <span>{{ $cms['phone_number'] ?? '+48 608 103 119' }}</span>
                 </a>
                 

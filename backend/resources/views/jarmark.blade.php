@@ -274,32 +274,33 @@
 
     <!-- FAQ Section Jarmark -->
     @if(isset($faqs) && count($faqs) > 0)
-    <section id="faq" class="py-section-gap-mobile md:py-section-gap bg-background border-t border-slate-200/80">
-        <div class="max-w-3xl mx-auto px-gutter">
+    <section id="faq" class="py-section-gap-mobile md:py-section-gap bg-background">
+        <div class="max-w-container-max mx-auto px-gutter">
             <!-- Section Header -->
-            <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
-                <span class="text-xs uppercase tracking-widest text-primary/70 font-bold block mb-2">Pytania i Odpowiedzi</span>
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-xs uppercase tracking-widest text-primary/60 font-bold block mb-2">Informacje</span>
                 <h2 class="font-display text-3xl md:text-headline-md text-primary font-bold mb-4">
-                    Najczęściej Zadawane Pytania (FAQ)
+                    Często Zadawane Pytania
                 </h2>
                 <div class="w-16 h-0.5 bg-primary/20 mx-auto"></div>
             </div>
 
-            <!-- FAQ List Accordion -->
-            <div class="space-y-4" data-aos="fade-up">
+            <!-- Accordion Container -->
+            <div class="max-w-3xl mx-auto space-y-4" data-aos="fade-up" data-aos-delay="100">
                 @foreach($faqs as $faq)
-                    <details class="group bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden transition-all duration-200">
-                        <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer font-bold text-primary text-base select-none hover:text-accent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
-                            <span class="flex items-center gap-3">
-                                <span class="material-symbols-outlined text-accent text-xl shrink-0">help_outline</span>
-                                <span>{{ $faq->question }}</span>
-                            </span>
-                            <span class="material-symbols-outlined text-primary/50 group-open:rotate-180 transition-transform duration-300 shrink-0">expand_more</span>
-                        </summary>
-                        <div class="px-5 pb-5 pt-1 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
-                            {{ $faq->answer }}
+                    <div class="faq-item group bg-surface rounded border border-primary/10 overflow-hidden transition-all duration-300 shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full flex justify-between items-center p-5 md:p-6 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary rounded">
+                            <span class="font-display text-sm md:text-base font-bold text-primary">{{ $faq->question }}</span>
+                            <span class="material-symbols-outlined text-primary faq-icon transition-transform duration-300 select-none">expand_more</span>
+                        </button>
+                        <div class="faq-content grid grid-rows-[0fr]">
+                            <div class="overflow-hidden">
+                                <div class="px-5 pb-5 md:px-6 md:pb-6 pt-2 border-t border-primary/10 text-sm text-on-surface-variant leading-relaxed">
+                                    {{ $faq->answer }}
+                                </div>
+                            </div>
                         </div>
-                    </details>
+                    </div>
                 @endforeach
             </div>
         </div>

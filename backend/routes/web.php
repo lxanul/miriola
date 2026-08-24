@@ -8,31 +8,11 @@ use App\Models\FarmProduct;
 use App\Models\GalleryImage;
 use App\Models\News;
 use App\Models\Room;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-
-// Helper to fetch database CMS values.
-// Strażnik function_exists jest konieczny: pakiet testowy ładuje plik tras przy
-// każdym starcie aplikacji, więc bez niego drugi test kończył się fatalnym
-// błędem „Cannot redeclare getCmsData()" i cały pakiet nigdy nie przechodził.
-// Cache 60 min — dane CMS rzadko się zmieniają. Obserwator CmsContentObserver
-// wywołuje Cache::forget('cms_data') przy każdym save().
-if (! function_exists('getCmsData')) {
-    function getCmsData(): array
-    {
-        try {
-            return Cache::remember('cms_data', 3600, function () {
-                return CmsContent::pluck('value', 'key')->toArray();
-            });
-        } catch (Throwable $e) {
-            return [];
-        }
-    }
-}
 
 // 1. Hub Landing Page (3 Squares Selection Hub + Latest News)
 Route::get('/', function () {
-    $cms = getCmsData();
+    $cms = CmsContent::getData();
     $latestNews = News::where('is_published', true)->latest('published_at')->take(3)->get();
 
     return view('hub', compact('cms', 'latestNews'));
@@ -40,7 +20,7 @@ Route::get('/', function () {
 
 // 2. Ośrodek Wypoczynkowy MIRiOLA
 Route::get('/osrodek', function () {
-    $dbCms = getCmsData();
+    $dbCms = CmsContent::getData();
     $cms = array_merge([
         'meta_title' => 'Ośrodek Wypoczynkowy MIRiOLA - Dolina Skawy, Noclegi blisko Wadowic',
         'meta_description' => 'Zapraszamy do Ośrodka Wypoczynkowego MIRiOLA w dolinie Skawy. Oferujemy komfortowe pokoje, apartamenty, 2 sale restauracyjne i domki letniskowe.',
@@ -67,7 +47,7 @@ Route::get('/osrodek', function () {
 
 // 3. Jarmark - CEH & Kawiarnia
 Route::get('/jarmark', function () {
-    $cms = getCmsData();
+    $cms = CmsContent::getData();
     $cafeMenuItems = CafeMenuItem::where('is_available', true)->orderBy('sort_order')->get();
     $attractions = Attraction::where('branch', 'jarmark')->orderBy('sort_order')->get();
     $news = News::where('branch', 'jarmark')->where('is_published', true)->latest()->get();
@@ -81,7 +61,7 @@ Route::get('/jarmark', function () {
 
 // 4. Gospodarstwo Rolne MIRiOLA
 Route::get('/gospodarstwo', function () {
-    $cms = getCmsData();
+    $cms = CmsContent::getData();
     $farmProducts = FarmProduct::orderBy('sort_order')->get();
 
     return view('gospodarstwo', compact('farmProducts', 'cms'));
@@ -89,7 +69,7 @@ Route::get('/gospodarstwo', function () {
 
 // 5. Dedykowana Podstrona Aktualności (Wszystkie wpisy na pełnym ekranie)
 Route::get('/aktualnosci', function () {
-    $cms = getCmsData();
+    $cms = CmsContent::getData();
     $currentBranch = request()->query('branch', 'all');
 
     $query = News::where('is_published', true);

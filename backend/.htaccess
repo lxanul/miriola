@@ -1,0 +1,26 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. Wymuszenie bezpiecznego połączenia HTTPS
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 2. Blokada bezpośredniego dostępu do plików konfiguracyjnych, środowiskowych i ukrytych
+    RewriteRule ^\.env - [F,L,NC]
+    RewriteRule ^composer\.(json|lock) - [F,L,NC]
+    RewriteRule ^package(-lock)?\.json - [F,L,NC]
+    RewriteRule ^artisan - [F,L,NC]
+    RewriteRule ^phpunit\.xml - [F,L,NC]
+    RewriteRule ^(\.git|\.agents|\.serena) - [F,L,NC]
+
+    # 3. Blokada bezpośredniego dostępu do katalogów systemowych
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|tests|vendor)/ - [F,L,NC]
+
+    # 4. Przekierowanie ruchu z katalogu głównego do folderu public/
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Wyłączenie listowania zawartości katalogów
+Options -Indexes

@@ -65,4 +65,21 @@ class UserRoleTest extends TestCase
         $this->assertTrue(RoomResource::canViewAny());
         $this->assertTrue(ReservationResource::canViewAny());
     }
+
+    public function test_news_editor_cannot_edit_or_create_outside_news_resource(): void
+    {
+        $editor = User::factory()->create([
+            'is_admin' => true,
+            'role' => 'news_editor',
+        ]);
+        $room = \App\Models\Room::create(['name' => 'Test Room', 'room_type' => 'standard']);
+
+        $this->actingAs($editor);
+
+        // canViewAny() only hides nav/list — canCreate/canEdit gate the actual
+        // mutating routes and used to default-allow with no Policy class registered.
+        $this->assertFalse(RoomResource::canCreate());
+        $this->assertFalse(RoomResource::canEdit($room));
+        $this->assertTrue(NewsResource::canCreate());
+    }
 }

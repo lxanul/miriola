@@ -9,7 +9,9 @@ use App\Models\GalleryImage;
 use App\Models\News;
 use App\Models\RestaurantHall;
 use App\Models\Room;
+use App\Models\User;
 use App\Observers\MediaOptimizeObserver;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,5 +39,25 @@ class AppServiceProvider extends ServiceProvider
         FarmProduct::observe(MediaOptimizeObserver::class);
         RestaurantHall::observe(MediaOptimizeObserver::class);
         Attraction::observe(MediaOptimizeObserver::class);
+
+        // Żaden model nie ma klasy Policy, więc bez tego canEdit/canCreate/canDelete
+        // w Filamencie domyślnie zwracają true dla każdego zalogowanego usera panelu —
+        // canViewAny() na Resource chowa tylko nawigację i listę, nie blokuje
+        // bezpośredniego wejścia pod /admin/{resource}/{id}/edit. Redaktor Aktualności
+        // mógłby więc edytować pokoje, rezerwacje, konta itd. wpisując URL ręcznie.
+        Gate::before(function (User $user, string $ability, array $arguments = []) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+
+            if ($user->isNewsEditor()) {
+                $subject = $arguments[0] ?? null;
+                $model = is_object($subject) ? $subject::class : $subject;
+
+                return $model === News::class;
+            }
+
+            return false;
+        });
     }
 }

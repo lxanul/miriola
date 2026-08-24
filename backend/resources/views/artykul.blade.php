@@ -30,7 +30,7 @@
     "name": "Ośrodek Wypoczynkowy MIRiOLA",
     "logo": {
       "@@type": "ImageObject",
-      "url": "{{ asset('images/logo.png') }}"
+      "url": "{{ asset('images/logo.webp') }}"
     }
   },
   "mainEntityOfPage": {

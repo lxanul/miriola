@@ -7,8 +7,8 @@
     <meta name="description" content="Witaj w kompleksie MIRiOLA w dolinie Skawy koło Wadowic. Wybierz Ośrodek Wypoczynkowy, Jarmark z Kawiarnią lub nasze Gospodarstwo Rolne.">
     <meta name="keywords" content="MIRiOLA, Ośrodek Wypoczynkowy Wadowice, Jarmark Kawiarnia, Gospodarstwo Rolne Dolina Skawy, noclegi Wadowice">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('favicon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.webp') }}">
     <link rel="canonical" href="{{ url()->current() }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:title" content="MIRiOLA – Kompleks Wypoczynkowy w Dolinie Skawy koło Wadowic">
     <meta property="og:description" content="Witaj w kompleksie MIRiOLA w dolinie Skawy koło Wadowic. Wybierz Ośrodek Wypoczynkowy, Jarmark z Kawiarnią lub nasze Gospodarstwo Rolne.">
-    <meta property="og:image" content="{{ asset('assets/img/hero.jpg') }}">
+    <meta property="og:image" content="{{ asset('assets/img/hero.webp') }}">
     <meta property="og:locale" content="pl_PL">
     <meta property="og:site_name" content="MIRiOLA">
 
@@ -25,7 +25,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MIRiOLA – Kompleks Wypoczynkowy w Dolinie Skawy koło Wadowic">
     <meta name="twitter:description" content="Noclegi, Kawiarnia Rzemieślnicza oraz Ekologiczne Ogórki i Miody w Dolinie Skawy.">
-    <meta name="twitter:image" content="{{ asset('assets/img/hero.jpg') }}">
+    <meta name="twitter:image" content="{{ asset('assets/img/hero.webp') }}">
     
     <!-- Schema.org JSON-LD Structured Data for LocalBusiness & Resort -->
     <script type="application/ld+json">
@@ -33,7 +33,7 @@
       "@@context": "https://schema.org",
       "@@type": "Resort",
       "name": "Ośrodek Wypoczynkowy MIRiOLA",
-      "image": "{{ asset('assets/img/hero.jpg') }}",
+      "image": "{{ asset('assets/img/hero.webp') }}",
       "@@id": "{{ url('/') }}",
       "url": "{{ url('/') }}",
       "telephone": "+48608103119",
@@ -60,19 +60,27 @@
     }
     </script>
 
-    <!-- Google Fonts -->
+    <!-- Fonts & Icons — non-blocking unified request -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    </noscript>
     
-    <!-- Material Symbols Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-    
+    <!-- Hero Image Preload for LCP Acceleration -->
+    <link rel="preload" as="image" href="{{ asset('assets/img/hero.webp') }}" fetchpriority="high">
+
+    <!-- AOS Animation Library -->
+    <link rel="preload" as="style" href="https://unpkg.com/aos@2.3.1/dist/aos.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    </noscript>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body class="bg-background text-on-background font-body antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-white">
 
@@ -80,7 +88,7 @@
     <header class="w-full py-3.5 sm:py-5 px-3 sm:px-gutter border-b border-primary/10 bg-surface/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-container-max mx-auto flex justify-between items-center gap-2">
             <a href="{{ url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded shrink-0" aria-label="Strona główna">
-                <img src="{{ asset('images/logo.png') }}" alt="MIRiOLA Logo" width="180" height="48" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
+                <img src="{{ asset('images/logo.webp') }}" alt="MIRiOLA Logo" width="180" height="48" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
                 <div class="flex flex-col">
                     <span class="font-display text-lg sm:text-xl font-bold text-primary tracking-wide leading-none">MIRiOLA</span>
                     <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary/70 font-bold mt-1">Dolina Skawy</span>
@@ -153,7 +161,7 @@
             </h1>
 
             <div class="group my-1">
-                <img src="{{ asset('images/logo.png') }}" 
+                <img src="{{ asset('images/logo.webp') }}" 
                      alt="MIRiOLA - Witaj w Sercu Doliny Skawy" 
                      width="300" height="256" fetchpriority="high"
                      class="h-40 sm:h-56 md:h-64 w-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-500">
@@ -485,7 +493,7 @@
     <footer class="w-full py-8 px-gutter border-t border-primary/10 bg-surface text-center text-xs text-on-surface-variant">
         <div class="max-w-container-max mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2.5">
-                <img src="{{ asset('favicon.png') }}" alt="MIRiOLA Logo" class="h-7 w-auto object-contain">
+                <img src="{{ asset('favicon.webp') }}" alt="MIRiOLA Logo" class="h-7 w-auto object-contain">
                 <p>&copy; {{ date('Y') }} MIRiOLA. Wszelkie prawa zastrzeżone.</p>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-6">

@@ -196,7 +196,7 @@ class DatabaseSeeder extends Seeder
                 'branch' => 'jarmark',
                 'description' => 'Bezpieczny kolorowy dmuchaniec ze zjeżdżalnią w strefie Jarmarku dla najmłodszych gości.',
                 'icon' => 'child_care',
-                'image' => asset('assets/img/jarmark-hero.jpg'),
+                'image' => asset('assets/img/jarmark-hero.webp'),
                 'sort_order' => 1,
             ]
         );
@@ -207,7 +207,7 @@ class DatabaseSeeder extends Seeder
                 'branch' => 'jarmark',
                 'description' => 'Zadaszony namiot ze strefą gastronomiczną, stolikami oraz miejscem na wydarzenia plenerowe.',
                 'icon' => 'cottage',
-                'image' => asset('assets/img/jarmark-hero.jpg'),
+                'image' => asset('assets/img/jarmark-hero.webp'),
                 'sort_order' => 2,
             ]
         );
@@ -218,7 +218,7 @@ class DatabaseSeeder extends Seeder
                 'branch' => 'jarmark',
                 'description' => 'Relaks przy aromatycznej kawie rzemieślniczej, lody, ciasta i mrożone napoje w strefie gastronomicznej.',
                 'icon' => 'local_cafe',
-                'image' => asset('assets/img/jarmark-hero.jpg'),
+                'image' => asset('assets/img/jarmark-hero.webp'),
                 'sort_order' => 3,
             ]
         );
@@ -383,7 +383,7 @@ class DatabaseSeeder extends Seeder
                 'description' => '',
                 'unit_price' => 25.00,
                 'unit_name' => 'kg / pęczek',
-                'image' => 'assets/img/czosnek.jpg',
+                'image' => 'assets/img/czosnek.webp',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 1,
@@ -396,7 +396,7 @@ class DatabaseSeeder extends Seeder
                 'description' => '',
                 'unit_price' => 25.00,
                 'unit_name' => 'kg',
-                'image' => 'assets/img/borowka.jpg',
+                'image' => 'assets/img/borowka.webp',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 2,
@@ -409,7 +409,7 @@ class DatabaseSeeder extends Seeder
                 'description' => '',
                 'unit_price' => 45.00,
                 'unit_name' => 'słoik 1kg',
-                'image' => 'assets/img/miod.jpg',
+                'image' => 'assets/img/miod.webp',
                 'is_available' => true,
                 'phone_contact' => '+48608103119',
                 'sort_order' => 3,
@@ -444,13 +444,13 @@ class DatabaseSeeder extends Seeder
             ['key' => 'room3_title', 'label' => 'Pokój 3 - Tytuł', 'value' => 'Domek Letniskowy', 'type' => 'text', 'group' => 'resort'],
             ['key' => 'room3_description', 'label' => 'Pokój 3 - Opis', 'value' => 'Samodzielny domek w otoczeniu zielonego ogrodu. Zapewnia całkowitą prywatność, posiada przytulny salon z kominkiem oraz aneks.', 'type' => 'textarea', 'group' => 'resort'],
 
-            ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => 'assets/img/orl.jpg', 'type' => 'image', 'group' => 'resort'],
+            ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => 'assets/img/orl.webp', 'type' => 'image', 'group' => 'resort'],
 
             // Jarmark
             ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Rzemieślnicza', 'type' => 'text', 'group' => 'jarmark'],
             ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz klimatyczną strefę spotkań.', 'type' => 'textarea', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_kawy_napoje', 'label' => 'Kawiarnia - Zdjęcie kategorii Kawy & Napoje', 'value' => 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
-            ['key' => 'cafe_cat_image_lody', 'label' => 'Kawiarnia - Zdjęcie kategorii Lody', 'value' => 'cms-graphics/lody.jpg', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_cat_image_lody', 'label' => 'Kawiarnia - Zdjęcie kategorii Lody', 'value' => 'cms-graphics/lody.webp', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_gofry', 'label' => 'Kawiarnia - Zdjęcie kategorii Gofry', 'value' => 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_desery', 'label' => 'Kawiarnia - Zdjęcie kategorii Desery', 'value' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_zapiekanki', 'label' => 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'value' => 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],

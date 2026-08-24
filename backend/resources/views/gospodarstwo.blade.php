@@ -2,7 +2,7 @@
 
 @section('title', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA | Czosnek, Borówki i Miody')
 @section('meta_description', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA w dolinie Skawy. Oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki oraz naturalne miody z własnej pasieki.')
-@section('og_image', asset('assets/img/gospodarstwo-hero.jpg'))
+@section('og_image', asset('assets/img/gospodarstwo-hero.webp'))
 
 @section('schema')
 <script type="application/ld+json">
@@ -12,7 +12,7 @@
   "@@id": "{{ url('/gospodarstwo') }}#farm",
   "name": "Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA",
   "description": "Ekologiczne uprawy ogrodniczne i pasieka w dolinie Skawy. W ofercie: czosnek (3 odmiany), borówki amerykariskte oraz miody naturalne z własnej pasieki.",
-  "image": "{{ asset('assets/img/gospodarstwo-hero.jpg') }}",
+  "image": "{{ asset('assets/img/gospodarstwo-hero.webp') }}",
   "url": "{{ url('/gospodarstwo') }}",
   "telephone": "+48608103119",
   "email": "miroslawzadora@wp.pl",

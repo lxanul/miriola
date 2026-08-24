@@ -12,9 +12,9 @@
     <meta name="robots" content="@yield('robots', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1')">
     <meta name="theme-color" content="#001e40">
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <link rel="shortcut icon" href="{{ asset('favicon.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" type="image/webp" href="{{ asset('favicon.webp') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.webp') }}">
     <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Open Graph / Social Media SEO -->
@@ -61,7 +61,7 @@
           "hasMap": "https://maps.google.com/?q=Zakopianska+192+Wadowice",
           "logo": {
             "@@type": "ImageObject",
-            "url": "{{ asset('images/logo.png') }}",
+            "url": "{{ asset('images/logo.webp') }}",
             "width": 180,
             "height": 48
           },
@@ -140,9 +140,15 @@
     </noscript>
 
     <!-- AOS Animations CSS -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preload" as="style" href="https://unpkg.com/aos@2.3.1/dist/aos.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    </noscript>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Production Compiled Tailwind Assets -->
+    <link rel="preload" as="style" href="{{ asset('build/assets/app-BYOZS_yM.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BYOZS_yM.css') }}">
+    <script type="module" src="{{ asset('build/assets/app-BvRk9kiK.js') }}"></script>
     
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -156,7 +162,7 @@
     <nav class="fixed top-0 left-0 w-full z-50 bg-background/95 border-b border-primary/10 shadow-sm transition-all duration-300">
         <div class="max-w-container-max mx-auto flex justify-between items-center h-20 px-gutter">
             <a href="{{ url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-primary rounded shrink-0" aria-label="Strona główna">
-                <img src="{{ asset('images/logo.png') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
+                <img src="{{ asset('images/logo.webp') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
                 <div class="flex flex-col">
                     <span class="font-display text-lg sm:text-xl font-bold text-primary tracking-wide leading-none">MIRiOLA</span>
                     <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary/70 font-bold mt-1">Dolina Skawy</span>
@@ -310,7 +316,7 @@
             <!-- Col 1: About -->
             <div class="space-y-4">
                 <a href="{{ url('/') }}" class="inline-flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-white/20 rounded" aria-label="MIRiOLA - Strona główna">
-                    <img src="{{ asset('favicon.png') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform shrink-0">
+                    <img src="{{ asset('favicon.webp') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform shrink-0">
                     <div class="flex flex-col">
                         <span class="font-display text-2xl font-bold text-white tracking-wider leading-none">MIRiOLA</span>
                         <span class="text-[10px] uppercase tracking-widest text-surface-dim/70 font-semibold mt-1">Dolina Skawy</span>

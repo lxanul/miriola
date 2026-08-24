@@ -28,15 +28,15 @@ INSERT INTO `cms_contents` (`id`, `key`, `label`, `value`, `type`, `group`, `cre
 (29, 'room3_title', 'Pokój 3 - Tytuł', 'Domek Letniskowy', 'text', 'resort', '2026-08-09 20:48:47', '2026-08-09 20:48:47'),
 (31, 'room3_description', 'Pokój 3 - Opis', 'Samodzielny domek w otoczeniu zielonego ogrodu. Zapewnia całkowitą prywatność, posiada przytulny salon z kominkiem oraz aneks.', 'textarea', 'resort', '2026-08-09 20:48:47', '2026-08-09 20:48:47'),
 (32, 'cafe_cat_image_kawy_napoje', 'Kawiarnia - Zdjęcie kategorii Kawy & Napoje', 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 21:45:14'),
-(33, 'cafe_cat_image_lody', 'Kawiarnia - Zdjęcie kategorii Lody', 'cms-graphics/lody.jpg', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-24 09:29:13'),
-(34, 'cafe_cat_image_gofry', 'Kawiarnia - Zdjęcie kategorii Gofry', 'cms-graphics/01M0BJ6TBADY4Z5NQHG4RPWFPP.jpg', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:09:51'),
-(35, 'cafe_cat_image_desery', 'Kawiarnia - Zdjęcie kategorii Desery', 'cms-graphics/01M0BJ86P1107R2HTDV6ZTCBE8.jpg', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:10:37'),
-(36, 'cafe_cat_image_zapiekanki', 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'cms-graphics/01M0BJ5EAWM9P4A2DXPQ795VSV.jpg', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:09:06'),
+(33, 'cafe_cat_image_lody', 'Kawiarnia - Zdjęcie kategorii Lody', 'cms-graphics/lody.webp', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-24 09:29:13'),
+(34, 'cafe_cat_image_gofry', 'Kawiarnia - Zdjęcie kategorii Gofry', 'cms-graphics/01M0BJ6TBADY4Z5NQHG4RPWFPP.webp', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:09:51'),
+(35, 'cafe_cat_image_desery', 'Kawiarnia - Zdjęcie kategorii Desery', 'cms-graphics/01M0BJ86P1107R2HTDV6ZTCBE8.webp', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:10:37'),
+(36, 'cafe_cat_image_zapiekanki', 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'cms-graphics/01M0BJ5EAWM9P4A2DXPQ795VSV.webp', 'image', 'jarmark', '2026-08-18 21:45:14', '2026-08-18 23:09:06'),
 (37, 'tiktok_url', 'Link do profilu TikTok', 'https://www.tiktok.com/@miriola_cafe_bar_', 'url', 'general', '2026-08-22 08:42:15', '2026-08-23 13:12:14'),
 (38, 'gospodarstwo_cert_info', 'Gospodarstwo - Informacja o rejestracji w Sanepidzie i RHD', 'Gospodarstwo prowadzi Rolniczy Handel Detaliczny (RHD) i jest zarejestrowane w Sanepidzie. Skontaktuj się z nami telefonicznie, aby potwierdzić aktualną dostępność i ustalić termin odbioru!', 'textarea', 'farm', '2026-08-23 12:43:18', '2026-08-23 13:10:25'),
 (39, 'gospodarstwo_allegro_text', 'Gospodarstwo - Tekst o Allegro Lokalnie', 'Istnieje możliwość zakupu na Allegro Lokalnie', 'text', 'farm', '2026-08-23 12:43:18', '2026-08-23 12:43:18'),
 (40, 'gospodarstwo_allegro_url', 'Gospodarstwo - Link do Allegro Lokalnie', 'https://allegrolokalnie.pl', 'url', 'farm', '2026-08-23 12:43:18', '2026-08-23 12:43:18'),
-(41, 'osrodek_award_badge', 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'assets/img/orl.jpg', 'image', 'resort', '2026-08-23 12:43:18', '2026-08-23 22:22:59'),
+(41, 'osrodek_award_badge', 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'assets/img/orl.webp', 'image', 'resort', '2026-08-23 12:43:18', '2026-08-23 22:22:59'),
 (42, 'phone_number_2', 'Telefon dodatkowy do kontaktu', '+48 696 312 574', 'text', 'general', '2026-08-23 13:19:29', '2026-08-23 13:19:29'),
 (43, 'hero_badge', 'Ośrodek - Odznaka / Badge Hero', 'Komfortowe noclegi w dolinie Skawy', 'text', 'resort', '2026-08-23 22:22:59', '2026-08-23 22:22:59'),
 (44, 'hero_title', 'Ośrodek - Tytuł Główny Hero (Alias)', 'Odkryj spokój w sercu doliny Skawy', 'text', 'resort', '2026-08-23 22:22:59', '2026-08-23 22:22:59'),
@@ -78,8 +78,8 @@ INSERT INTO `attractions` (`id`, `title`, `branch`, `description`, `icon`, `imag
 (49, 'Bezpłatny Parking', 'resort', 'Wygodny, bezpłatny i ogrodzony parking na terenie ośrodka.', 'local_parking', NULL, 3, '2026-08-18 21:45:14', '2026-08-18 21:45:14'),
 (50, 'Plac Zabaw dla Dzieci', 'resort', 'Bezpieczny plac zabaw ze strefą rozrywki dla najmłodszych.', 'child_care', NULL, 4, '2026-08-18 21:45:14', '2026-08-18 21:45:14'),
 (51, 'Tyrolka & Zjeżdżalnia na Pontonie', 'jarmark', 'Poczuj dreszczyk emocji na tyrolce lub zjedź na kolorowym pontonie po naszej długiej zjeżdżalni plenerowej. Atrakcja dla dzieci i dorosłych — gwarantowana dawka adrenaliny i śmiechu!', 'water', 'attractions/tyrolka-pontony-75bbe870.webp', 1, '2026-08-18 22:52:08', '2026-08-18 22:52:08'),
-(52, 'Dmuchany Plac Zabaw', 'jarmark', 'Ogromny dmuchany zamek z zjeżdżalnią, tunelami i wejściami — raj dla każdego dziecka! Bezpieczna strefa zabawy na świeżym powietrzu, tuż obok kawiarni plenerowej.', 'toys', 'attractions/dmuchaniec.jpg', 2, '2026-08-18 22:52:08', '2026-08-18 22:52:08'),
-(53, 'Sferyczna Kopuła Plenerowa', 'jarmark', 'Wyjątkowe miejsce do relaksu i spotkań — nowoczesna kopuła geodezyjne otwarta na ogród i naturę. Idealna jako strefa wypoczynku w pięknej scenerii MIRiOLA.', 'explore', 'attractions/kopula.jpg', 3, '2026-08-18 22:52:08', '2026-08-18 22:52:08');
+(52, 'Dmuchany Plac Zabaw', 'jarmark', 'Ogromny dmuchany zamek z zjeżdżalnią, tunelami i wejściami — raj dla każdego dziecka! Bezpieczna strefa zabawy na świeżym powietrzu, tuż obok kawiarni plenerowej.', 'toys', 'attractions/dmuchaniec.webp', 2, '2026-08-18 22:52:08', '2026-08-18 22:52:08'),
+(53, 'Sferyczna Kopuła Plenerowa', 'jarmark', 'Wyjątkowe miejsce do relaksu i spotkań — nowoczesna kopuła geodezyjne otwarta na ogród i naturę. Idealna jako strefa wypoczynku w pięknej scenerii MIRiOLA.', 'explore', 'attractions/kopula.webp', 3, '2026-08-18 22:52:08', '2026-08-18 22:52:08');
 
 -- Table: cafe_menu_items
 DELETE FROM `cafe_menu_items`;

@@ -2,7 +2,7 @@
 
 @section('title', 'Jarmark - CEH & Kawiarnia MIRiOLA | Menu, Atrakcje, Nowości')
 @section('meta_description', 'Zapraszamy do Kawiarni Rzemieślniczej i Centrum Edukacyjno-Handlowego Jarmark w Gorzeniu Górnym. Aromatyczna kawa, domowe ciasta, strefa relaksu w ogrodzie i atrakcje dla dzieci.')
-@section('og_image', asset('assets/img/jarmark-hero.jpg'))
+@section('og_image', asset('assets/img/jarmark-hero.webp'))
 
 @section('schema')
 <script type="application/ld+json">
@@ -12,7 +12,7 @@
   "@@id": "{{ url('/jarmark') }}#cafe",
   "name": "Kawiarnia Rzemieślnicza Jarmark MIRiOLA",
   "description": "Kawiarnia rzemieślnicza w Centrum Edukacyjno-Handlowym Jarmark MIRiOLA. Specialty kawa, domowe ciasta, lody rzemieślnicze.",
-  "image": "{{ asset('assets/img/jarmark-hero.jpg') }}",
+  "image": "{{ asset('assets/img/jarmark-hero.webp') }}",
   "url": "{{ url('/jarmark') }}",
   "telephone": "+48608103119",
   "servesCuisine": ["Kawa specialty", "Ciasta domowe", "Desery", "Lody rzemieślnicze"],
@@ -143,7 +143,7 @@
                         'title' => 'Lody Świderki',
                         'icon' => 'icecream',
                         'cms_key' => 'cafe_cat_image_lody',
-                        'default_image' => asset('assets/img/lody.jpg'),
+                        'default_image' => asset('assets/img/lody.webp'),
                     ],
                     'gofry' => [
                         'title' => 'Chrupiące Gofry',

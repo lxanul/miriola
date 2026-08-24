@@ -45,11 +45,11 @@
                             $awardBadgeUrl = asset('storage/' . ltrim($awardBadgeRaw, '/'));
                         }
                     } else {
-                        $awardBadgeUrl = asset('assets/img/orl.jpg');
+                        $awardBadgeUrl = asset('assets/img/orl.webp');
                     }
                 @endphp
                 <img src="{{ $awardBadgeUrl }}" 
-                     onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.jpg') }}';"
+                     onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="180" height="210"
                      class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
@@ -231,15 +231,28 @@
                         <article class="room-card bg-surface rounded-2xl overflow-hidden border border-primary/10 ambient-shadow hover:shadow-xl transition-all duration-300 flex flex-col justify-between" 
                                  data-room-card="{{ $room->id }}" data-active-index="0">
                             
-                            <!-- Photo Gallery Container -->
-                            <div class="relative bg-surface-dim overflow-hidden rounded-t-2xl">
+                            <!-- Photo Gallery Container (Click to open Lightbox) -->
+                            <div onclick="openRoomLightbox({{ $room->id }})" class="relative bg-surface-dim overflow-hidden rounded-t-2xl cursor-pointer group/photo">
                                 <!-- Main Image Display -->
                                 <div class="aspect-[4/3] w-full relative overflow-hidden bg-primary/10">
                                     @foreach($imageList as $idx => $imgUrl)
-                                        <img class="room-slide-img absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out {{ $idx === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" 
-                                             src="{{ str_starts_with($imgUrl, 'http') ? $imgUrl : asset('storage/' . $imgUrl) }}" 
-                                             alt="{{ $room->name }} - Zdjęcie {{ $idx + 1 }}" loading="lazy">
+                                        @php
+                                            $optImgUrl = (str_starts_with($imgUrl, 'http') && str_contains($imgUrl, 'unsplash.com'))
+                                                ? preg_replace('/w=\d+/', 'w=600&q=75', $imgUrl)
+                                                : (str_starts_with($imgUrl, 'http') ? $imgUrl : asset('storage/' . $imgUrl));
+                                        @endphp
+                                        <img class="room-slide-img absolute inset-0 w-full h-full object-cover transition-all duration-500 ease-in-out group-hover/photo:scale-105 {{ $idx === 0 ? 'opacity-100' : 'opacity-0 pointer-events-none' }}" 
+                                             src="{{ $optImgUrl }}" 
+                                             alt="{{ $room->name }} - Zdjęcie {{ $idx + 1 }}" 
+                                             loading="lazy"
+                                             decoding="async">
                                     @endforeach
+
+                                    <!-- Zoom Hint Badge -->
+                                    <span class="absolute top-3 left-3 bg-black/60 hover:bg-black/90 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm z-10 flex items-center gap-1 opacity-90 group-hover/photo:opacity-100 transition-opacity">
+                                        <span class="material-symbols-outlined text-xs">zoom_in</span>
+                                        <span>Powiększ</span>
+                                    </span>
 
                                     <!-- Category Badge -->
                                     <span class="absolute top-3 right-3 bg-primary/85 backdrop-blur-md text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm z-10">
@@ -284,9 +297,10 @@
                             <!-- Card Content: Name & Udogodnienia (Bullet Points) -->
                             <div class="p-6 flex flex-col flex-grow justify-between space-y-4">
                                 <div>
-                                    <!-- Room Name -->
-                                    <h3 class="font-display text-xl font-bold text-primary mb-3">
-                                        {{ $room->name }}
+                                    <!-- Room Name (Click opens Lightbox) -->
+                                    <h3 onclick="openRoomLightbox({{ $room->id }})" class="font-display text-xl font-bold text-primary mb-3 cursor-pointer hover:text-accent transition-colors flex items-center justify-between">
+                                        <span>{{ $room->name }}</span>
+                                        <span class="material-symbols-outlined text-lg text-primary/40 hover:text-accent">open_in_full</span>
                                     </h3>
 
                                     <!-- Udogodnienia (Bullet points) -->
@@ -500,10 +514,6 @@
                 @empty
                     <div class="text-center py-8 text-slate-500">Pytania i odpowiedzi są aktualizowane.</div>
                 @endforelse
-            </div>
-        </div>
-    </section>
-
             </div>
         </div>
     </section>

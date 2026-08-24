@@ -5,7 +5,18 @@
 
 @section('head')
     @php
-        $heroImgUrl = isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.webp');
+        $heroRaw = $cms['hero_image'] ?? null;
+        if (!empty($heroRaw)) {
+            if (str_starts_with($heroRaw, 'http://') || str_starts_with($heroRaw, 'https://')) {
+                $heroImgUrl = $heroRaw;
+            } elseif (str_starts_with($heroRaw, 'assets/') || str_starts_with($heroRaw, 'images/') || file_exists(public_path($heroRaw))) {
+                $heroImgUrl = asset($heroRaw);
+            } else {
+                $heroImgUrl = asset('storage/' . ltrim($heroRaw, '/'));
+            }
+        } else {
+            $heroImgUrl = asset('assets/img/hero.webp');
+        }
     @endphp
     <link rel="preload" as="image" href="{{ $heroImgUrl }}" fetchpriority="high">
 @endsection
@@ -15,7 +26,7 @@
     <section id="start" class="relative w-full h-[80vh] flex items-center justify-center bg-surface-dim overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
-             style="background-image: url('{{ isset($cms['hero_image']) ? (str_starts_with($cms['hero_image'], 'http') ? $cms['hero_image'] : asset('storage/' . $cms['hero_image'])) : asset('assets/img/hero.webp') }}')">
+             style="background-image: url('{{ $heroImgUrl }}')">
         </div>
         <!-- Bright Light Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/25 to-black/15"></div>
@@ -23,7 +34,22 @@
         <!-- Award Badge Top-Right (Orły Turystyki 2024) -->
         <div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
             <div class="relative group">
-                <img src="{{ isset($cms['osrodek_award_badge']) && !empty($cms['osrodek_award_badge']) ? (str_starts_with($cms['osrodek_award_badge'], 'http') ? $cms['osrodek_award_badge'] : asset('storage/' . $cms['osrodek_award_badge'])) : asset('assets/img/orl.jpg') }}" 
+                @php
+                    $awardBadgeRaw = $cms['osrodek_award_badge'] ?? null;
+                    if (!empty($awardBadgeRaw)) {
+                        if (str_starts_with($awardBadgeRaw, 'http://') || str_starts_with($awardBadgeRaw, 'https://')) {
+                            $awardBadgeUrl = $awardBadgeRaw;
+                        } elseif (str_starts_with($awardBadgeRaw, 'assets/') || str_starts_with($awardBadgeRaw, 'images/') || file_exists(public_path($awardBadgeRaw))) {
+                            $awardBadgeUrl = asset($awardBadgeRaw);
+                        } else {
+                            $awardBadgeUrl = asset('storage/' . ltrim($awardBadgeRaw, '/'));
+                        }
+                    } else {
+                        $awardBadgeUrl = asset('assets/img/orl.jpg');
+                    }
+                @endphp
+                <img src="{{ $awardBadgeUrl }}" 
+                     onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.jpg') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="180" height="210"
                      class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">

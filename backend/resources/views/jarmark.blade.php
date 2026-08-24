@@ -143,7 +143,7 @@
                         'title' => 'Lody Świderki',
                         'icon' => 'icecream',
                         'cms_key' => 'cafe_cat_image_lody',
-                        'default_image' => asset('storage/cms-graphics/lody.jpg'),
+                        'default_image' => asset('assets/img/lody.jpg'),
                     ],
                     'gofry' => [
                         'title' => 'Chrupiące Gofry',
@@ -171,15 +171,28 @@
                     @php
                         $itemsInCat = $groupedMenu->get($catKey, collect());
                         $cmsImgRaw = $cms[$meta['cms_key']] ?? null;
-                        $catImage = !empty($cmsImgRaw)
-                            ? (str_starts_with($cmsImgRaw, 'http') ? $cmsImgRaw : asset('storage/' . $cmsImgRaw))
-                            : $meta['default_image'];
+                        if (!empty($cmsImgRaw)) {
+                            if (str_starts_with($cmsImgRaw, 'http://') || str_starts_with($cmsImgRaw, 'https://')) {
+                                $catImage = $cmsImgRaw;
+                            } elseif (str_starts_with($cmsImgRaw, 'assets/') || str_starts_with($cmsImgRaw, 'images/') || file_exists(public_path($cmsImgRaw))) {
+                                $catImage = asset($cmsImgRaw);
+                            } else {
+                                $catImage = asset('storage/' . ltrim($cmsImgRaw, '/'));
+                            }
+                        } else {
+                            $catImage = $meta['default_image'];
+                        }
                     @endphp
                     @if($itemsInCat->isNotEmpty())
                         <div class="break-inside-avoid inline-block w-full bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition-all duration-300 group">
                             <!-- Category Banner Image — tall, vivid, no heavy dark overlay -->
                             <div class="relative h-52 w-full bg-slate-100 overflow-hidden">
-                                <img src="{{ $catImage }}" alt="{{ $meta['title'] }}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                <img src="{{ $catImage }}" 
+                                     onerror="this.onerror=null; this.src='{{ $meta['default_image'] }}';" 
+                                     alt="{{ $meta['title'] }}" 
+                                     loading="lazy" 
+                                     decoding="async" 
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent"></div>
                                 
                                 <div class="absolute bottom-3 left-4 right-4 flex items-center gap-3 text-white">

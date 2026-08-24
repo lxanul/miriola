@@ -143,7 +143,7 @@
                         'title' => 'Lody Świderki',
                         'icon' => 'icecream',
                         'cms_key' => 'cafe_cat_image_lody',
-                        'default_image' => 'https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=800&q=80',
+                        'default_image' => asset('storage/cms-graphics/lody.jpg'),
                     ],
                     'gofry' => [
                         'title' => 'Chrupiące Gofry',

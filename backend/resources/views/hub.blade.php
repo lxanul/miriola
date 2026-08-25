@@ -10,7 +10,6 @@
     <link rel="icon" type="image/webp" href="{{ asset('favicon.webp') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.webp') }}">
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Open Graph SEO -->
     <meta property="og:type" content="website">

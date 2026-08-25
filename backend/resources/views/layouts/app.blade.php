@@ -15,7 +15,6 @@
     <link rel="icon" type="image/webp" href="{{ asset('favicon.webp') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.webp') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.webp') }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
     <!-- Open Graph / Social Media SEO -->
     <meta property="og:type" content="@yield('og_type', 'website')">

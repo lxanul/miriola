@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
 @section('title', 'Jarmark - CEH & Kawiarnia MIRiOLA | Menu, Atrakcje, Nowości')
-@section('meta_description', 'Zapraszamy do Kawiarni Rzemieślniczej i Centrum Edukacyjno-Handlowego Jarmark w Gorzeniu Górnym. Aromatyczna kawa, domowe ciasta, strefa relaksu w ogrodzie i atrakcje dla dzieci.')
+@section('meta_description', 'Zapraszamy do Kawiarni Plenerowej i Centrum Edukacyjno-Handlowego Jarmark w Gorzeniu Górnym. Aromatyczna kawa, domowe ciasta, strefa relaksu w ogrodzie i atrakcje dla dzieci.')
 @section('og_image', asset('assets/img/jarmark-hero.webp'))
+
+@section('head')
+    <link rel="preload" as="image" href="{{ asset('assets/img/jarmark-hero.webp') }}" fetchpriority="high">
+@endsection
 
 @section('schema')
 <script type="application/ld+json">
@@ -10,8 +14,8 @@
   "@@context": "https://schema.org",
   "@@type": "CafeOrCoffeeShop",
   "@@id": "{{ url('/jarmark') }}#cafe",
-  "name": "Kawiarnia Rzemieślnicza Jarmark MIRiOLA",
-  "description": "Kawiarnia rzemieślnicza w Centrum Edukacyjno-Handlowym Jarmark MIRiOLA. Specialty kawa, domowe ciasta, lody rzemieślnicze.",
+  "name": "Kawiarnia Plenerowa Jarmark MIRiOLA",
+  "description": "Kawiarnia plenerowa w Centrum Edukacyjno-Handlowym Jarmark MIRiOLA. Wyśmienita kawa, domowe ciasta, lody rzemieślnicze i strefa relaksu w ogrodzie.",
   "image": "{{ asset('assets/img/jarmark-hero.webp') }}",
   "url": "{{ url('/jarmark') }}",
   "telephone": "+48608103119",
@@ -58,7 +62,7 @@
             <div class="inline-flex items-center gap-2.5 bg-white/10 border border-white/20 px-4 py-2 rounded-full mb-6 backdrop-blur-md">
                 <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                 <span class="font-body text-xs uppercase tracking-widest text-white font-semibold">
-                    Kawiarnia Rzemieślnicza & Strefa Plenerowa
+                    Kawiarnia Plenerowa & Strefa Relaksu
                 </span>
             </div>
             <h1 class="font-display text-4xl md:text-5xl lg:text-display-lg font-bold mb-6 leading-tight drop-shadow-md max-w-4xl mx-auto text-white">
@@ -192,6 +196,8 @@
                                      alt="{{ $meta['title'] }}" 
                                      loading="lazy" 
                                      decoding="async" 
+                                     width="400"
+                                     height="208"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-slate-950/10 to-transparent"></div>
                                 

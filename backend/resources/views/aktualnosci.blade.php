@@ -102,11 +102,13 @@
                                     @endif
 
                                     <!-- Category Badge in Top Left -->
-                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $article->branch === 'resort' ? 'bg-primary/90' : ($article->branch === 'jarmark' ? 'bg-amber-700/90' : 'bg-slate-800/90') }}">
+                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $article->branch === 'resort' ? 'bg-primary/90' : ($article->branch === 'jarmark' ? 'bg-amber-700/90' : ($article->branch === 'farm' ? 'bg-emerald-700/90' : 'bg-slate-800/90')) }}">
                                         @if($article->branch === 'jarmark')
                                             ☕ Jarmark
                                         @elseif($article->branch === 'resort')
                                             🏡 Ośrodek
+                                        @elseif($article->branch === 'farm')
+                                            🌿 Gospodarstwo Rolne
                                         @else
                                             🌐 MIRiOLA
                                         @endif
@@ -142,7 +144,11 @@
                                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700 group-hover:text-amber-800 transition-colors">
                                     <span>{{ $article->video_url ? 'Obejrzyj wideo' : 'Przeczytaj pełny wpis' }}</span>
                                     <span class="w-8 h-8 rounded-full bg-amber-50 group-hover:bg-amber-500 group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 shadow-sm">
-                                        <span class="material-symbols-outlined text-base group-hover:translate-x-0.5 transition-transform">{{ $article->video_url ? 'play_circle' : 'arrow_forward' }}</span>
+                                        @if($article->video_url)
+                                            <span class="material-symbols-outlined text-lg group-hover:scale-115 transition-transform duration-300 ml-0.5">play_arrow</span>
+                                        @else
+                                            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+                                        @endif
                                     </span>
                                 </div>
                             </div>
@@ -302,7 +308,7 @@
             const paragraphs = textToUse.split('\n').filter(p => p.trim() !== '');
             if (paragraphs.length > 0) {
                 const leadBox = document.createElement('div');
-                leadBox.className = 'border-l-4 border-amber-500 bg-amber-50/60 pl-4 py-2.5 rounded-r-xl text-slate-800 font-medium italic text-sm sm:text-base leading-relaxed';
+                leadBox.className = 'border-l-4 border-amber-500 bg-amber-50/60 pl-4 py-2.5 rounded-r-xl text-slate-800 font-medium text-sm sm:text-base leading-relaxed';
                 leadBox.textContent = paragraphs[0];
                 contentEl.appendChild(leadBox);
 

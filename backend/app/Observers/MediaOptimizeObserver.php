@@ -24,7 +24,7 @@ class MediaOptimizeObserver
         Room::class => ['images'],
         News::class => ['image'],
         CafeMenuItem::class => ['image'],
-        FarmProduct::class => ['image'],
+        FarmProduct::class => ['image', 'images'],
         Attraction::class => ['image'],
         RestaurantHall::class => ['main_image'],
     ];

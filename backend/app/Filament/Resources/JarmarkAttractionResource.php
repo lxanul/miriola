@@ -67,7 +67,7 @@ class JarmarkAttractionResource extends Resource
                             'wine_bar' => '🍷 Wino / Bar (wine_bar)',
                             'storefront' => '🛒 Jarmark / Sklep (storefront)',
                             'shopping_bag' => '🛍️ Produkty Lokalne (shopping_bag)',
-                            'eco' => '🍃 Gospodarstwo / Ekologia (eco)',
+                            'eco' => '🍃 Gospodarstwo / Natura (eco)',
                         ],
                         'Natura & Rekreacja' => [
                             'hiking' => '🥾 Szlaki Turystyczne (hiking)',

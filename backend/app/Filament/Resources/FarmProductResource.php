@@ -30,14 +30,19 @@ class FarmProductResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Nazwa Produktu (np. Czosnek, Borówka, Miód)')
-                    ->required(),
-                Forms\Components\FileUpload::make('image')
-                    ->label('Zdjęcie Produktu (opcjonalne)')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('images')
+                    ->label('Galeria zdjęć oferty (możesz dodać wiele zdjęć, ustalać kolejność i usuwać miniatury)')
                     ->image()
                     ->disk('public')
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->maxSize(2048)
-                    ->directory('farm-products'),
+                    ->maxFiles(20)
+                    ->multiple()
+                    ->reorderable()
+                    ->directory('farm-products')
+                    ->columnSpanFull(),
                 Forms\Components\Toggle::make('is_available')
                     ->label('Dostępny do zakupu')
                     ->default(true)
@@ -60,10 +65,18 @@ class FarmProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('Zdjęcie')
+                    ->label('Główne zdjęcie')
                     ->getStateUsing(fn ($record) => $record->image_url)
                     ->defaultImageUrl(asset('assets/img/placeholder-product.svg'))
                     ->circular(),
+                Tables\Columns\TextColumn::make('images_count')
+                    ->label('Galeria')
+                    ->getStateUsing(fn ($record) => !empty($record->images) && is_array($record->images) ? count($record->images) . ' zdj.' : (!empty($record->image) ? '1 zdj.' : 'Brak'))
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Brak' => 'gray',
+                        default => 'success',
+                    }),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nazwa Produktu')
                     ->searchable(),

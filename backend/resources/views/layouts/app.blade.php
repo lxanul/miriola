@@ -99,16 +99,16 @@
           "containsPlace": [
             {
               "@@type": "CafeOrCoffeeShop",
-              "name": "Kawiarnia Rzemieślnicza Jarmark MIRiOLA",
+              "name": "Kawiarnia Plenerowa Jarmark MIRiOLA",
               "servesCuisine": ["Kawa specialty", "Ciasta domowe", "Desery"],
               "url": "{{ url('/jarmark') }}",
               "telephone": "+48608103119"
             },
             {
-              "@@type": "LocalBusiness",
+              "@@type": ["LocalBusiness", "Farm"],
               "@@id": "{{ url('/gospodarstwo') }}#farm",
               "name": "Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA",
-              "description": "Ekologiczny czosnek, borówki i miody z własnej pasieki w dolinie Skawy.",
+              "description": "Naturalny czosnek, borówki i miody z własnej pasieki w dolinie Skawy.",
               "url": "{{ url('/gospodarstwo') }}"
             }
           ]
@@ -161,7 +161,7 @@
     <nav class="fixed top-0 left-0 w-full z-50 bg-background/95 border-b border-primary/10 shadow-sm transition-all duration-300">
         <div class="max-w-container-max mx-auto flex justify-between items-center h-20 px-gutter">
             <a href="{{ url('/') }}" class="flex items-center gap-2.5 sm:gap-3 group focus:outline-none focus:ring-2 focus:ring-primary rounded shrink-0" aria-label="Strona główna">
-                <img src="{{ asset('images/logo.webp') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
+                <img src="{{ asset('images/logo.webp') }}" alt="MIRiOLA Logo" width="180" height="48" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform">
                 <div class="flex flex-col">
                     <span class="font-display text-lg sm:text-xl font-bold text-primary tracking-wide leading-none">MIRiOLA</span>
                     <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-primary/70 font-bold mt-1">Dolina Skawy</span>
@@ -315,7 +315,7 @@
             <!-- Col 1: About -->
             <div class="space-y-4">
                 <a href="{{ url('/') }}" class="inline-flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-white/20 rounded" aria-label="MIRiOLA - Strona główna">
-                    <img src="{{ asset('favicon.webp') }}" alt="MIRiOLA Logo" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform shrink-0">
+                    <img src="{{ asset('favicon.webp') }}" alt="MIRiOLA Logo" width="48" height="48" class="h-10 sm:h-12 w-auto object-contain group-hover:scale-105 transition-transform shrink-0">
                     <div class="flex flex-col">
                         <span class="font-display text-2xl font-bold text-white tracking-wider leading-none">MIRiOLA</span>
                         <span class="text-[10px] uppercase tracking-widest text-surface-dim/70 font-semibold mt-1">Dolina Skawy</span>

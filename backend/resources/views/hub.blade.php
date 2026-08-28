@@ -23,7 +23,7 @@
     <!-- Twitter Cards SEO -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="MIRiOLA – Kompleks Wypoczynkowy w Dolinie Skawy koło Wadowic">
-    <meta name="twitter:description" content="Noclegi, Kawiarnia Rzemieślnicza oraz Ekologiczne Ogórki i Miody w Dolinie Skawy.">
+    <meta name="twitter:description" content="Noclegi, Kawiarnia Plenerowa oraz Naturalne Ogórki i Miody w Dolinie Skawy.">
     <meta name="twitter:image" content="{{ asset('assets/img/hero.webp') }}">
     
     <!-- Schema.org JSON-LD Structured Data for LocalBusiness & Resort -->
@@ -241,7 +241,7 @@
                             Jarmark Centrum Edukacyjno-Handlowe
                         </h2>
                         <p class="text-xs md:text-sm text-white/80 leading-relaxed font-light">
-                            Kawiarnia rzemieślnicza w ogrodzie ze sferycznym namiotem, leżakami i strefą zabawy dla dzieci.
+                            Kawiarnia plenerowa w ogrodzie ze sferycznym namiotem, leżakami i strefą zabawy dla dzieci.
                         </p>
                     </div>
 
@@ -265,14 +265,14 @@
                class="group relative bg-surface rounded-2xl overflow-hidden border border-primary/15 ambient-shadow hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between min-h-[460px]">
                 
                 <!-- Background Image Overlay with Zoom Effect -->
-                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110"
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-110" 
                      style="background-image: url('{{ asset('assets/img/gospodarstwo-hero.webp') }}')"></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/35 to-black/10"></div>
                 
                 <!-- Content Top Badge -->
                 <div class="relative z-10 p-6 flex justify-between items-start">
                     <span class="bg-white/20 backdrop-blur-md text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-white/30 shadow-sm">
-                        Ekologiczne Plony
+                        Naturalne Plony
                     </span>
                     <span class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:bg-accent group-hover:border-accent transition-colors">
                         <span class="material-symbols-outlined">eco</span>
@@ -363,7 +363,7 @@
 
                                     <!-- Category Badge in Top Left -->
                                     <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $item->branch === 'resort' ? 'bg-primary/90' : ($item->branch === 'jarmark' ? 'bg-amber-700/90' : ($item->branch === 'farm' ? 'bg-emerald-700/90' : 'bg-slate-800/90')) }}">
-                                        {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : ($item->branch === 'farm' ? '🌿 Gospodarstwo' : '🌐 MIRiOLA')) }}
+                                        {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : ($item->branch === 'farm' ? '🌿 Gospodarstwo Rolne' : '🌐 MIRiOLA')) }}
                                     </span>
                                 </div>
 
@@ -396,7 +396,11 @@
                                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700 group-hover:text-amber-800 transition-colors">
                                     <span>{{ $item->video_url ? 'Obejrzyj wideo' : 'Czytaj cały artykuł' }}</span>
                                     <span class="w-8 h-8 rounded-full bg-amber-50 group-hover:bg-amber-500 group-hover:text-slate-950 flex items-center justify-center transition-all duration-300 shadow-sm">
-                                        <span class="material-symbols-outlined text-base group-hover:translate-x-0.5 transition-transform">{{ $item->video_url ? 'play_circle' : 'arrow_forward' }}</span>
+                                        @if($item->video_url)
+                                            <span class="material-symbols-outlined text-lg group-hover:scale-115 transition-transform duration-300 ml-0.5">play_arrow</span>
+                                        @else
+                                            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform duration-300">arrow_forward</span>
+                                        @endif
                                     </span>
                                 </div>
                             </div>
@@ -576,7 +580,7 @@
                 const paragraphs = textToUse.split('\n').filter(p => p.trim() !== '');
                 if (paragraphs.length > 0) {
                     const leadBox = document.createElement('div');
-                    leadBox.className = 'border-l-4 border-amber-500 bg-amber-50/60 pl-4 py-2.5 rounded-r-xl text-slate-800 font-medium italic text-sm sm:text-base leading-relaxed';
+                    leadBox.className = 'border-l-4 border-amber-500 bg-amber-50/60 pl-4 py-2.5 rounded-r-xl text-slate-800 font-medium text-sm sm:text-base leading-relaxed';
                     leadBox.textContent = paragraphs[0];
                     hubContentEl.appendChild(leadBox);
 

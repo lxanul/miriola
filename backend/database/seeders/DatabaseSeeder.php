@@ -112,8 +112,8 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Nowe Menu i Wyjątkowa Kawa w Kawiarni Jarmark',
                 'branch' => 'jarmark',
-                'excerpt' => 'W każdy weekend zapraszamy do naszej Kawiarni na domowe serniki i rzemieślniczą kawę.',
-                'content' => 'Jarmark MIRiOLA wzbogaca ofertę kawiarnianą o świeżo paloną kawę rzemieślniczą oraz lokalne wypieki. Zachęcamy do spędzenia wolnego czasu w naszej klimatycznej strefie plenerowej!',
+                'excerpt' => 'W każdy weekend zapraszamy do naszej Kawiarni Plenerowej na domowe serniki i wyśmienitą kawę.',
+                'content' => 'Jarmark MIRiOLA wzbogaca ofertę kawiarnianą o świeżo paloną kawę oraz lokalne wypieki. Zachęcamy do spędzenia wolnego czasu w naszej klimatycznej kawiarni plenerowej!',
                 'image' => 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80',
                 'is_published' => true,
                 'published_at' => now(),
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Ruszyły Zbiory Świeżych Ogórków Gruntowych!',
                 'branch' => 'farm',
                 'excerpt' => 'Przyjmujemy zamówienia telefoniczne na świeże ogórki do kwaszenia oraz domowe przetwory.',
-                'content' => 'Nasze tradycyjne ekologiczne ogórki gruntowe są już dojrzałe i gotowe do odbioru. Wszystkie warzywa uprawiane są bez sztucznych nawozów w czystym mikroklimacie Doliny Skawy.',
+                'content' => 'Nasze tradycyjne naturalne ogórki gruntowe są już dojrzałe i gotowe do odbioru. Wszystkie warzywa uprawiane są bez sztucznych nawozów w czystym mikroklimacie Doliny Skawy.',
                 'image' => 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&w=800&q=80',
                 'is_published' => true,
                 'published_at' => now(),
@@ -216,7 +216,7 @@ class DatabaseSeeder extends Seeder
             ['title' => 'Strefa Kawiarniana & Leżaki na Trawie'],
             [
                 'branch' => 'jarmark',
-                'description' => 'Relaks przy aromatycznej kawie rzemieślniczej, lody, ciasta i mrożone napoje w strefie gastronomicznej.',
+                'description' => 'Relaks przy aromatycznej kawie, lody, ciasta i mrożone napoje w strefie gastronomicznej.',
                 'icon' => 'local_cafe',
                 'image' => asset('assets/img/jarmark-hero.webp'),
                 'sort_order' => 3,
@@ -378,7 +378,7 @@ class DatabaseSeeder extends Seeder
         FarmProduct::truncate();
 
         $this->upsert(FarmProduct::class,
-            ['name' => 'Czosnek Ekologiczny (3 Rodzaje)'],
+            ['name' => 'Czosnek Naturalny (3 Rodzaje)'],
             [
                 'description' => '',
                 'unit_price' => 25.00,
@@ -447,8 +447,8 @@ class DatabaseSeeder extends Seeder
             ['key' => 'osrodek_award_badge', 'label' => 'Ośrodek - Znaczek / Certyfikat Hero (np. Orły Turystyki)', 'value' => 'assets/img/orl.webp', 'type' => 'image', 'group' => 'resort'],
 
             // Jarmark
-            ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Rzemieślnicza', 'type' => 'text', 'group' => 'jarmark'],
-            ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz klimatyczną strefę spotkań.', 'type' => 'textarea', 'group' => 'jarmark'],
+            ['key' => 'jarmark_hero_title', 'label' => 'Jarmark - Tytuł Nagłówka', 'value' => 'Jarmark & Kawiarnia Plenerowa', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'jarmark_hero_description', 'label' => 'Jarmark - Opis Nagłówka', 'value' => 'Wyjątkowe miejsce w Dolinie Skawy łączące plenerową kawiarnię, lokalne wypieki oraz klimatyczną strefę spotkań.', 'type' => 'textarea', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_kawy_napoje', 'label' => 'Kawiarnia - Zdjęcie kategorii Kawy & Napoje', 'value' => 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_lody', 'label' => 'Kawiarnia - Zdjęcie kategorii Lody', 'value' => 'cms-graphics/lody.webp', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_gofry', 'label' => 'Kawiarnia - Zdjęcie kategorii Gofry', 'value' => 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
@@ -457,7 +457,7 @@ class DatabaseSeeder extends Seeder
 
             // Gospodarstwo
             ['key' => 'gospodarstwo_hero_title', 'label' => 'Gospodarstwo - Tytuł Nagłówka', 'value' => 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA', 'type' => 'text', 'group' => 'farm'],
-            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjna uprawa i ekologiczne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki, naturalne miody oraz domowe przetwory i nie tylko.', 'type' => 'textarea', 'group' => 'farm'],
+            ['key' => 'gospodarstwo_hero_description', 'label' => 'Gospodarstwo - Opis Nagłówka', 'value' => 'Tradycyjna uprawa i naturalne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje naturalnego czosnku, świeże borówki, naturalne miody oraz domowe przetwory i nie tylko.', 'type' => 'textarea', 'group' => 'farm'],
             ['key' => 'gospodarstwo_phone', 'label' => 'Gospodarstwo - Telefon do zamówień', 'value' => '+48 608 103 119', 'type' => 'text', 'group' => 'farm'],
             ['key' => 'gospodarstwo_cert_info', 'label' => 'Gospodarstwo - Informacja o rejestracji w Sanepidzie i RHD', 'value' => 'Gospodarstwo prowadzi Rolniczy Handel Detaliczny (RHD) i jest zarejestrowane w Sanepidzie. Skontaktuj się z nami telefonicznie, aby potwierdzić aktualną dostępność i ustalić termin odbioru!', 'type' => 'textarea', 'group' => 'farm'],
             ['key' => 'gospodarstwo_allegro_text', 'label' => 'Gospodarstwo - Tekst o Allegro Lokalnie', 'value' => 'Istnieje możliwość zakupu na Allegro Lokalnie', 'type' => 'text', 'group' => 'farm'],

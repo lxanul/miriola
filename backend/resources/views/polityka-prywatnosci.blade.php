@@ -41,7 +41,7 @@
                         <strong>Ośrodek Wypoczynkowy:</strong> realizacja rezerwacji oraz świadczenie usług noclegowych (pokoje, domki letniskowe) oraz wynajem sal restauracyjnych i bankietowych na przyjęcia okolicznościowe (art. 6 ust. 1 lit. b RODO).
                     </li>
                     <li>
-                        <strong>Jarmark &amp; Kawiarnia Rzemieślnicza:</strong> organizacja oraz rezerwacja pokazów i wydarzeń plenerowych (art. 6 ust. 1 lit. b i f RODO).
+                        <strong>Jarmark & Kawiarnia Plenerowa:</strong> organizacja oraz rezerwacja pokazów i wydarzeń plenerowych (art. 6 ust. 1 lit. b i f RODO).
                     </li>
                     <li>
                         <strong>Gospodarstwo Rolne:</strong> obsługa zamówień telefonicznych oraz sprzedaż płodów rolnych (ogórków gruntowych, kiszonych, miodów naturalnych, wiejskich jajek) i kontakt z klientami (art. 6 ust. 1 lit. b RODO).

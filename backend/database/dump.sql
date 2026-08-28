@@ -15,10 +15,10 @@ INSERT INTO `cms_contents` (`id`, `key`, `label`, `value`, `type`, `group`, `cre
 (5, 'instagram_url', 'Link do profilu Instagram', 'https://www.instagram.com/miroslawzadora/', 'url', 'general', '2026-08-06 13:03:42', '2026-08-20 18:22:33'),
 (6, 'osrodek_hero_title', 'Ośrodek - Tytuł Nagłówka Hero', 'Odkryj spokój w sercu doliny Skawy', 'text', 'resort', '2026-08-06 13:03:42', '2026-08-06 13:03:42'),
 (7, 'osrodek_hero_description', 'Ośrodek - Opis Nagłówka Hero', 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego', 'textarea', 'resort', '2026-08-06 13:03:42', '2026-08-06 13:03:42'),
-(17, 'jarmark_hero_title', 'Jarmark - Tytuł Nagłówka', 'Jarmark & Kawiarnia Rzemieślnicza', 'text', 'jarmark', '2026-08-06 13:03:42', '2026-08-06 13:03:42'),
-(18, 'jarmark_hero_description', 'Jarmark - Opis Nagłówka', 'Wyjątkowe miejsce w Dolinie Skawy łączące rzemieślniczą kawę, lokalne wypieki oraz klimatyczną strefę spotkań.', 'textarea', 'jarmark', '2026-08-06 13:03:42', '2026-08-18 20:46:44'),
+(17, 'jarmark_hero_title', 'Jarmark - Tytuł Nagłówka', 'Jarmark & Kawiarnia Plenerowa', 'text', 'jarmark', '2026-08-06 13:03:42', '2026-08-06 13:03:42'),
+(18, 'jarmark_hero_description', 'Jarmark - Opis Nagłówka', 'Wyjątkowe miejsce w Dolinie Skawy łączące plenerową kawiarnię, lokalne wypieki oraz klimatyczną strefę spotkań.', 'textarea', 'jarmark', '2026-08-06 13:03:42', '2026-08-18 20:46:44'),
 (19, 'gospodarstwo_hero_title', 'Gospodarstwo - Tytuł Nagłówka', 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA', 'text', 'farm', '2026-08-06 13:03:42', '2026-08-23 12:43:18'),
-(20, 'gospodarstwo_hero_description', 'Gospodarstwo - Opis Nagłówka', 'Tradycyjna uprawa i ekologiczne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje ekologicznego czosnku, świeże borówki, naturalne miody oraz domowe przetwory i nie tylko.', 'textarea', 'farm', '2026-08-06 13:03:42', '2026-08-23 13:10:25'),
+(20, 'gospodarstwo_hero_description', 'Gospodarstwo - Opis Nagłówka', 'Tradycyjna uprawa i naturalne plony w czystym mikroklimacie Doliny Skawy. Prosto z naszych pól i pasieki oferujemy 3 rodzaje naturalnego czosnku, świeże borówki, naturalne miody oraz domowe przetwory i nie tylko.', 'textarea', 'farm', '2026-08-06 13:03:42', '2026-08-23 13:10:25'),
 (21, 'gospodarstwo_phone', 'Gospodarstwo - Telefon do zamówień', '+48 608 103 119', 'text', 'farm', '2026-08-06 13:03:42', '2026-08-06 13:03:42'),
 (22, 'jarmark_facebook_url', 'Link do profilu Facebook (Jarmark)', 'https://www.facebook.com/jarmark.miriola/', 'url', 'general', '2026-08-09 20:48:47', '2026-08-09 20:48:47'),
 (23, 'room1_title', 'Pokój 1 - Tytuł', 'Pokój 2-osobowy', 'text', 'resort', '2026-08-09 20:48:47', '2026-08-09 20:48:47'),
@@ -123,7 +123,7 @@ INSERT INTO `farm_products` (`id`, `name`, `description`, `unit_price`, `unit_na
 (6, 'Dżem borówkowy 100% słoik 65dag', NULL, NULL, 'kg', NULL, 1, '+48608103119', 0, '2026-08-22 09:00:02', '2026-08-23 22:42:04'),
 (7, 'Czosnek czarny 1 kg MANUFAKTURA fermentacja bieżąca z własnej uprawy.', NULL, NULL, 'kg', 'farm-products/01M0RC1X5CPB2JCGJK8KQ9BK6P.webp', 1, '+48608103119', 0, '2026-08-23 22:32:27', '2026-08-23 22:32:27'),
 (8, 'Czosnek obierany z polskiego czosnku extra jakość 5kg', NULL, NULL, 'kg', 'farm-products/01M0RCCQ7HZE11T40MC3FSKG0W.webp', 1, '+48608103119', 0, '2026-08-23 22:38:21', '2026-08-23 22:38:21'),
-(10, 'Czosnek Ekologiczny (3 Rodzaje)', NULL, NULL, 'kg', NULL, 1, '+48608103119', 0, '2026-08-23 22:49:12', '2026-08-23 22:49:12'),
+(10, 'Czosnek Naturalny (3 Rodzaje)', NULL, NULL, 'kg', NULL, 1, '+48608103119', 0, '2026-08-23 22:49:12', '2026-08-23 22:49:12'),
 (11, 'Borówka Amerykańska', NULL, NULL, 'kg', NULL, 1, '+48608103119', 0, '2026-08-23 22:50:33', '2026-08-23 22:50:33'),
 (12, 'Miód Naturalny z Pasieki MIRiOLA', NULL, NULL, 'kg', NULL, 1, '+48608103119', 0, '2026-08-23 22:50:41', '2026-08-23 22:50:41');
 

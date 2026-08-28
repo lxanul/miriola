@@ -81,8 +81,8 @@
 
         {{-- Meta Badges & Info --}}
         <div class="flex items-center gap-3 text-xs mb-4 flex-wrap">
-            <span class="font-bold text-[11px] uppercase tracking-wider px-3.5 py-1 rounded-full shadow-sm {{ $article->branch === 'resort' ? 'bg-primary text-white' : ($article->branch === 'jarmark' ? 'bg-amber-700 text-white' : 'bg-slate-800 text-white') }}">
-                {{ match($article->branch) { 'jarmark' => '☕ Jarmark & Kawiarnia', 'farm' => '🌿 Gospodarstwo', default => '🏡 Ośrodek Wypoczynkowy' } }}
+            <span class="font-bold text-[11px] uppercase tracking-wider px-3.5 py-1 rounded-full shadow-sm {{ $article->branch === 'resort' ? 'bg-primary text-white' : ($article->branch === 'jarmark' ? 'bg-amber-700 text-white' : ($article->branch === 'farm' ? 'bg-emerald-700 text-white' : 'bg-slate-800 text-white')) }}">
+                {{ match($article->branch) { 'jarmark' => '☕ Jarmark & Kawiarnia Plenerowa', 'farm' => '🌿 Gospodarstwo Rolne', default => '🏡 Ośrodek Wypoczynkowy' } }}
             </span>
             <time itemprop="datePublished" datetime="{{ $article->published_at?->toIso8601String() }}" class="font-semibold text-amber-700 flex items-center gap-1">
                 <span class="material-symbols-outlined text-sm text-amber-600">calendar_month</span>
@@ -107,13 +107,13 @@
                 $videoUrl = $article->video_url;
                 $embedHtml = '';
                 if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/', $videoUrl, $m)) {
-                    $embedHtml = '<div class="aspect-video w-full"><iframe src="https://www.youtube.com/embed/' . e($m[1]) . '?rel=0" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '"></iframe></div>';
+                    $embedHtml = '<div class="aspect-video w-full"><iframe src="https://www.youtube.com/embed/' . e($m[1]) . '?rel=0" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '" loading="lazy"></iframe></div>';
                 } elseif (str_contains($videoUrl, 'tiktok.com')) {
                     preg_match('/(?:video\/|\/v\/)(\d+)/', $videoUrl, $m);
                     $ttId = $m[1] ?? '';
                     if ($ttId) {
                         $embedHtml = '<div class="w-full bg-slate-950 flex flex-col items-center py-4 px-2">'
-                            . '<iframe src="https://www.tiktok.com/player/v1/' . e($ttId) . '?music_info=1&description=1" class="w-full h-[540px] max-h-[65vh] border-0 rounded-2xl shadow-lg" style="max-width: 340px; width: 100%; height: 540px; margin: 0 auto; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '"></iframe>'
+                            . '<iframe src="https://www.tiktok.com/player/v1/' . e($ttId) . '?music_info=1&description=1" class="w-full h-[540px] max-h-[65vh] border-0 rounded-2xl shadow-lg" style="max-width: 340px; width: 100%; height: 540px; margin: 0 auto; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '" loading="lazy"></iframe>'
                             . '<a href="' . e($videoUrl) . '" target="_blank" rel="noopener noreferrer" class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-md border border-slate-700/80 transition-all hover:scale-105 active:scale-95">'
                             . '<svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>'
                             . '<span>Otwórz w aplikacji TikTok</span><span class="material-symbols-outlined text-sm">open_in_new</span>'
@@ -121,7 +121,7 @@
                             . '</div>';
                     }
                 } elseif (str_contains($videoUrl, 'vimeo.com') && preg_match('/vimeo\.com\/(\d+)/', $videoUrl, $m)) {
-                    $embedHtml = '<div class="aspect-video w-full"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '"></iframe></div>';
+                    $embedHtml = '<div class="aspect-video w-full"><iframe src="https://player.vimeo.com/video/' . e($m[1]) . '" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" title="' . e($article->title) . '" loading="lazy"></iframe></div>';
                 } elseif (preg_match('/\.(mp4|webm)$/i', $videoUrl) || str_starts_with($videoUrl, 'storage/') || str_starts_with($videoUrl, '/storage/')) {
                     $src = str_starts_with($videoUrl, 'http') ? $videoUrl : (str_starts_with($videoUrl, '/') ? $videoUrl : '/' . $videoUrl);
                     $embedHtml = '<video src="' . e($src) . '" controls playsinline webkit-playsinline preload="metadata" class="w-full max-h-[600px] object-contain bg-black"></video>';
@@ -156,7 +156,7 @@
 
         @if(count($paragraphs) > 0)
         <div itemprop="articleBody" class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-4 [overflow-wrap:anywhere] break-words text-base md:text-lg">
-            <div class="border-l-4 border-amber-500 bg-amber-50/60 pl-4 sm:pl-5 py-3 rounded-r-2xl text-slate-800 font-medium italic text-lg sm:text-xl leading-relaxed mb-6 not-prose shadow-sm">
+            <div class="border-l-4 border-amber-500 bg-amber-50/60 pl-4 sm:pl-5 py-3 rounded-r-2xl text-slate-800 font-medium text-lg sm:text-xl leading-relaxed mb-6 not-prose shadow-sm">
                 {{ $paragraphs[0] }}
             </div>
             @foreach(array_slice($paragraphs, 1) as $paragraph)
@@ -164,7 +164,7 @@
             @endforeach
         </div>
         @elseif(! $article->video_url)
-        <p class="text-slate-500 text-base italic text-center py-8">
+        <p class="text-slate-500 text-base text-center py-8">
             Brak dodatkowego opisu dla tego wpisu.
         </p>
         @endif

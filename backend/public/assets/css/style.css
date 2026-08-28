@@ -188,3 +188,42 @@ body {
     }
 }
 
+/* ==========================================================================
+   Universal High-Contrast Badges & Category Labels
+   ========================================================================== */
+.badge-available,
+[class*="bg-emerald-600"],
+[class*="bg-emerald-700"] {
+    background-color: #047857 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    font-weight: 700 !important;
+}
+
+.badge-unavailable,
+[class*="bg-slate-800"] {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    font-weight: 700 !important;
+}
+
+.badge-branch-farm {
+    background-color: #047857 !important;
+    color: #ffffff !important;
+}
+
+.badge-branch-jarmark,
+[class*="bg-amber-700"] {
+    background-color: #b45309 !important;
+    color: #ffffff !important;
+}
+
+.badge-branch-resort {
+    background-color: #001e40 !important;
+    color: #ffffff !important;
+}
+
+

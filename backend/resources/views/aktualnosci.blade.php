@@ -101,8 +101,9 @@
                                         </div>
                                     @endif
 
-                                    <!-- Category Badge in Top Left -->
-                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $article->branch === 'resort' ? 'bg-primary/90' : ($article->branch === 'jarmark' ? 'bg-amber-700/90' : ($article->branch === 'farm' ? 'bg-emerald-700/90' : 'bg-slate-800/90')) }}">
+                                    <!-- Category Badge in Top Left (High Contrast Solid Colors) -->
+                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $article->branch === 'resort' ? 'badge-branch-resort' : ($article->branch === 'jarmark' ? 'badge-branch-jarmark' : ($article->branch === 'farm' ? 'badge-branch-farm' : 'bg-slate-800')) }}"
+                                          style="background-color: {{ $article->branch === 'resort' ? '#001e40' : ($article->branch === 'jarmark' ? '#b45309' : ($article->branch === 'farm' ? '#047857' : '#1e293b')) }} !important; color: #ffffff !important;">
                                         @if($article->branch === 'jarmark')
                                             ☕ Jarmark
                                         @elseif($article->branch === 'resort')

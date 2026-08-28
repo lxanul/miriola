@@ -154,20 +154,21 @@
                                     @endif
                                 @else
                                     <!-- Elegant Product Icon Placeholder -->
-                                    <div class="w-full h-full bg-gradient-to-br from-emerald-50 via-teal-50/50 to-primary/5 flex flex-col items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-500">
-                                        <div class="w-20 h-20 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shadow-inner mb-3">
-                                            <span class="material-symbols-outlined text-4xl">eco</span>
+                                    <div class="w-full h-full bg-emerald-50/70 flex flex-col items-center justify-center p-6 text-center group-hover:scale-105 transition-transform duration-500">
+                                        <div class="w-20 h-20 rounded-2xl bg-emerald-100/80 text-emerald-800 flex items-center justify-center shadow-inner mb-3">
+                                            <span class="material-symbols-outlined text-4xl" style="color: #065f46;">eco</span>
                                         </div>
-                                        <span class="text-xs uppercase tracking-wider font-bold text-primary/60">Produkt Gospodarstwa</span>
+                                        <span class="text-xs uppercase tracking-wider font-bold text-slate-800" style="color: #1e293b;">Produkt Gospodarstwa</span>
                                     </div>
                                 @endif
 
                                 <!-- Top Badges Container -->
                                 <div class="absolute inset-x-0 top-0 p-3 flex items-start justify-between gap-2 z-10 pointer-events-none">
-                                    <!-- Status Badge -->
-                                    <span class="text-[11px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-md {{ $product->is_available ? 'bg-emerald-600/95 text-white' : 'bg-slate-800/95 text-slate-200' }}">
-                                        <span class="w-2 h-2 rounded-full {{ $product->is_available ? 'bg-white animate-pulse' : 'bg-slate-400' }}"></span>
-                                        {{ $product->is_available ? 'Dostępny' : 'Niedostępny' }}
+                                    <!-- Status Badge (High Contrast Solid Colors) -->
+                                    <span class="text-[11px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 backdrop-blur-md {{ $product->is_available ? 'badge-available' : 'badge-unavailable' }}"
+                                          style="background-color: {{ $product->is_available ? '#047857' : '#1e293b' }} !important; color: #ffffff !important; border: 1px solid rgba(255, 255, 255, 0.25) !important;">
+                                        <span class="w-2 h-2 rounded-full {{ $product->is_available ? 'bg-white animate-pulse' : 'bg-slate-400' }}" style="background-color: {{ $product->is_available ? '#ffffff' : '#94a3b8' }};"></span>
+                                        <span style="color: #ffffff !important; font-weight: 700;">{{ $product->is_available ? 'Dostępny' : 'Niedostępny' }}</span>
                                     </span>
 
                                     @if(!empty($prodImages))

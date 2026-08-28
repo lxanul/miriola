@@ -361,8 +361,9 @@
                                         </div>
                                     @endif
 
-                                    <!-- Category Badge in Top Left -->
-                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $item->branch === 'resort' ? 'bg-primary/90' : ($item->branch === 'jarmark' ? 'bg-amber-700/90' : ($item->branch === 'farm' ? 'bg-emerald-700/90' : 'bg-slate-800/90')) }}">
+                                    <!-- Category Badge in Top Left (High Contrast Solid Colors) -->
+                                    <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $item->branch === 'resort' ? 'badge-branch-resort' : ($item->branch === 'jarmark' ? 'badge-branch-jarmark' : ($item->branch === 'farm' ? 'badge-branch-farm' : 'bg-slate-800')) }}"
+                                          style="background-color: {{ $item->branch === 'resort' ? '#001e40' : ($item->branch === 'jarmark' ? '#b45309' : ($item->branch === 'farm' ? '#047857' : '#1e293b')) }} !important; color: #ffffff !important;">
                                         {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : ($item->branch === 'farm' ? '🌿 Gospodarstwo Rolne' : '🌐 MIRiOLA')) }}
                                     </span>
                                 </div>

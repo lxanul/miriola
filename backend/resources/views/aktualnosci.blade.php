@@ -51,7 +51,7 @@
                 <a href="{{ url('/aktualnosci?branch=farm') }}" 
                    class="px-5 py-2.5 rounded-full text-xs font-bold transition-all border shadow-sm flex items-center gap-2 {{ $currentBranch === 'farm' ? 'bg-primary text-white border-primary shadow-md' : 'bg-surface text-on-surface-variant hover:text-primary border-primary/10' }}">
                     <span class="material-symbols-outlined text-base">eco</span>
-                    Gospodarstwo Rolne
+                    Gospodarstwo
                 </a>
             </div>
 
@@ -109,7 +109,7 @@
                                         @elseif($article->branch === 'resort')
                                             🏡 Ośrodek
                                         @elseif($article->branch === 'farm')
-                                            🌿 Gospodarstwo Rolne
+                                            🌿 Gospodarstwo
                                         @else
                                             🌐 MIRiOLA
                                         @endif
@@ -284,8 +284,10 @@
             badgeEl.className = 'text-[11px] font-bold px-3 py-1 rounded-full text-white bg-amber-700 shadow-sm';
             badgeEl.classList.remove('hidden');
         } else if (branch === 'farm') {
-            badgeEl.textContent = '🌿 Gospodarstwo Rolne';
+            badgeEl.textContent = '🌿 Gospodarstwo';
             badgeEl.className = 'text-[11px] font-bold px-3 py-1 rounded-full text-white bg-emerald-700 shadow-sm';
+            badgeEl.style.backgroundColor = '#047857';
+            badgeEl.style.color = '#ffffff';
             badgeEl.classList.remove('hidden');
         } else {
             badgeEl.textContent = '🌐 MIRiOLA';

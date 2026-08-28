@@ -83,7 +83,7 @@
         <div class="flex items-center gap-3 text-xs mb-4 flex-wrap">
             <span class="font-bold text-[11px] uppercase tracking-wider px-3.5 py-1 rounded-full shadow-sm text-white {{ $article->branch === 'resort' ? 'badge-branch-resort' : ($article->branch === 'jarmark' ? 'badge-branch-jarmark' : ($article->branch === 'farm' ? 'badge-branch-farm' : 'bg-slate-800')) }}"
                   style="background-color: {{ $article->branch === 'resort' ? '#001e40' : ($article->branch === 'jarmark' ? '#b45309' : ($article->branch === 'farm' ? '#047857' : '#1e293b')) }} !important; color: #ffffff !important;">
-                {{ match($article->branch) { 'jarmark' => '☕ Jarmark & Kawiarnia Plenerowa', 'farm' => '🌿 Gospodarstwo Rolne', default => '🏡 Ośrodek Wypoczynkowy' } }}
+                {{ match($article->branch) { 'jarmark' => '☕ Jarmark & Kawiarnia Plenerowa', 'farm' => '🌿 Gospodarstwo', default => '🏡 Ośrodek Wypoczynkowy' } }}
             </span>
             <time itemprop="datePublished" datetime="{{ $article->published_at?->toIso8601String() }}" class="font-semibold text-amber-700 flex items-center gap-1">
                 <span class="material-symbols-outlined text-sm text-amber-600">calendar_month</span>

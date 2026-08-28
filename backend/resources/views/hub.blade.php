@@ -364,7 +364,7 @@
                                     <!-- Category Badge in Top Left (High Contrast Solid Colors) -->
                                     <span class="absolute top-3.5 left-3.5 text-[11px] font-bold px-3 py-1 rounded-full shadow-md backdrop-blur-md text-white border border-white/20 z-10 {{ $item->branch === 'resort' ? 'badge-branch-resort' : ($item->branch === 'jarmark' ? 'badge-branch-jarmark' : ($item->branch === 'farm' ? 'badge-branch-farm' : 'bg-slate-800')) }}"
                                           style="background-color: {{ $item->branch === 'resort' ? '#001e40' : ($item->branch === 'jarmark' ? '#b45309' : ($item->branch === 'farm' ? '#047857' : '#1e293b')) }} !important; color: #ffffff !important;">
-                                        {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : ($item->branch === 'farm' ? '🌿 Gospodarstwo Rolne' : '🌐 MIRiOLA')) }}
+                                        {{ $item->branch === 'resort' ? '🏡 Ośrodek' : ($item->branch === 'jarmark' ? '☕ Jarmark' : ($item->branch === 'farm' ? '🌿 Gospodarstwo' : '🌐 MIRiOLA')) }}
                                     </span>
                                 </div>
 
@@ -558,8 +558,10 @@
                 badgeEl.textContent = '☕ Jarmark & Kawiarnia';
                 badgeEl.className = 'text-[11px] font-bold px-3 py-1 rounded-full text-white bg-amber-700 shadow-sm';
             } else if (item.branch === 'farm') {
-                badgeEl.textContent = '🌿 Gospodarstwo Rolne';
+                badgeEl.textContent = '🌿 Gospodarstwo';
                 badgeEl.className = 'text-[11px] font-bold px-3 py-1 rounded-full text-white bg-emerald-700 shadow-sm';
+                badgeEl.style.backgroundColor = '#047857';
+                badgeEl.style.color = '#ffffff';
             } else {
                 badgeEl.textContent = '🌐 MIRiOLA';
                 badgeEl.className = 'text-[11px] font-bold px-3 py-1 rounded-full text-white bg-slate-800 shadow-sm';

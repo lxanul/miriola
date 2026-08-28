@@ -73,12 +73,12 @@ class RebrandingAndFarmGalleryTest extends TestCase
         // Sprawdzenie na podstronie aktualności
         $aktualnosciResponse = $this->get('/aktualnosci');
         $aktualnosciResponse->assertStatus(200);
-        $aktualnosciResponse->assertSee('🌿 Gospodarstwo Rolne');
+        $aktualnosciResponse->assertSee('🌿 Gospodarstwo');
 
         // Sprawdzenie na stronie głównej (hub)
         $hubResponse = $this->get('/');
         $hubResponse->assertStatus(200);
-        $hubResponse->assertSee('🌿 Gospodarstwo Rolne');
+        $hubResponse->assertSee('🌿 Gospodarstwo');
     }
 
     public function test_rebranding_kawiarnia_plenerowa_on_all_relevant_pages(): void

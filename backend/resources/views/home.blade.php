@@ -83,7 +83,7 @@
 
             <!-- Google Reviews Badge Link (Comfortable Spacing & Enhanced Contrast) -->
             <div class="mt-7 sm:mt-9 flex justify-center" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://www.google.com/maps/place/O%C5%9Brodek+wypoczynkowy+MIRiOLA/@49.847133,19.504093,15z/data=!4m9!3m8!1s0x4716862dadd6ee87:0xbdb92fc80693a9ef!8m2!3d49.847133!4d19.504093!16s%2Fg%2F11b6q_6n7s" 
+                <a href="https://share.google/N54f40wBxCGrtlDkr" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    title="Zobacz nasze opinie w Google (ocena 5.0 na podstawie 182 recenzji)"

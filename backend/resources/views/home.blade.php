@@ -83,7 +83,7 @@
 
             <!-- Google Reviews Badge Link (Comfortable Spacing & Enhanced Contrast) -->
             <div class="mt-4 sm:mt-5 flex justify-center" data-aos="fade-up" data-aos-delay="200">
-                <a href="https://share.google/N54f40wBxCGrtlDkr" 
+                <a href="https://www.google.com/search?sca_esv=625aac17c2bbcb85&amp;hl=pl-PL&amp;sxsrf=APpeQntiR0zvo8vLxQOu0IQ49qTGuQOH0g:1787991659231&amp;q=O%C5%9Brodek+wypoczynkowy+MIRiOLA&amp;si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wv36HjwIzvp3U4Q47kSBoWB2DfkN2T9iKSTCZOmI7Cq67dyASmqdL_gAFtUWtMPdGVzlwU%3D&amp;uds=AJ5uw19tc558UO76uNE3i9QYuudMplYpnlC0l8L1BN0qjQDIMH4BM2IW5lgie2EcZOs2aWGf60AhsaqNU6Fsw-vTvwD_pNs7a4VkyCogBEtw1SwKIq2sguK8iYp-6vkvYVvbKRlhJnnr&amp;sa=X&amp;ved=2ahUKEwiZrtb9s8WWAxUdBNsEHUdaMcYQ3PALegQIFxAE&amp;cshid=1787991726595478&amp;biw=1470&amp;bih=831&amp;dpr=2" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    title="Zobacz nasze opinie w Google (ocena 5.0 na podstawie 182 recenzji)"

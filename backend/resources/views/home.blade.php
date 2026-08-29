@@ -32,6 +32,25 @@
             justify-content: center !important;
             width: 100% !important;
         }
+        #start.hero-osrodek-banner {
+            position: relative !important;
+            width: 100% !important;
+            min-height: 580px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: hidden !important;
+        }
+        .hero-osrodek-bg {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-size: cover !important;
+            background-position: center 20% !important;
+            background-repeat: no-repeat !important;
+            transition: transform 1s ease !important;
+        }
         @media (min-width: 768px) {
             .award-badge-desktop {
                 display: block !important;
@@ -39,15 +58,22 @@
             .award-badge-mobile {
                 display: none !important;
             }
+            #start.hero-osrodek-banner {
+                min-height: 82vh !important;
+                max-height: 960px !important;
+            }
+            .hero-osrodek-bg {
+                background-position: center 60% !important;
+            }
         }
     </style>
 @endsection
 
 @section('content')
     <!-- Hero Section -->
-    <section id="start" class="relative w-full min-h-[620px] sm:min-h-[680px] md:min-h-[88vh] lg:min-h-[92vh] py-12 sm:py-16 md:py-24 lg:py-28 flex items-center justify-center bg-surface-dim overflow-hidden">
+    <section id="start" class="hero-osrodek-banner py-12 sm:py-16 md:py-24 lg:py-28 bg-surface-dim">
         <!-- Hero Background Image -->
-        <div class="absolute inset-0 w-full h-full bg-cover bg-[position:center_20%] md:bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
+        <div class="hero-osrodek-bg opacity-100 scale-100 hover:scale-105" 
              style="background-image: url('{{ $heroImgUrl }}')">
         </div>
         <!-- Bright Light Overlay -->

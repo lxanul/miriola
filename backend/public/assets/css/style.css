@@ -265,7 +265,39 @@ body {
     }
 }
 
+/* ==========================================================================
+   Hero Osrodek Banner & Background Framing
+   ========================================================================== */
+#start.hero-osrodek-banner {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 580px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+}
 
+@media (min-width: 768px) {
+    #start.hero-osrodek-banner {
+        min-height: 82vh !important;
+        max-height: 960px !important;
+    }
+}
 
+.hero-osrodek-bg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    background-repeat: no-repeat !important;
+    transition: transform 1s ease !important;
+}
 
-
+@media (min-width: 768px) {
+    .hero-osrodek-bg {
+        background-position: center 60% !important;
+    }
+}

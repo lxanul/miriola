@@ -52,7 +52,7 @@
                      onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="180" height="210"
-                     class="w-16 sm:w-22 md:w-28 lg:w-36 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
+                     class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
             </div>
         </div>
         
@@ -82,7 +82,7 @@
             </div>
 
             <!-- Google Reviews Badge Link (Comfortable Spacing & Enhanced Contrast) -->
-            <div class="mt-4 sm:mt-5 flex justify-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="mt-8 sm:mt-11 md:mt-12 flex justify-center" data-aos="fade-up" data-aos-delay="200">
                 <a href="https://www.google.com/search?sca_esv=625aac17c2bbcb85&amp;hl=pl-PL&amp;sxsrf=APpeQntiR0zvo8vLxQOu0IQ49qTGuQOH0g:1787991659231&amp;q=O%C5%9Brodek+wypoczynkowy+MIRiOLA&amp;si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_wv36HjwIzvp3U4Q47kSBoWB2DfkN2T9iKSTCZOmI7Cq67dyASmqdL_gAFtUWtMPdGVzlwU%3D&amp;uds=AJ5uw19tc558UO76uNE3i9QYuudMplYpnlC0l8L1BN0qjQDIMH4BM2IW5lgie2EcZOs2aWGf60AhsaqNU6Fsw-vTvwD_pNs7a4VkyCogBEtw1SwKIq2sguK8iYp-6vkvYVvbKRlhJnnr&amp;sa=X&amp;ved=2ahUKEwiZrtb9s8WWAxUdBNsEHUdaMcYQ3PALegQIFxAE&amp;cshid=1787991726595478&amp;biw=1470&amp;bih=831&amp;dpr=2" 
                    target="_blank" 
                    rel="noopener noreferrer" 

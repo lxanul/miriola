@@ -23,7 +23,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section id="start" class="relative w-full h-[80vh] flex items-center justify-center bg-surface-dim overflow-hidden">
+    <section id="start" class="relative w-full min-h-[85vh] md:h-[80vh] py-14 sm:py-16 md:py-0 flex items-center justify-center bg-surface-dim overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
              style="background-image: url('{{ $heroImgUrl }}')">
@@ -81,14 +81,14 @@
                 </a>
             </div>
 
-            <!-- Google Reviews Badge Link -->
-            <div class="mt-4 flex justify-center" data-aos="fade-up" data-aos-delay="200">
+            <!-- Google Reviews Badge Link (Comfortable Spacing & Enhanced Contrast) -->
+            <div class="mt-7 sm:mt-9 flex justify-center" data-aos="fade-up" data-aos-delay="200">
                 <a href="https://www.google.com/maps/place/O%C5%9Brodek+wypoczynkowy+MIRiOLA/@49.847133,19.504093,15z/data=!4m9!3m8!1s0x4716862dadd6ee87:0xbdb92fc80693a9ef!8m2!3d49.847133!4d19.504093!16s%2Fg%2F11b6q_6n7s" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    title="Zobacz nasze opinie w Google (ocena 5.0 na podstawie 182 recenzji)"
                    aria-label="Zobacz opinie o Ośrodku MIRiOLA w Google - ocena 5.0 na podstawie 182 recenzji"
-                   class="google-reviews-pill inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border shadow-lg group">
+                   class="google-reviews-pill inline-flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border shadow-lg group max-w-[92vw] sm:max-w-none">
                     <!-- Google "G" Logo -->
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
@@ -103,8 +103,8 @@
                     </div>
 
                     <!-- Score & Count -->
-                    <span class="font-bold text-xs sm:text-sm text-white">5,0</span>
-                    <span class="text-xs sm:text-sm text-white/95 font-medium">(182 opinie w Google)</span>
+                    <span class="font-bold text-xs sm:text-sm text-white shrink-0">5,0</span>
+                    <span class="text-xs sm:text-sm text-white/95 font-medium whitespace-nowrap">(182 opinie w Google)</span>
 
                     <!-- Open in New Icon -->
                     <span class="material-symbols-outlined text-[14px] sm:text-[16px] text-white/80 group-hover:translate-x-0.5 transition-transform shrink-0">open_in_new</span>

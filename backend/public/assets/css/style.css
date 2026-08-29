@@ -230,21 +230,22 @@ body {
    Google Reviews Hero Pill Badge
    ========================================================================== */
 .google-reviews-pill {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25) !important;
+    background: rgba(0, 30, 64, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
     text-decoration: none !important;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .google-reviews-pill:hover {
-    background: rgba(255, 255, 255, 0.3) !important;
+    background: rgba(0, 30, 64, 0.6) !important;
     border-color: rgba(255, 255, 255, 0.65) !important;
     transform: translateY(-2px) scale(1.03) !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 20px rgba(251, 191, 36, 0.35) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 20px rgba(251, 191, 36, 0.4) !important;
 }
+
 
 
 

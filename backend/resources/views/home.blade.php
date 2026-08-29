@@ -23,7 +23,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section id="start" class="relative w-full min-h-[85vh] md:h-[80vh] py-14 sm:py-16 md:py-0 flex items-center justify-center bg-surface-dim overflow-hidden">
+    <section id="start" class="relative w-full min-h-[88vh] lg:min-h-[92vh] py-20 sm:py-24 md:py-28 flex items-center justify-center bg-surface-dim overflow-hidden">
         <!-- Hero Background Image -->
         <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
              style="background-image: url('{{ $heroImgUrl }}')">
@@ -52,13 +52,13 @@
                      onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="180" height="210"
-                     class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
+                     class="w-16 sm:w-22 md:w-28 lg:w-36 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
             </div>
         </div>
         
         <!-- Hero Content -->
         <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto" data-aos="fade-up">
-            <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-6">
+            <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-5">
                 <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 px-4 py-1.5 rounded-full backdrop-blur-md text-xs uppercase tracking-widest text-white font-semibold shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                     {{ $cms['hero_badge'] ?? 'Komfortowe noclegi w dolinie Skawy' }}
@@ -68,21 +68,21 @@
                     Wynajem 2 Sal Bankietowo-Imprezowych
                 </span>
             </div>
-            <h1 class="font-display text-4xl md:text-5xl lg:text-display-lg font-bold mb-6 leading-tight drop-shadow-md max-w-4xl mx-auto">
+            <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-display-lg font-bold mb-4 sm:mb-5 leading-tight drop-shadow-md max-w-4xl mx-auto">
                 {{ $cms['hero_title'] ?? 'Odkryj spokój w sercu doliny Skawy' }}
             </h1>
-            <p class="font-body text-base md:text-lg lg:text-body-lg mb-8 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+            <p class="font-body text-sm sm:text-base md:text-lg lg:text-body-lg mb-6 sm:mb-7 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
                 {{ $cms['hero_description'] ?? 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego' }}
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
-                <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-5 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+                <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-6 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
                     <span class="material-symbols-outlined text-[20px] shrink-0">call</span>
                     <span>Zadzwoń i zarezerwuj: <span class="whitespace-nowrap">{{ !empty($cms['phone_number']) ? $cms['phone_number'] : '608 103 119' }}</span></span>
                 </a>
             </div>
 
             <!-- Google Reviews Badge Link (Comfortable Spacing & Enhanced Contrast) -->
-            <div class="mt-7 sm:mt-9 flex justify-center" data-aos="fade-up" data-aos-delay="200">
+            <div class="mt-4 sm:mt-5 flex justify-center" data-aos="fade-up" data-aos-delay="200">
                 <a href="https://share.google/N54f40wBxCGrtlDkr" 
                    target="_blank" 
                    rel="noopener noreferrer" 

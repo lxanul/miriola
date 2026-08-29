@@ -45,19 +45,20 @@ class GalleryImageResource extends Resource
                     ->maxSize(2048)
                     ->directory('gallery'),
                 Forms\Components\TextInput::make('video_url')
-                    ->label('Link do Wideo (YouTube / TikTok / Vimeo / plik MP4)')
-                    ->placeholder('np. https://www.youtube.com/watch?v=... lub https://www.tiktok.com/@user/video/123456789')
+                    ->label('Link do Wideo (YouTube / Facebook / TikTok / Vimeo / plik MP4)')
+                    ->placeholder('np. https://www.facebook.com/... lub https://www.youtube.com/watch?v=... lub https://www.tiktok.com/@...')
                     ->nullable()
-                    ->maxLength(255)
+                    ->maxLength(1000)
                     // ->hidden() wyłącza walidację; ->visible() jej NIE wyłącza. BUG-1.
                     ->hidden(fn (Forms\Get $get): bool => $get('media_type') !== 'video')
                     ->rules([
                         'nullable',
-                        'regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com|tiktok\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i',
+                        'regex:/^https:\/\/(?:[\w-]+\.)*(?:youtube\.com|youtu\.be|vimeo\.com|tiktok\.com|facebook\.com|fb\.watch|fb\.com)\/\S+$|^https:\/\/\S+\.(?:mp4|webm)$/i',
                     ])
                     ->validationMessages([
-                        'regex' => 'Dozwolone są tylko adresy https z YouTube, TikTok, Vimeo lub bezpośrednie pliki .mp4/.webm.',
+                        'regex' => 'Dozwolone są tylko adresy https z YouTube, Facebook (w tym Reels i fb.watch), TikTok, Vimeo lub bezpośrednie pliki .mp4/.webm.',
                     ])
+                    ->helperText('Obsługuje filmy i rolki (Reels) z Facebooka, YouTube, TikToka, Vimeo oraz pliki wideo.')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('title')
                     ->label('Tytuł / Opis (opcjonalnie)')

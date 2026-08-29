@@ -368,6 +368,28 @@
                         </div>
                     `;
                 }
+            } else if (videoUrl.includes('facebook.com') || videoUrl.includes('fb.watch') || videoUrl.includes('fb.com')) {
+                const isReel = videoUrl.includes('/reel/') || videoUrl.includes('/share/r/');
+                if (isReel) {
+                    modalWrapper.style.maxWidth = '460px';
+                } else {
+                    modalWrapper.style.maxWidth = '680px';
+                }
+                const fbPluginSrc = 'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(videoUrl) + '&show_text=false';
+                embedHtml = `
+                    <div class="w-full bg-slate-950 flex flex-col items-center py-3 px-2">
+                        ${isReel 
+                            ? `<iframe src="${fbPluginSrc}" class="w-full h-[520px] max-h-[60vh] border-0 rounded-2xl shadow-lg" style="max-width: 340px; width: 100%; height: 520px; margin: 0 auto; display: block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true" loading="lazy"></iframe>`
+                            : `<div class="aspect-video w-full"><iframe src="${fbPluginSrc}" class="w-full h-full border-0 rounded-xl shadow-lg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="true" loading="lazy"></iframe></div>`
+                        }
+                        <a href="${encodeURI(videoUrl)}" target="_blank" rel="noopener noreferrer" 
+                           class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1877F2] hover:bg-[#0d65d9] text-white text-xs font-bold shadow-md transition-all hover:scale-105 active:scale-95">
+                            <svg class="w-4 h-4 fill-current text-white" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            <span>Otwórz w aplikacji Facebook</span>
+                            <span class="material-symbols-outlined text-sm">open_in_new</span>
+                        </a>
+                    </div>
+                `;
             } else {
                 modalWrapper.style.maxWidth = '680px';
 

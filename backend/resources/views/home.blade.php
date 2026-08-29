@@ -74,10 +74,42 @@
             <p class="font-body text-base md:text-lg lg:text-body-lg mb-8 max-w-2xl mx-auto font-medium text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
                 {{ $cms['hero_description'] ?? 'Komfortowe noclegi blisko Wadowic i Jeziora Mucharskiego' }}
             </p>
-            <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-5 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
-                <span class="material-symbols-outlined text-[20px] shrink-0">call</span>
-                <span>Zadzwoń i zarezerwuj: <span class="whitespace-nowrap">{{ !empty($cms['phone_number']) ? $cms['phone_number'] : '608 103 119' }}</span></span>
-            </a>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+                <a href="tel:{{ !empty($cms['phone_number']) ? preg_replace('/\s+/', '', $cms['phone_number']) : '+48608103119' }}" class="bg-accent text-white font-bold py-3 sm:py-3.5 px-5 sm:px-8 rounded-xl hover:bg-opacity-95 hover:shadow-lg btn-animate inline-flex items-center justify-center gap-2 text-sm sm:text-base max-w-full focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2">
+                    <span class="material-symbols-outlined text-[20px] shrink-0">call</span>
+                    <span>Zadzwoń i zarezerwuj: <span class="whitespace-nowrap">{{ !empty($cms['phone_number']) ? $cms['phone_number'] : '608 103 119' }}</span></span>
+                </a>
+            </div>
+
+            <!-- Google Reviews Badge Link -->
+            <div class="mt-4 flex justify-center" data-aos="fade-up" data-aos-delay="200">
+                <a href="https://www.google.com/maps/place/O%C5%9Brodek+wypoczynkowy+MIRiOLA/@49.847133,19.504093,15z/data=!4m9!3m8!1s0x4716862dadd6ee87:0xbdb92fc80693a9ef!8m2!3d49.847133!4d19.504093!16s%2Fg%2F11b6q_6n7s" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   title="Zobacz nasze opinie w Google (ocena 5.0 na podstawie 182 recenzji)"
+                   aria-label="Zobacz opinie o Ośrodku MIRiOLA w Google - ocena 5.0 na podstawie 182 recenzji"
+                   class="google-reviews-pill inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border shadow-lg group">
+                    <!-- Google "G" Logo -->
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.98 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+
+                    <!-- Stars -->
+                    <div class="flex items-center text-amber-400 text-xs sm:text-sm tracking-tighter" aria-hidden="true">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+
+                    <!-- Score & Count -->
+                    <span class="font-bold text-xs sm:text-sm text-white">5,0</span>
+                    <span class="text-xs sm:text-sm text-white/95 font-medium">(182 opinie w Google)</span>
+
+                    <!-- Open in New Icon -->
+                    <span class="material-symbols-outlined text-[14px] sm:text-[16px] text-white/80 group-hover:translate-x-0.5 transition-transform shrink-0">open_in_new</span>
+                </a>
+            </div>
         </div>
     </section>
 

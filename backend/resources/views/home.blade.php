@@ -23,16 +23,16 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section id="start" class="relative w-full min-h-[88vh] lg:min-h-[92vh] py-20 sm:py-24 md:py-28 flex items-center justify-center bg-surface-dim overflow-hidden">
+    <section id="start" class="relative w-full min-h-[620px] sm:min-h-[680px] md:min-h-[88vh] lg:min-h-[92vh] py-12 sm:py-16 md:py-24 lg:py-28 flex items-center justify-center bg-surface-dim overflow-hidden">
         <!-- Hero Background Image -->
-        <div class="absolute inset-0 bg-cover bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
+        <div class="absolute inset-0 w-full h-full bg-cover bg-[position:center_20%] md:bg-center opacity-100 scale-100 hover:scale-105 transition-transform duration-1000" 
              style="background-image: url('{{ $heroImgUrl }}')">
         </div>
         <!-- Bright Light Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/25 to-black/15"></div>
         
-        <!-- Award Badge Top-Right (Orły Turystyki 2024) -->
-        <div class="absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
+        <!-- Award Badge Desktop (Top-Right, full prominent size) -->
+        <div class="hidden md:block absolute md:top-6 md:right-6 lg:top-8 lg:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
             <div class="relative group">
                 @php
                     $awardBadgeRaw = $cms['osrodek_award_badge'] ?? null;
@@ -52,12 +52,21 @@
                      onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="180" height="210"
-                     class="w-20 sm:w-28 md:w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
+                     class="w-36 lg:w-44 h-auto rounded-2xl shadow-2xl border-2 border-amber-300/50 backdrop-blur-xs transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_15px_30px_rgba(217,119,6,0.4)] drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)]">
             </div>
         </div>
         
         <!-- Hero Content -->
-        <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto" data-aos="fade-up">
+        <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto w-full" data-aos="fade-up">
+            <!-- Award Badge Mobile (Centered above pills to prevent overlap) -->
+            <div class="flex md:hidden justify-center mb-3.5" data-aos="fade-down">
+                <img src="{{ $awardBadgeUrl }}" 
+                     onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
+                     alt="Orły Turystyki 2024 - Laureat Konkursu" 
+                     width="90" height="105"
+                     class="w-20 sm:w-24 h-auto rounded-xl shadow-xl border-2 border-amber-300/50 backdrop-blur-xs">
+            </div>
+
             <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-5">
                 <span class="inline-flex items-center gap-2 bg-white/15 border border-white/25 px-4 py-1.5 rounded-full backdrop-blur-md text-xs uppercase tracking-widest text-white font-semibold shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>

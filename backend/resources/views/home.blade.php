@@ -32,7 +32,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/25 to-black/15"></div>
         
         <!-- Award Badge Desktop (Top-Right, full prominent size) -->
-        <div class="hidden md:block absolute md:top-6 md:right-6 lg:top-8 lg:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
+        <div class="award-badge-desktop absolute top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-20" data-aos="fade-down" data-aos-delay="300">
             <div class="relative group">
                 @php
                     $awardBadgeRaw = $cms['osrodek_award_badge'] ?? null;
@@ -59,7 +59,7 @@
         <!-- Hero Content -->
         <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto w-full" data-aos="fade-up">
             <!-- Award Badge Mobile (Centered above pills to prevent overlap) -->
-            <div class="flex md:hidden justify-center mb-3.5" data-aos="fade-down">
+            <div class="award-badge-mobile mb-3.5" data-aos="fade-down">
                 <img src="{{ $awardBadgeUrl }}" 
                      onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 

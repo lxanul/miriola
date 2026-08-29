@@ -246,6 +246,26 @@ body {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 20px rgba(251, 191, 36, 0.4) !important;
 }
 
+/* ==========================================================================
+   Award Badge Responsive Rules (Orły Turystyki)
+   ========================================================================== */
+.award-badge-desktop {
+    display: none !important;
+}
+.award-badge-mobile {
+    display: flex !important;
+    justify-content: center !important;
+}
+@media (min-width: 768px) {
+    .award-badge-desktop {
+        display: block !important;
+    }
+    .award-badge-mobile {
+        display: none !important;
+    }
+}
+
+
 
 
 

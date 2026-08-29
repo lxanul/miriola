@@ -21,6 +21,28 @@
     <link rel="preload" as="image" href="{{ $heroImgUrl }}" fetchpriority="high">
 @endsection
 
+@section('styles')
+    @parent
+    <style>
+        .award-badge-desktop {
+            display: none !important;
+        }
+        .award-badge-mobile {
+            display: flex !important;
+            justify-content: center !important;
+            width: 100% !important;
+        }
+        @media (min-width: 768px) {
+            .award-badge-desktop {
+                display: block !important;
+            }
+            .award-badge-mobile {
+                display: none !important;
+            }
+        }
+    </style>
+@endsection
+
 @section('content')
     <!-- Hero Section -->
     <section id="start" class="relative w-full min-h-[620px] sm:min-h-[680px] md:min-h-[88vh] lg:min-h-[92vh] py-12 sm:py-16 md:py-24 lg:py-28 flex items-center justify-center bg-surface-dim overflow-hidden">
@@ -59,12 +81,12 @@
         <!-- Hero Content -->
         <div class="relative z-10 text-center text-white px-gutter max-w-container-max mx-auto w-full" data-aos="fade-up">
             <!-- Award Badge Mobile (Centered above pills to prevent overlap) -->
-            <div class="award-badge-mobile mb-3.5" data-aos="fade-down">
+            <div class="award-badge-mobile mb-3.5 flex justify-center w-full" data-aos="fade-down">
                 <img src="{{ $awardBadgeUrl }}" 
                      onerror="this.onerror=null; this.src='{{ asset('assets/img/orl.webp') }}';"
                      alt="Orły Turystyki 2024 - Laureat Konkursu" 
                      width="90" height="105"
-                     class="w-20 sm:w-24 h-auto rounded-xl shadow-xl border-2 border-amber-300/50 backdrop-blur-xs">
+                     class="w-20 sm:w-24 h-auto rounded-xl shadow-xl border-2 border-amber-300/50 backdrop-blur-xs mx-auto">
             </div>
 
             <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-4 sm:mb-5">

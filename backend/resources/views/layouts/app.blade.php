@@ -149,8 +149,8 @@
     <link rel="stylesheet" href="{{ asset('build/assets/app-BYOZS_yM.css') }}">
     <script type="module" src="{{ asset('build/assets/app-BvRk9kiK.js') }}"></script>
     
-    <!-- Custom Style -->
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <!-- Custom Style with Cache-Buster -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?v={{ file_exists(public_path('assets/css/style.css')) ? filemtime(public_path('assets/css/style.css')) : time() }}">
     
     @yield('styles')
     @yield('head')

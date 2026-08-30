@@ -130,7 +130,7 @@
 
                                 <!-- Dynamic "Dzisiaj otwieramy" Badge (Desktop: directly adjacent, enlarged & bold) -->
                                 @if($isOpenToday)
-                                    <div class="hidden sm:inline-flex cafe-today-badge-desktop">
+                                    <div class="cafe-today-badge-desktop">
                                         <span class="relative flex h-3.5 w-3.5 shrink-0">
                                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
                                             <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-400 shadow-xs"></span>
@@ -157,7 +157,7 @@
 
                 <!-- Mobile "Dzisiaj otwieramy" Banner (Clean, symmetrical, no skew) -->
                 @if($isOpenToday)
-                    <div class="sm:hidden pt-4">
+                    <div class="pt-4 cafe-today-badge-mobile-wrapper">
                         <div class="cafe-today-badge-mobile">
                             <div class="flex items-center justify-center gap-2">
                                 <span class="relative flex h-3 w-3 shrink-0">

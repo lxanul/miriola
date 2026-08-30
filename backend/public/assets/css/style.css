@@ -303,6 +303,25 @@ body {
 }
 
 /* ==========================================================================
+   Cafe Header Spacing (Clock icon & title)
+   ========================================================================== */
+.cafe-header-row {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.cafe-header-icon-box {
+    margin-right: 1.125rem !important;
+    flex-shrink: 0 !important;
+}
+
+@media (min-width: 640px) {
+    .cafe-header-icon-box {
+        margin-right: 1.25rem !important;
+    }
+}
+
+/* ==========================================================================
    Cafe Weekly Schedule Responsive Grid
    ========================================================================== */
 .cafe-schedule-grid {

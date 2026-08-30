@@ -114,8 +114,8 @@
 
             <div class="mb-14 max-w-5xl mx-auto bg-gradient-to-br from-primary via-slate-900 to-primary text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-primary/20" data-aos="fade-up">
                 <!-- Top Header -->
-                <div class="flex items-center gap-3.5 sm:gap-4 pb-6 border-b border-white/10">
-                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
+                <div class="cafe-header-row flex items-center pb-6 border-b border-white/10">
+                    <div class="cafe-header-icon-box w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
                         <span class="material-symbols-outlined text-accent text-2xl sm:text-3xl">schedule</span>
                     </div>
                     <div>

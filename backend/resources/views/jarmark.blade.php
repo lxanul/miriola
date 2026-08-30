@@ -164,7 +164,7 @@
                         <span class="text-amber-300/80 text-[10px] hidden sm:inline">● Wyróżniony dzień: dzisiaj</span>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+                    <div class="cafe-schedule-grid">
                         @foreach($daysSchedule as $dayNum => $dayData)
                             @php
                                 $isCurrentDay = ($dayNum === $currentDayNum);

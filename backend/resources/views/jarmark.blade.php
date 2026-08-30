@@ -99,10 +99,6 @@
 
             <!-- Prominent Kawiarnia Opening Hours Banner (Dynamic from CMS) -->
             @php
-                $isOpenToday = !empty($cms['cafe_open_today']) && $cms['cafe_open_today'] !== '0' && $cms['cafe_open_today'] !== false;
-                $todayHours = !empty($cms['cafe_today_hours']) ? $cms['cafe_today_hours'] : null;
-                $todayNotice = !empty($cms['cafe_today_notice']) ? $cms['cafe_today_notice'] : null;
-
                 $daysSchedule = [
                     1 => ['short' => 'Pon',  'full' => 'Poniedziałek', 'hours' => $cms['cafe_hours_mon'] ?? '15:00 – 20:00'],
                     2 => ['short' => 'Wt',   'full' => 'Wtorek',       'hours' => $cms['cafe_hours_tue'] ?? '15:00 – 20:00'],
@@ -118,26 +114,14 @@
 
             <div class="mb-14 max-w-5xl mx-auto bg-gradient-to-br from-primary via-slate-900 to-primary text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-primary/20" data-aos="fade-up">
                 <!-- Top Header -->
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                    <div class="flex items-center gap-3.5 sm:gap-4">
-                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
-                            <span class="material-symbols-outlined text-accent text-2xl sm:text-3xl">schedule</span>
-                        </div>
-                        <div>
-                            <span class="text-amber-300 font-bold uppercase tracking-widest text-[11px] block">Zapraszamy do Kawiarni</span>
-                            <h3 class="font-display font-bold text-xl sm:text-2xl lg:text-3xl text-white whitespace-nowrap">Godziny Otwarcia</h3>
-                        </div>
+                <div class="flex items-center gap-3.5 sm:gap-4 pb-6 border-b border-white/10">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
+                        <span class="material-symbols-outlined text-accent text-2xl sm:text-3xl">schedule</span>
                     </div>
-
-                    @if($isOpenToday)
-                        <div class="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-amber-300/90 bg-amber-400/10 border border-amber-400/30 px-3.5 py-1.5 rounded-full shadow-2xs self-start sm:self-auto">
-                            <span class="relative flex h-2.5 w-2.5">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-400"></span>
-                            </span>
-                            <span>Dzisiaj otwieramy kawiarnię!</span>
-                        </div>
-                    @endif
+                    <div>
+                        <span class="text-amber-300 font-bold uppercase tracking-widest text-[11px] block">Zapraszamy do Kawiarni</span>
+                        <h3 class="font-display font-bold text-xl sm:text-2xl lg:text-3xl text-white whitespace-nowrap">Godziny Otwarcia</h3>
+                    </div>
                 </div>
 
                 <!-- Weekly Schedule (Monday - Sunday Compact Responsive Grid) -->
@@ -151,13 +135,12 @@
                         @foreach($daysSchedule as $dayNum => $dayData)
                             @php
                                 $isCurrentDay = ($dayNum === $currentDayNum);
-                                $displayHours = ($isCurrentDay && $isOpenToday && !empty($todayHours)) ? $todayHours : $dayData['hours'];
-                                $isClosed = (mb_stripos($displayHours, 'zamknięt') !== false || mb_stripos($displayHours, 'nieczynn') !== false);
+                                $isClosed = (mb_stripos($dayData['hours'], 'zamknięt') !== false || mb_stripos($dayData['hours'], 'nieczynn') !== false);
                             @endphp
-                            <div class="cafe-day-card {{ $isCurrentDay ? ($isOpenToday ? 'is-open-today' : 'is-today') : '' }}">
+                            <div class="cafe-day-card {{ $isCurrentDay ? 'is-today' : '' }}">
                                 @if($isCurrentDay)
-                                    <span class="cafe-day-badge-top {{ $isOpenToday ? 'is-open-badge' : '' }}">
-                                        {{ $isOpenToday ? '● Dzisiaj otwieramy!' : 'Dziś' }}
+                                    <span class="cafe-day-badge-top">
+                                        Dziś
                                     </span>
                                 @endif
                                 <div>
@@ -169,24 +152,17 @@
                                 <div class="mt-2">
                                     @if($isClosed)
                                         <span class="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-lg bg-rose-500/20 text-rose-200 border border-rose-400/30">
-                                            {{ $displayHours }}
+                                            {{ $dayData['hours'] }}
                                         </span>
                                     @else
                                         <span class="font-mono text-xs font-bold {{ $isCurrentDay ? 'text-amber-100' : 'text-white' }} whitespace-nowrap">
-                                            {{ $displayHours }}
+                                            {{ $dayData['hours'] }}
                                         </span>
                                     @endif
                                 </div>
                             </div>
                         @endforeach
                     </div>
-
-                    @if($isOpenToday && $todayNotice)
-                        <div class="mt-4 text-xs sm:text-sm text-amber-100/90 bg-amber-400/10 border border-amber-400/25 px-4 py-2.5 rounded-2xl flex items-center justify-center gap-2 text-center">
-                            <span class="material-symbols-outlined text-amber-400 text-base shrink-0">campaign</span>
-                            <span><strong class="text-amber-300 font-semibold">Komunikat na dziś:</strong> {{ $todayNotice }}</span>
-                        </div>
-                    @endif
                 </div>
             </div>
 

@@ -42,54 +42,13 @@ class CafeHoursAndFeaturedBadgeTest extends TestCase
         $response->assertDontSee('>Hit<');
     }
 
-    public function test_jarmark_hides_dzisiaj_otwieramy_when_disabled(): void
+    public function test_jarmark_does_not_render_alert_box(): void
     {
-        CmsContent::create([
-            'key' => 'cafe_open_today',
-            'label' => 'Kawiarnia - Dzisiaj otwieramy',
-            'value' => '0',
-            'type' => 'text',
-            'group' => 'jarmark',
-        ]);
-
         $response = $this->get('/jarmark');
 
         $response->assertStatus(200);
-        $response->assertDontSee('Dzisiaj otwieramy');
-    }
-
-    public function test_jarmark_shows_dzisiaj_otwieramy_when_enabled(): void
-    {
-        CmsContent::create([
-            'key' => 'cafe_open_today',
-            'label' => 'Kawiarnia - Dzisiaj otwieramy',
-            'value' => '1',
-            'type' => 'text',
-            'group' => 'jarmark',
-        ]);
-
-        CmsContent::create([
-            'key' => 'cafe_today_hours',
-            'label' => 'Godziny na dziś',
-            'value' => '14:00 – 21:00',
-            'type' => 'text',
-            'group' => 'jarmark',
-        ]);
-
-        CmsContent::create([
-            'key' => 'cafe_today_notice',
-            'label' => 'Komunikat na dziś',
-            'value' => 'Świeże ciasto jagodowe prosto z pieca!',
-            'type' => 'text',
-            'group' => 'jarmark',
-        ]);
-
-        $response = $this->get('/jarmark');
-
-        $response->assertStatus(200);
-        $response->assertSee('Dzisiaj otwieramy');
-        $response->assertSee('14:00 – 21:00');
-        $response->assertSee('Świeże ciasto jagodowe prosto z pieca!');
+        $response->assertDontSee('cafe-today-badge');
+        $response->assertDontSee('Dzisiaj otwieramy kawiarnię!');
     }
 
     public function test_jarmark_displays_weekly_schedule_from_monday_to_sunday(): void

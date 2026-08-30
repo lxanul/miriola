@@ -36,9 +36,6 @@ class ManageCafeHours extends Page implements HasForms
         $cms = CmsContent::getData();
 
         $this->form->fill([
-            'cafe_open_today' => !empty($cms['cafe_open_today']) && $cms['cafe_open_today'] !== '0' && $cms['cafe_open_today'] !== false,
-            'cafe_today_hours' => $cms['cafe_today_hours'] ?? '',
-            'cafe_today_notice' => $cms['cafe_today_notice'] ?? '',
             'cafe_hours_mon' => $cms['cafe_hours_mon'] ?? '15:00 – 20:00',
             'cafe_hours_tue' => $cms['cafe_hours_tue'] ?? '15:00 – 20:00',
             'cafe_hours_wed' => $cms['cafe_hours_wed'] ?? '15:00 – 20:00',
@@ -53,27 +50,6 @@ class ManageCafeHours extends Page implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Dzisiaj Otwieramy (Wyróżniony Alert)')
-                    ->description('Włącz, aby na stronie kawiarni natychmiast pojawił się wyróżniony komunikat i odznaka informująca, że kawiarnia jest dzisiaj czynna.')
-                    ->icon('heroicon-o-sparkles')
-                    ->schema([
-                        Toggle::make('cafe_open_today')
-                            ->label('Dzisiaj otwieramy!')
-                            ->helperText('Gdy jest włączone, na stronie kawiarni oraz przy godzinach pojawi się efektowny, zielony status "Dzisiaj Otwieramy".')
-                            ->live(),
-                        Grid::make(['default' => 1, 'sm' => 2])
-                            ->schema([
-                                TextInput::make('cafe_today_hours')
-                                    ->label('Dzisiejsze godziny otwarcia (opcjonalnie)')
-                                    ->placeholder('np. 14:00 – 21:00 (zostaw puste dla standardowych)')
-                                    ->maxLength(100),
-                                TextInput::make('cafe_today_notice')
-                                    ->label('Dodatkowy komunikat na dziś (opcjonalnie)')
-                                    ->placeholder('np. Świeże jagodzianki prosto z pieca!')
-                                    ->maxLength(150),
-                            ]),
-                    ]),
-
                 Section::make('Harmonogram Tygodniowy (Od Poniedziałku do Niedzieli)')
                     ->description('Wpisz godziny otwarcia dla poszczególnych dni tygodnia lub wpisz "Zamknięte".')
                     ->icon('heroicon-o-calendar-days')
@@ -119,9 +95,6 @@ class ManageCafeHours extends Page implements HasForms
         $state = $this->form->getState();
 
         $fields = [
-            'cafe_open_today' => ['label' => 'Kawiarnia - Dzisiaj otwieramy (Wyróżnienie)', 'type' => 'text'],
-            'cafe_today_hours' => ['label' => 'Kawiarnia - Dzisiejsze godziny otwarcia', 'type' => 'text'],
-            'cafe_today_notice' => ['label' => 'Kawiarnia - Dzisiejsza wiadomość specjalna', 'type' => 'text'],
             'cafe_hours_mon' => ['label' => 'Kawiarnia - Godziny: Poniedziałek', 'type' => 'text'],
             'cafe_hours_tue' => ['label' => 'Kawiarnia - Godziny: Wtorek', 'type' => 'text'],
             'cafe_hours_wed' => ['label' => 'Kawiarnia - Godziny: Środa', 'type' => 'text'],
@@ -132,21 +105,23 @@ class ManageCafeHours extends Page implements HasForms
         ];
 
         foreach ($fields as $key => $meta) {
-            $val = isset($state[$key]) ? (is_bool($state[$key]) ? ($state[$key] ? '1' : '0') : (string) $state[$key]) : '';
             CmsContent::updateOrCreate(
                 ['key' => $key],
                 [
                     'label' => $meta['label'],
                     'type' => $meta['type'],
                     'group' => 'jarmark',
-                    'value' => $val,
+                    'value' => (string) ($state[$key] ?? ''),
                 ]
             );
         }
 
+        // Ensure legacy alert keys are deactivated
+        CmsContent::where('key', 'cafe_open_today')->update(['value' => '0']);
+
         Notification::make()
             ->title('Zapisano pomyślnie')
-            ->body('Godziny otwarcia i status dnia zostały zaktualizowane na stronie.')
+            ->body('Harmonogram tygodniowy kawiarni został zaktualizowany.')
             ->success()
             ->send();
     }

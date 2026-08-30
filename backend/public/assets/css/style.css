@@ -323,3 +323,57 @@ body {
     }
 }
 
+/* ==========================================================================
+   Cafe "Dzisiaj Otwieramy" Badges & Day Names
+   ========================================================================== */
+.cafe-today-badge-desktop {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.45) 0%, rgba(4, 120, 87, 0.65) 100%) !important;
+    border: 1.5px solid rgba(52, 211, 153, 0.85) !important;
+    box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.35) !important;
+    border-radius: 9999px !important;
+    padding: 0.45rem 1.15rem !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+.cafe-today-badge-mobile {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.4) 0%, rgba(4, 120, 87, 0.6) 100%) !important;
+    border: 1.5px solid rgba(52, 211, 153, 0.75) !important;
+    box-shadow: 0 4px 16px -2px rgba(16, 185, 129, 0.35) !important;
+    border-radius: 1rem !important;
+    padding: 0.65rem 1rem !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+.day-name-mobile {
+    display: block !important;
+    font-size: 0.8125rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+.day-name-desktop {
+    display: none !important;
+    font-size: 0.8125rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+@media (min-width: 640px) {
+    .day-name-mobile {
+        display: none !important;
+    }
+    .day-name-desktop {
+        display: block !important;
+    }
+}
+
+

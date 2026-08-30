@@ -117,42 +117,44 @@
             @endphp
 
             <div class="mb-14 max-w-5xl mx-auto bg-gradient-to-br from-primary via-slate-900 to-primary text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-primary/20" data-aos="fade-up">
-                <!-- Top Header & Today Status -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
-                    <div class="flex items-center gap-4">
+                <!-- Top Header with "Dzisiaj Otwieramy" placed directly to the right of "Godziny Otwarcia" -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+                    <div class="flex items-center gap-3.5 sm:gap-4">
                         <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
                             <span class="material-symbols-outlined text-accent text-3xl">schedule</span>
                         </div>
                         <div>
                             <span class="text-amber-300 font-bold uppercase tracking-widest text-[11px] block">Zapraszamy do Kawiarni</span>
-                            <h3 class="font-display font-bold text-xl sm:text-2xl text-white">Godziny Otwarcia</h3>
+                            <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 mt-0.5">
+                                <h3 class="font-display font-bold text-xl sm:text-2xl text-white whitespace-nowrap">Godziny Otwarcia</h3>
+
+                                <!-- Dynamic "Dzisiaj otwieramy" Badge (Directly adjacent to the heading) -->
+                                @if($isOpenToday)
+                                    <div class="inline-flex items-center gap-2 bg-emerald-500/25 border border-emerald-400/60 text-emerald-100 px-3 py-1 rounded-xl sm:rounded-full shadow-md backdrop-blur-md">
+                                        <span class="relative flex h-2.5 w-2.5">
+                                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                                        </span>
+                                        <span class="font-bold text-xs sm:text-sm uppercase tracking-wide text-white whitespace-nowrap">Dzisiaj Otwieramy!</span>
+                                        @if($todayHours)
+                                            <span class="bg-emerald-600/90 text-white text-xs font-mono font-bold px-2 py-0.5 rounded-md shadow-2xs whitespace-nowrap">
+                                                {{ $todayHours }}
+                                            </span>
+                                        @endif
+                                        @if($todayNotice)
+                                            <span class="hidden md:inline text-white/90 text-xs font-normal border-l border-emerald-400/30 pl-2">
+                                                {{ $todayNotice }}
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-
-                    <!-- Dynamic "Dzisiaj otwieramy" Badge (Only visible when active in Admin Panel) -->
-                    @if($isOpenToday)
-                        <div class="inline-flex items-center gap-2.5 bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 px-4 py-2 rounded-2xl shadow-lg backdrop-blur-md self-start md:self-auto">
-                            <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
-                            </span>
-                            <span class="font-bold text-xs sm:text-sm uppercase tracking-wide text-white">Dzisiaj Otwieramy!</span>
-                            @if($todayHours)
-                                <span class="bg-emerald-600/90 text-white text-xs font-mono font-bold px-2.5 py-0.5 rounded-lg shadow-2xs">
-                                    {{ $todayHours }}
-                                </span>
-                            @endif
-                            @if($todayNotice)
-                                <span class="hidden lg:inline text-white/90 text-xs font-normal border-l border-emerald-400/30 pl-2.5">
-                                    {{ $todayNotice }}
-                                </span>
-                            @endif
-                        </div>
-                    @endif
                 </div>
 
                 @if($isOpenToday && $todayNotice)
-                    <div class="mt-3 lg:hidden text-xs text-emerald-200 bg-emerald-950/40 border border-emerald-500/20 px-3.5 py-1.5 rounded-xl">
+                    <div class="mt-3 md:hidden text-xs text-emerald-200 bg-emerald-950/40 border border-emerald-500/20 px-3.5 py-1.5 rounded-xl">
                         <span class="font-semibold text-white">Wiadomość dnia:</span> {{ $todayNotice }}
                     </div>
                 @endif
@@ -177,11 +179,9 @@
                                     </span>
                                 @endif
                                 <div>
-                                    <span class="text-xs font-bold block {{ $isCurrentDay ? 'text-amber-200' : 'text-white/80' }}">
-                                        {{ $dayData['short'] }}
-                                    </span>
-                                    <span class="text-[10px] text-white/50 block font-normal sm:hidden">
-                                        {{ $dayData['full'] }}
+                                    <span class="text-xs sm:text-xs font-bold block {{ $isCurrentDay ? 'text-amber-200' : 'text-white/85' }}">
+                                        <span class="hidden sm:inline">{{ $dayData['short'] }}</span>
+                                        <span class="sm:hidden">{{ $dayData['full'] }}</span>
                                     </span>
                                 </div>
                                 <div class="mt-2">

@@ -97,26 +97,106 @@
                 <div class="w-16 h-0.5 bg-primary/20 mx-auto"></div>
             </div>
 
-            <!-- Prominent Kawiarnia Opening Hours Banner -->
-            <div class="mb-14 max-w-3xl mx-auto bg-gradient-to-r from-primary via-slate-900 to-primary text-white rounded-2xl p-6 md:p-8 shadow-xl border border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-6" data-aos="fade-up">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
-                        <span class="material-symbols-outlined text-accent text-3xl">schedule</span>
+            <!-- Prominent Kawiarnia Opening Hours Banner (Dynamic from CMS) -->
+            @php
+                $isOpenToday = !empty($cms['cafe_open_today']) && $cms['cafe_open_today'] !== '0' && $cms['cafe_open_today'] !== false;
+                $todayHours = !empty($cms['cafe_today_hours']) ? $cms['cafe_today_hours'] : null;
+                $todayNotice = !empty($cms['cafe_today_notice']) ? $cms['cafe_today_notice'] : null;
+
+                $daysSchedule = [
+                    1 => ['short' => 'Pon',  'full' => 'Poniedziałek', 'hours' => $cms['cafe_hours_mon'] ?? '15:00 – 20:00'],
+                    2 => ['short' => 'Wt',   'full' => 'Wtorek',       'hours' => $cms['cafe_hours_tue'] ?? '15:00 – 20:00'],
+                    3 => ['short' => 'Śr',   'full' => 'Środa',        'hours' => $cms['cafe_hours_wed'] ?? '15:00 – 20:00'],
+                    4 => ['short' => 'Czw',  'full' => 'Czwartek',     'hours' => $cms['cafe_hours_thu'] ?? '15:00 – 20:00'],
+                    5 => ['short' => 'Pt',   'full' => 'Piątek',       'hours' => $cms['cafe_hours_fri'] ?? '15:00 – 20:00'],
+                    6 => ['short' => 'Sob',  'full' => 'Sobota',       'hours' => $cms['cafe_hours_sat'] ?? '10:00 – 20:00'],
+                    7 => ['short' => 'Niedz','full' => 'Niedziela',     'hours' => $cms['cafe_hours_sun'] ?? '10:00 – 20:00'],
+                ];
+
+                $currentDayNum = (int) date('N'); // 1 (Mon) - 7 (Sun)
+            @endphp
+
+            <div class="mb-14 max-w-5xl mx-auto bg-gradient-to-br from-primary via-slate-900 to-primary text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-primary/20" data-aos="fade-up">
+                <!-- Top Header & Today Status -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-accent/20 border border-accent/40 flex items-center justify-center shrink-0 shadow-inner">
+                            <span class="material-symbols-outlined text-accent text-3xl">schedule</span>
+                        </div>
+                        <div>
+                            <span class="text-amber-300 font-bold uppercase tracking-widest text-[11px] block">Zapraszamy do Kawiarni</span>
+                            <h3 class="font-display font-bold text-xl sm:text-2xl text-white">Godziny Otwarcia</h3>
+                        </div>
                     </div>
-                    <div>
-                        <span class="text-amber-300 font-bold uppercase tracking-widest text-[11px] block">Zapraszamy do Kawiarni</span>
-                        <h3 class="font-display font-bold text-xl sm:text-2xl text-white">Godziny Otwarcia</h3>
-                    </div>
+
+                    <!-- Dynamic "Dzisiaj otwieramy" Badge (Only visible when active in Admin Panel) -->
+                    @if($isOpenToday)
+                        <div class="inline-flex items-center gap-2.5 bg-emerald-500/20 border border-emerald-400/50 text-emerald-200 px-4 py-2 rounded-2xl shadow-lg backdrop-blur-md self-start md:self-auto">
+                            <span class="relative flex h-3 w-3">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
+                            </span>
+                            <span class="font-bold text-xs sm:text-sm uppercase tracking-wide text-white">Dzisiaj Otwieramy!</span>
+                            @if($todayHours)
+                                <span class="bg-emerald-600/90 text-white text-xs font-mono font-bold px-2.5 py-0.5 rounded-lg shadow-2xs">
+                                    {{ $todayHours }}
+                                </span>
+                            @endif
+                            @if($todayNotice)
+                                <span class="hidden lg:inline text-white/90 text-xs font-normal border-l border-emerald-400/30 pl-2.5">
+                                    {{ $todayNotice }}
+                                </span>
+                            @endif
+                        </div>
+                    @endif
                 </div>
-                
-                <div class="flex flex-col sm:flex-row items-center gap-3 text-xs font-semibold w-full sm:w-auto text-center sm:text-left">
-                    <div class="bg-white/10 backdrop-blur-md px-5 py-3 rounded-xl border border-white/15 w-full sm:w-auto shadow-xs">
-                        <span class="text-white/70 text-[10px] block uppercase font-bold tracking-wider mb-0.5">Tydzień (Pon – Pt)</span>
-                        <span class="text-amber-200 text-base font-mono font-bold">15:00 – 20:00</span>
+
+                @if($isOpenToday && $todayNotice)
+                    <div class="mt-3 lg:hidden text-xs text-emerald-200 bg-emerald-950/40 border border-emerald-500/20 px-3.5 py-1.5 rounded-xl">
+                        <span class="font-semibold text-white">Wiadomość dnia:</span> {{ $todayNotice }}
                     </div>
-                    <div class="bg-accent/20 backdrop-blur-md px-5 py-3 rounded-xl border border-accent/40 w-full sm:w-auto shadow-xs">
-                        <span class="text-amber-200 text-[10px] block uppercase font-bold tracking-wider mb-0.5">Weekend (Sob – Niedz)</span>
-                        <span class="text-white text-base font-mono font-bold">10:00 – 20:00</span>
+                @endif
+
+                <!-- Weekly Schedule (Monday - Sunday Compact Responsive Grid) -->
+                <div class="pt-6">
+                    <div class="text-[11px] uppercase tracking-wider font-semibold text-white/60 mb-3 flex items-center justify-between">
+                        <span>Harmonogram tygodniowy (Poniedziałek – Niedziela)</span>
+                        <span class="text-amber-300/80 text-[10px] hidden sm:inline">● Wyróżniony dzień: dzisiaj</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+                        @foreach($daysSchedule as $dayNum => $dayData)
+                            @php
+                                $isCurrentDay = ($dayNum === $currentDayNum);
+                                $isClosed = (mb_stripos($dayData['hours'], 'zamknięt') !== false || mb_stripos($dayData['hours'], 'nieczynn') !== false);
+                            @endphp
+                            <div class="flex flex-col justify-between p-3 rounded-2xl border transition-all text-center relative {{ $isCurrentDay ? 'bg-amber-400/15 border-amber-300/80 ring-2 ring-amber-400/30 shadow-md' : 'bg-white/5 border-white/10 hover:border-white/20' }}">
+                                @if($isCurrentDay)
+                                    <span class="absolute -top-2 left-1/2 -translate-x-1/2 bg-amber-400 text-slate-950 text-[9px] font-black uppercase tracking-wider px-2 py-0.2 rounded-full shadow-xs">
+                                        Dziś
+                                    </span>
+                                @endif
+                                <div>
+                                    <span class="text-xs font-bold block {{ $isCurrentDay ? 'text-amber-200' : 'text-white/80' }}">
+                                        {{ $dayData['short'] }}
+                                    </span>
+                                    <span class="text-[10px] text-white/50 block font-normal sm:hidden">
+                                        {{ $dayData['full'] }}
+                                    </span>
+                                </div>
+                                <div class="mt-2">
+                                    @if($isClosed)
+                                        <span class="inline-block text-[11px] font-semibold px-2 py-0.5 rounded-lg bg-rose-500/20 text-rose-200 border border-rose-400/30">
+                                            {{ $dayData['hours'] }}
+                                        </span>
+                                    @else
+                                        <span class="font-mono text-xs font-bold {{ $isCurrentDay ? 'text-amber-100' : 'text-white' }} whitespace-nowrap">
+                                            {{ $dayData['hours'] }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -223,8 +303,8 @@
                                                 </span>
                                             </div>
                                             @if($item->is_featured)
-                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full shrink-0">
-                                                    <span class="material-symbols-outlined text-[12px]">star</span> Hit
+                                                <span class="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-amber-800 bg-gradient-to-r from-amber-50 to-amber-100/80 border border-amber-300/80 px-2.5 py-0.5 rounded-full shrink-0 shadow-2xs">
+                                                    <span class="material-symbols-outlined text-[13px] text-amber-600">recommend</span> Dzisiaj polecamy
                                                 </span>
                                             @endif
                                         </li>

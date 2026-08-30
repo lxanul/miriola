@@ -44,7 +44,8 @@ class CafeMenuItemResource extends Resource
                     ->default(true)
                     ->required(),
                 Forms\Components\Toggle::make('is_featured')
-                    ->label('Polecane / Hit Kawiarni')
+                    ->label('Dzisiaj polecamy')
+                    ->helperText('Wyróżnia pozycję w menu kawiarni elegancką odznaką "Dzisiaj polecamy"')
                     ->default(false),
             ]);
     }
@@ -66,7 +67,7 @@ class CafeMenuItemResource extends Resource
                     ->label('Dostępność')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('is_featured')
-                    ->label('Hit / Polecane')
+                    ->label('Dzisiaj polecamy')
                     ->boolean(),
             ])
             ->filters([

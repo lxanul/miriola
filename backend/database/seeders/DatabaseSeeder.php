@@ -454,6 +454,16 @@ class DatabaseSeeder extends Seeder
             ['key' => 'cafe_cat_image_gofry', 'label' => 'Kawiarnia - Zdjęcie kategorii Gofry', 'value' => 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_desery', 'label' => 'Kawiarnia - Zdjęcie kategorii Desery', 'value' => 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
             ['key' => 'cafe_cat_image_zapiekanki', 'label' => 'Kawiarnia - Zdjęcie kategorii Zapiekanki', 'value' => 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=800&q=80', 'type' => 'image', 'group' => 'jarmark'],
+            ['key' => 'cafe_open_today', 'label' => 'Kawiarnia - Dzisiaj otwieramy (Wyróżnienie)', 'value' => '0', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_today_hours', 'label' => 'Kawiarnia - Dzisiejsze godziny otwarcia', 'value' => '', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_today_notice', 'label' => 'Kawiarnia - Dzisiejsza wiadomość specjalna', 'value' => '', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_mon', 'label' => 'Kawiarnia - Godziny: Poniedziałek', 'value' => '15:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_tue', 'label' => 'Kawiarnia - Godziny: Wtorek', 'value' => '15:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_wed', 'label' => 'Kawiarnia - Godziny: Środa', 'value' => '15:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_thu', 'label' => 'Kawiarnia - Godziny: Czwartek', 'value' => '15:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_fri', 'label' => 'Kawiarnia - Godziny: Piątek', 'value' => '15:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_sat', 'label' => 'Kawiarnia - Godziny: Sobota', 'value' => '10:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
+            ['key' => 'cafe_hours_sun', 'label' => 'Kawiarnia - Godziny: Niedziela', 'value' => '10:00 – 20:00', 'type' => 'text', 'group' => 'jarmark'],
 
             // Gospodarstwo
             ['key' => 'gospodarstwo_hero_title', 'label' => 'Gospodarstwo - Tytuł Nagłówka', 'value' => 'Gospodarstwo Ogrodniczo-Pszczelarskie MIRiOLA', 'type' => 'text', 'group' => 'farm'],

@@ -11,6 +11,12 @@ class CafeHoursAndFeaturedBadgeTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        \Illuminate\Support\Facades\Cache::flush();
+    }
+
     public function test_jarmark_displays_dzisiaj_polecamy_badge(): void
     {
         CafeMenuItem::create([
@@ -49,7 +55,7 @@ class CafeHoursAndFeaturedBadgeTest extends TestCase
         $response = $this->get('/jarmark');
 
         $response->assertStatus(200);
-        $response->assertDontSee('Dzisiaj Otwieramy!');
+        $response->assertDontSee('Dzisiaj otwieramy');
     }
 
     public function test_jarmark_shows_dzisiaj_otwieramy_when_enabled(): void
@@ -81,7 +87,7 @@ class CafeHoursAndFeaturedBadgeTest extends TestCase
         $response = $this->get('/jarmark');
 
         $response->assertStatus(200);
-        $response->assertSee('Dzisiaj Otwieramy!');
+        $response->assertSee('Dzisiaj otwieramy');
         $response->assertSee('14:00 – 21:00');
         $response->assertSee('Świeże ciasto jagodowe prosto z pieca!');
     }
